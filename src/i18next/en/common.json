@@ -1,0 +1,126 @@
+{
+  "hello": "hello",
+  "choose_image": "Choose Image",
+  "choose_language": "Choose Language",
+  "helmet": {
+    "default": "Vietnam Railway Corporation - 3HN",
+    "home_pages": "Home Pages - 3HN",
+    "login_pages": "Login Pages - 3HN",
+    "register_pages": "Register Pages - 3HN",
+    "administration_pages": "Admin Pages - 3HN",
+    "user_pages": "User Pages - 3HN",
+    "bicycle_pages": "Bicycle Pages - 3HN",
+    "station_pages": "Station Pages - 3HN",
+    "not_found_pages": "Not found Pages - 3HN",
+    "unit_pages": "Unit Pages - 3HN",
+    "setting_pages": "Settings - 3HN",
+    "company_pages": "Companies - 3HN",
+    "attributes": "Attributes - 3HN",
+    "complain_pages": "Complain - 3HN"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "unit": "Unit",
+    "company": "Company",
+    "setting": "Setting",
+    "user": "User",
+    "bicycle": "Bicycle",
+    "station": "Station",
+    "complain": "Complain"
+  },
+  "dialog": {
+    "title": "Confirm",
+    "content": "Are you sure delete it?",
+    "close": "Close",
+    "argee": "Argee",
+    "change_form": "Data is changing. Are you sure close dialog?",
+    "full_screen": "Full screen",
+    "custom_screen": "Default screen",
+    "update_data": "Upgrade data",
+    "create_data": "Create data",
+    "title_forgot": "Forgot password",
+    "content_forgot": "Please login https://mail.google.com get password"
+  },
+  "button": {
+    "clear": "Clear",
+    "search": "Search",
+    "filter": "Filter list",
+    "create": "Create",
+    "update": "Update",
+    "close": "Close",
+    "forgot": "Password retrieval"
+  },
+  "placeholder": {
+    "search": "Search..."
+  },
+  "pagination": {
+    "label": "Rows per page:",
+    "selected": "count select"
+  },
+  "select": {
+    "all": "All",
+    "placeholder": "Select..."
+  },
+  "profile": {
+    "title": "My Information"
+  },
+  "components": {
+    "units": "Units",
+    "settings": "Settings",
+    "company": "Companies",
+    "attributes": "Attributes"
+  },
+  "accordion": {
+    "title_table": "Table"
+  },
+  "field": {
+    "stt": "Sequence Num",
+    "namebicycle": "Name Bike",
+    "catebicycle": "Cate Bike",
+    "codelock": "Code Lock",
+    "stationName": "Name Station",
+    "quantity": "Quantity",
+    "using" : "Using",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "newPassword": "New password",
+    "oldPassword": "Old password",
+    "fullName": "FullName",
+    "dateOfBirth": "Birthday",
+    "isSupper": "Permision",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "userName": "Username",
+    "phoneNumber": "Phone number",
+    "address": "Address",
+    "location": "Location",
+    "lock": "Lock",
+    "code": "Code",
+    "name": "Name",
+    "fax": "Fax",
+    "key": "Key",
+    "value": "Value",
+    "createdDate": "Create date",
+    "license": "License",
+    "mobile": "Mobile",
+    "slogan": "Slogan",
+    "pathLogo": "Logo",
+    "statusName": "Status",
+    "locationId": "ID Location",
+    "statusId": "ID Status",
+    "lockId": "ID Lock",
+    "stationId": "ID Station"
+  },
+  "validator": {
+    "required": "is required",
+    "min_8": "min 8 character",
+    "max_255": "max 255 character",
+    "match_password": "Password must match",
+    "numeric": "Only accept number",
+    "email": {
+      "format": "incorrect email format"
+    },
+    "phone": "not valid"
+  }
+}

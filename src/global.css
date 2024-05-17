@@ -1,0 +1,41 @@
+/* scrollbar */
+@import 'simplebar-react/dist/simplebar.min.css';
+
+
+input::placeholder {
+  font-size: "8px";
+}
+
+.circular-progress {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.2);
+  z-index: 9999999;
+}
+
+.circular-progress .loading {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+main .circular-progress {
+  display: none;
+}
+
+.MuiGrid-root .MuiFormControl-root {
+  width: 100%;
+}
+
+.MuiTablePagination-input {
+  margin-right: 8px !important;
+}
+/* .MuiTablePagination-displayedRows {
+  margin-right: 8px;
+}
+.MuiTablePagination-actions {
+  display: none;
+} */

@@ -1,0 +1,9 @@
+{
+  "login": {
+    "title": "Login Pages",
+    "dont_account": "Don’t have an account?",
+    "register": "register now",
+    "text": "Login",
+    "forgot": "Fogot Password?"
+  }
+}

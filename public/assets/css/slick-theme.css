@@ -1,0 +1,62 @@
+/* slick-carousel-theme.css */
+
+.slick-prev,
+.slick-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    background: #D6D6D6;
+    border-radius: 50%;
+    color: #FFF;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+    background: #869791;
+}
+
+.slick-prev.disabled,
+.slick-next.disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.slick-dots {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.slick-dots li {
+    margin: 0 5px;
+}
+
+.slick-dots button {
+    width: 10px;
+    height: 10px;
+    background: #D6D6D6;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.slick-dots button:hover,
+.slick-dots button.active {
+    background: #869791;
+}

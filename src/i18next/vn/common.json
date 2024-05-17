@@ -1,0 +1,129 @@
+{
+  "hello": "Xin chào",
+  "choose_image": "Chọn ảnh",
+  "choose_language": "Chọn ngôn ngữ",
+  "helmet": {
+    "default": "HUEBIKE Đạp xe tới chớt - 3HN",
+    "home_pages": "Trang chủ - 3HN",
+    "login_pages": "Đăng nhập - 3HN",
+    "register_pages": "Đăng ký - 3HN",
+    "administration_pages": "Quản trị hệ thống - 3HN",
+    "user_pages": "Quản lý người dùng - 3HN",
+    "bicycle_pages": "Quản lý xe đạp - 3HN",
+    "station_pages": "Quản lý trạm - 3HN",
+    "not_found_pages": "404 - 3HN",
+    "unit_pages": "Quản lý đơn vị - 3HN",
+    "setting_pages": "Quản lý cấu hình - 3HN",
+    "company_pages": "Quản lý đơn vị sở hữu website - 3HN",
+    "attributes": "Quản lý thuộc tính - 3HN",
+    "complain_pages": "Quản lí khiếu nại - 3HN"
+  },
+  "nav": {
+    "dashboard": "Trang chủ",
+    "unit": "Đơn vị",
+    "company": "Đơn vị sở hữu website",
+    "setting": "Cấu hình",
+    "user": "Người dùng",
+    "bicycle": "Xe đạp",
+    "station": "Trạm",
+    "complain": "Khiếu nại"
+  },
+  "dialog": {
+    "title": "Xác nhận",
+    "content": "Bạn chắc rằng muốn xóa dữ liệu này?",
+    "close": "Đóng lại",
+    "argee": "Đồng ý",
+    "change_form": "Dữ liệu đang được thay đổi. Bạn chắc rằng muốn đóng?",
+    "full_screen": "Phóng to",
+    "custom_screen": "Thu nhỏ",
+    "update_data": "Cập nhật dữ liệu",
+    "create_data": "Tạo mới dữ liệu",
+    "title_forgot": "Quên mật khẩu",
+    "content_forgot": "Vui lòng vào https://mail.google.com để lấy mật khẩu"
+  },
+  "button": {
+    "clear": "Làm mới",
+    "search": "Tìm kiếm",
+    "filter": "Bộ lọc",
+    "create": "Tạo mới",
+    "update": "Cập nhật",
+    "close": "Đóng lại",
+    "forgot": "Lấy lại mật khẩu"
+  },
+  "placeholder": {
+    "search": "Tìm kiếm..."
+  },
+  "pagination": {
+    "label": "Số dòng trên 1 trang:",
+    "selected": "Số lượng được chọn"
+  },
+  "select": {
+    "all": "Tất cả",
+    "placeholder": "Chọn..."
+  },
+  "profile": {
+    "title": "Thông tin cá nhân"
+  },
+  "components": {
+    "units": "Đơn vị",
+    "settings": "Cấu hình",
+    "company": "Đơn vị sở hữu website",
+    "attributes": "Thuộc tính"
+  },
+  "accordion": {
+    "title_table": "Bảng dữ liệu"
+  },
+  "field": {
+    "stt": "Số thứ tự",
+    "bikeName": "Tên xe",
+    "catebicycle": "Loại xe",
+    "codelock": "Mã khóa xe",
+    "stationName": "Tên trạm",
+    "quantityAvaiable": "Số lượng xe",
+    "locationName": "Tên vị trí" ,
+    "numOfSeats": "Số chỗ trống",
+    "using" : "Đang sử dụng",
+    "email": "Email",
+    "password": "Mật khẩu",
+    "passwordConfirm": "Xác nhận mật khẩu",
+    "newPassword": "Mật khẩu mới",
+    "oldPassword": "Mật khẩu cũ",
+    "fullName": "Họ và Tên",
+    "dateOfBirth": "Ngày sinh",
+    "isSupper": "Cấp quyền",
+    "firstName": "Tên",
+    "lastName": "Họ",
+    "userName": "Tên đăng nhập",
+    "phoneNumber": "Số điện thoại",
+    "address": "Địa chỉ",
+    "location": " Vị trí",
+    "lock": "Khóa xe",
+    "code": "Mã",
+    "name": "Tên",
+    "fax": "Fax",
+    "key": "Từ khóa",
+    "value": "Giá trị",
+    "createdDate": "Ngày tạo",
+    "license": "Giấy phép",
+    "mobile": "Di động",
+    "slogan": "Khẩu hiệu",
+    "pathLogo": "Ảnh",
+    "statusName": "Trạng thái",
+    "content": "Nội dung",
+    "locationId": "ID vị trí",
+    "statusId": "ID trạng thái",
+    "lockId": "ID khóa xe",
+    "stationId": "ID Trạm"
+  },
+  "validator": {
+    "required": "không được bỏ trống",
+    "min_8": "ít nhất 8 kí tự",
+    "max_255": "tối đa 255 kí tự",
+    "match_password": "không trùng với mật khẩu",
+    "numeric": "chỉ chấp nhận các kí tự Số",
+    "email": {
+      "format": "không đúng định dạng email"
+    },
+    "phone": "không đúng định dạng"
+  }
+}
