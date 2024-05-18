@@ -209,7 +209,7 @@ export default function DangKyTemplates({ formik, handleDangKy }) {
           <Box
             className="section-banner"
             style={{
-              backgroundImage: 'url()',
+              backgroundImage: 'url(/assets/background/imagebackground3.jpg)',
               backgroundPosition: '50%',
               backgroundRepeat: 'no-repeat',
               backgroundSize: 'cover',
