@@ -12,7 +12,6 @@ const LoginPages = lazy(() => import('src/pages/dang-nhap'));
 const RegisterPages = lazy(() => import('src/pages/dang-ky'));
 const Page404 = lazy(() => import('src/pages/khong-tim-thay'));
 const NguoiDungPages = lazy(() => import('src/pages/admin/nguoi-dung'));
-const TinTucSuKienPage = lazy(() => import('src/pages/admin/tin-tuc-su-kien'));
 const TramPages = lazy(() => import('src/pages/admin/tram'));
 const XePages = lazy(() => import('src/pages/admin/xe-dap'));
 const ThongTinThueXePages = lazy(() => import('src/pages/admin/thong-tin-thue-xe'));
@@ -22,6 +21,7 @@ const BannerMobilePages = lazy(() => import('src/pages/admin/banner/mobile'));
 const XeGiaThuePages = lazy(() => import('src/pages/admin/xe-gia-thue'));
 const TinTucSuKienTrangChuPage = lazy(() => import('src/pages/tin-tuc-su-kien'));
 const DanhSachTramXePages = lazy(() => import('src/pages/tram-xe'));
+const TinTucSuKienPage = lazy(() => import('src/pages/admin/tin-tuc-su-kien'));
 
 export default function RouterSections() {
   const { isAuthencated } = useSelector((state) => state.auth);
@@ -91,18 +91,18 @@ export default function RouterSections() {
       ),
       children: [
         {
-          path: PATH.ADMIN + PATH.USERS,
-          element: (
-            <CommonLayout title="helmet.nguoi_dung_pages">
-              <NguoiDungPages />
-            </CommonLayout>
-          ),
-        },
-        {
           path: PATH.ADMIN + PATH.NEWS,
           element: (
             <CommonLayout title="helmet.tin_tuc_su_kien_pages">
               <TinTucSuKienPage />
+            </CommonLayout>
+          ),
+        },
+        {
+          path: PATH.ADMIN + PATH.USERS,
+          element: (
+            <CommonLayout title="helmet.nguoi_dung_pages">
+              <NguoiDungPages />
             </CommonLayout>
           ),
         },

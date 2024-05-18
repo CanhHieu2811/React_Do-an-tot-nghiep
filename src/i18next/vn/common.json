@@ -10,7 +10,8 @@
     "banner": "Banner",
     "banner_web": "Website",
     "banner_mobile": "Mobile",
-    "xe_gia_thue": "Xe - giá thuê xe"
+    "xe_gia_thue": "Xe - giá thuê xe",
+    "tin_tuc_su_kien":"Tin tức, sự kiện"
   },
   "breadcrumb": {
     "dashboard": "Trang chủ",
@@ -22,7 +23,8 @@
     "banner": "Banner",
     "banner-web": "Banner Website",
     "banner-mobile": "Banner Mobile",
-    "xe-gia-thue": "Xe - giá thuê xe"
+    "xe-gia-thue": "Xe - giá thuê xe",
+    "tin_tuc_su_kien":"Tin tức, sự kiện"
   },
   "helmet": {
     "dashboard_pages": "Trang chủ",
@@ -35,7 +37,8 @@
     "banner_web_pages": "Website",
     "banner_mobile_pages": "Mobile",
     "xe_gia_thue_pages": "Xe - giá thuê xe",
-    "default": "Xe đạp"
+    "default": "Xe đạp",
+    "tin_tuc_su_kien_pages": "Tin tức, sự kiện"
   },
   "dialog": {
     "title": "Xác nhận",

@@ -36,6 +36,7 @@ import { setLinkPrev } from 'src/redux/auth';
 import { Link } from '@mui/material';
 import { RouterLink } from 'src/routes/components';
 
+
 const CustomTreeItemRoot = styled(TreeItem2Root)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
@@ -244,6 +245,11 @@ const routers = [
     title: 'nav.xe_gia_thue',
     icon: 'ic_list',
     path: PATH.ADMIN + PATH.CAR_PRICE,
+  },
+  {
+    title: 'nav.tin-tuc-su-kien',
+    icon: 'ic_list',
+    path: PATH.ADMIN + PATH.NEWS,
   },
 ];
 
