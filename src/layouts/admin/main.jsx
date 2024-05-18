@@ -22,6 +22,7 @@ export default function Main({ children, sx, ...other }) {
         display: 'flex',
         flexDirection: 'column',
         py: `${HEADER.H_MOBILE + SPACING}px`,
+        px: 1.5,
         ...(lgUp && {
           px: 2,
           py: `${HEADER.H_DESKTOP + SPACING}px`,

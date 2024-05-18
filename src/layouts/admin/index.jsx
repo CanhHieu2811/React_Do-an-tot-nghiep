@@ -1,19 +1,27 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 
-import { Box } from '@mui/material';
+import { Box, Toolbar } from '@mui/material';
+// import {  useSelector } from 'react-redux';
+// import { useNavigate } from 'react-router-dom';
 
-import Nav from './nav';
+import BreadcrumbsComponent from 'src/components/breadcrum';
+
+// import routerProject from 'src/routes/router_project';
+// import { PATH } from 'src/routes/constant';
+// import Nav from './nav';
 import Main from './main';
 import Header from './header';
+import SideBar from './sidebar';
 
-export default function LayoutAdmin({ children }) {
+export default function LayoutAdmin({ children, code, isAuthencated }) {
   const [openNav, setOpenNav] = useState(false);
+  // const navigate = useNavigate();
 
   return (
     <>
       <Header onOpenNav={() => setOpenNav(true)} />
-
+      <Toolbar id="back-to-top-anchor" sx={{ position: 'absolute' }} />
       <Box
         sx={{
           minHeight: 1,
@@ -21,9 +29,12 @@ export default function LayoutAdmin({ children }) {
           flexDirection: { xs: 'column', lg: 'row' },
         }}
       >
-        <Nav openNav={openNav} onCloseNav={() => setOpenNav(false)} />
+        <SideBar openNav={openNav} onCloseNav={() => setOpenNav(false)} code={code} />
 
-        <Main>{children}</Main>
+        <Main>
+          <BreadcrumbsComponent />
+          {children}
+        </Main>
       </Box>
     </>
   );
@@ -31,4 +42,6 @@ export default function LayoutAdmin({ children }) {
 
 LayoutAdmin.propTypes = {
   children: PropTypes.node,
+  code: PropTypes.string,
+  isAuthencated: PropTypes.bool,
 };

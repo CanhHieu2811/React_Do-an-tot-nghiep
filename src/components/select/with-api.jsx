@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Box, Select, MenuItem, InputLabel, FormControl, FormHelperText } from '@mui/material';
+import { Box, Select, MenuItem, FormControl, FormHelperText } from '@mui/material';
 
 import { getData, authGetData } from 'src/utils/request';
 
@@ -12,13 +12,16 @@ export default function SelectAPIComponent(props) {
     error,
     textError = '',
     sx,
-    title,
+    // title,
     all = true,
-    fieldValue = '',
+    // fieldValue = '',
     fieldName = '',
     auth,
     setValue,
-    value,
+    // value,
+    size = 'small',
+    formik,
+    name
   } = props;
   const { t } = useTranslation();
   const [data, setData] = useState([]);
@@ -46,16 +49,17 @@ export default function SelectAPIComponent(props) {
   };
   return (
     <Box>
-      <FormControl sx={{ ...sx, minWidth: 120 }} size="small" error={error}>
-        <InputLabel id="demo-select-small-label" sx={{ fontSize: 14 }}>
+      <FormControl sx={{ ...sx, minWidth: 120 }} size={size} error={error}>
+        {/* <InputLabel id="demo-select-small-label" sx={{ fontSize: 14 }}>
           {title || t('select.placeholder')}
-        </InputLabel>
+        </InputLabel> */}
         <Select
-          labelId="demo-select-small-label"
-          id="demo-select-small"
-          value={value}
-          label="Age"
-          onChange={handleChange}
+          name={name}
+          value={formik.values[name] ?? ''}
+          onChange={(e) =>
+            formik ? formik.setFieldValue(name, e.target.value) : handleChange
+          }
+          size={size}
         >
           {all && (
             <MenuItem value="">
@@ -65,7 +69,7 @@ export default function SelectAPIComponent(props) {
           {data &&
             data.length &&
             data.map((el, i) => (
-              <MenuItem key={i} value={el[fieldValue]}>
+              <MenuItem key={i} value={el[name]}>
                 {el[fieldName]}
               </MenuItem>
             ))}
@@ -81,11 +85,14 @@ SelectAPIComponent.propTypes = {
   error: PropTypes.bool,
   textError: PropTypes.string,
   sx: PropTypes.object,
-  title: PropTypes.string,
+  // title: PropTypes.string,
+  size: PropTypes.string,
   all: PropTypes.bool,
-  fieldValue: PropTypes.string,
+  // fieldValue: PropTypes.string,
   fieldName: PropTypes.string,
   auth: PropTypes.bool,
   setValue: PropTypes.func,
-  value: PropTypes.string || PropTypes.number,
+  // value: PropTypes.string || PropTypes.number,
+  formik: PropTypes.object,
+  name: PropTypes.string
 };

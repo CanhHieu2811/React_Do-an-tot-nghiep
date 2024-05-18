@@ -4,15 +4,22 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import CloseIcon from '@mui/icons-material/Close';
-import { lightGreen } from '@mui/material/colors';
 import { Box, Stack, Dialog, Tooltip, useTheme, Typography } from '@mui/material';
 
 import { setPopup, setConfirmDialog } from 'src/redux/common';
 
-import Scrollbar from 'src/components/scrollbar';
+// import Scrollbar from 'src/components/scrollbar';
 
 export default function LayoutPopup(props) {
-  const { children, title, fullScreen = false } = props;
+  const {
+    children,
+    title,
+    fullScreen = false,
+    openTwo,
+    setOpenTwo,
+    hideClose = false,
+    scrollBody = false,
+  } = props;
   const theme = useTheme();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -40,24 +47,24 @@ export default function LayoutPopup(props) {
   // render content popup
   const renderPopup = useCallback(
     () => (
-      <Box marginLeft={20} marginRight={20} border={1} borderRadius={1} borderColor={lightGreen[800]}>
+      <Box sx={{ height: '100%' }}>
         <Stack
           flexDirection="row"
           alignItems="center"
           justifyContent="space-between"
           sx={{
-            borderRadius: 1,
             padding: 1,
-            backgroundColor: theme.palette.success.main,
+            backgroundColor: theme.palette.primary.main,
             color: theme.palette.grey[0],
+            height: '48px',
           }}
         >
           <Typography gutterBottom variant="subtitle1" sx={{ marginBottom: 0 }}>
             {title}
           </Typography>
-          <Stack flexDirection="row" alignItems="center">
+          <Stack flexDirection="row" alignItems="center" justifyContent="right">
             <Box sx={{ cursor: 'pointer' }} onClick={() => setOpen(!open)}>
-              <Tooltip title={open ? t("dialog.custom_screen") : t("dialog.full_screen")}>
+              <Tooltip title={open ? t('dialog.custom_screen') : t('dialog.full_screen')}>
                 <img
                   alt="icon"
                   src={open ? '/assets/zoom-out.png' : '/assets/zoom-in.png'}
@@ -75,21 +82,48 @@ export default function LayoutPopup(props) {
             sx={{ mr: 2, color: theme.palette.grey[0], cursor: 'pointer' }}
             onClick={() => setOpen(true)}
           /> */}
-            <Tooltip title={t("dialog.close")}>
-              <CloseIcon onClick={handleClose} sx={{ cursor: 'pointer' }} />
-            </Tooltip>
+            {openTwo && !hideClose && (
+              <Tooltip title={t('dialog.close')}>
+                <CloseIcon onClick={() => setOpenTwo(false)} sx={{ cursor: 'pointer' }} />
+              </Tooltip>
+            )}
+            {!openTwo && !hideClose && (
+              <Tooltip title={t('dialog.cancel')}>
+                <CloseIcon onClick={handleClose} sx={{ cursor: 'pointer' }} />
+              </Tooltip>
+            )}
           </Stack>
         </Stack>
 
-        <Box sx={{ fontSize: 14 }}>
-          <Scrollbar sx={{ maxHeight: 700 }}>
-            <Box sx={{ mt: 1, padding: 2 }}>{children}</Box>
-          </Scrollbar>
+        <Box
+          sx={{
+            fontSize: 14,
+            // height: '100%',
+            border: `1px solid ${theme.palette.grey[300]}`,
+            background: '#FFFFFF',
+            overflow: scrollBody ? 'auto' : 'unset',
+            maxHeight: scrollBody ? window.innerHeight - 300 : '100%',
+          }}
+        >
+          {/* <Scrollbar sx={{ maxHeight: 700, height: "100%" }}> */}
+          <Box>{children}</Box>
+          {/* </Scrollbar> */}
         </Box>
       </Box>
-      
     ),
-    [children, handleClose, open, t, theme.palette.grey, theme.palette.success.main, title]
+    [
+      children,
+      handleClose,
+      hideClose,
+      open,
+      openTwo,
+      scrollBody,
+      setOpenTwo,
+      t,
+      theme.palette.grey,
+      theme.palette.primary.main,
+      title,
+    ]
   );
   return (
     <>
@@ -108,4 +142,8 @@ LayoutPopup.propTypes = {
   children: PropTypes.node,
   title: PropTypes.string,
   fullScreen: PropTypes.bool,
+  openTwo: PropTypes.bool,
+  setOpenTwo: PropTypes.func,
+  hideClose: PropTypes.bool,
+  scrollBody: PropTypes.bool
 };

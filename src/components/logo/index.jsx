@@ -4,12 +4,16 @@ import { forwardRef } from 'react';
 import Box from '@mui/material/Box';
 import Link from '@mui/material/Link';
 // import { useTheme } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { RouterLink } from 'src/routes/components';
+import { setPopup } from 'src/redux/common';
 
 // ----------------------------------------------------------------------
 
 const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
+  const dispatch = useDispatch();
+  const equalForm = useSelector((state) => state.common.equalForm);
   // const theme = useTheme();
 
   // const PRIMARY_LIGHT = theme.palette.primary.light;
@@ -41,7 +45,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
       }}
       {...other}
     >
-      <img src="/assets/images/logoby.png" alt="" width="200px" height="100px" />
+      <img src="/assets/images/logoby.png" alt="" />
       {/* <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 512 512">
         <defs>
           <linearGradient id="BG1" x1="100%" x2="50%" y1="9.946%" y2="50%">
@@ -82,10 +86,20 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
     return logo;
   }
 
+  const handleClick = () => {
+    dispatch(setPopup(false));
+  };
+
   return (
-    <Link component={RouterLink} href="/" sx={{ display: 'contents' }}>
-      {logo}
-    </Link>
+    <>
+      {equalForm ? (
+        <Link component={RouterLink} href="/" sx={{ display: 'contents' }} onClick={handleClick}>
+          {logo}
+        </Link>
+      ) : (
+        logo
+      )}
+    </>
   );
 });
 

@@ -8,8 +8,8 @@ import Snackbar from '@mui/material/Snackbar';
 import { setNotification } from 'src/redux/common';
 
 export default function SnackbarComponent({ vertical = 'top', horizontal = 'right' }) {
-  const notification = useSelector((state) => state.common.noti);
-  
+  const noti = useSelector((state) => state.common.noti);
+
   const dispatch = useDispatch();
   const handleClose = useCallback(
     (event, reason) => {
@@ -27,23 +27,23 @@ export default function SnackbarComponent({ vertical = 'top', horizontal = 'righ
 
   const renderSnackBar = useCallback(
     () => (
-        <Snackbar
-          open={notification.show}
-          autoHideDuration={5000}
+      <Snackbar
+        open={noti.show}
+        autoHideDuration={5000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical, horizontal }}
+      >
+        <Alert
           onClose={handleClose}
-          anchorOrigin={{ vertical, horizontal }}
+          severity={noti && noti.status ? noti.status : 'success'}
+          variant="filled"
+          sx={{ width: '100%', minWidth: 250 }}
         >
-          <Alert
-            onClose={handleClose}
-            severity={notification && notification.status ? notification.status : 'success'}
-            variant="filled"
-            sx={{ width: '100%', minWidth: 250 }}
-          >
-            {notification && notification.message}
-          </Alert>
-        </Snackbar>
-      ),
-    [handleClose, horizontal, notification, vertical]
+          {noti && noti.message}
+        </Alert>
+      </Snackbar>
+    ),
+    [handleClose, horizontal, noti, vertical]
   );
 
   return <>{renderSnackBar()}</>;

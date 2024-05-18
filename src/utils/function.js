@@ -59,8 +59,8 @@ export function buildQueryString(object) {
 export function sortTableData(sorting) {
   let sortKey = ORDER_BY;
   let currentKey = ORDER_BY_DESC;
-  if (sorting.length > 0) {
-    if (sorting[0].desc) {
+  if (Object.keys(sorting).length > 0) {
+    if (sorting.order === 'desc') {
       sortKey = ORDER_BY_DESC;
       currentKey = ORDER_BY;
     } else {
@@ -70,7 +70,28 @@ export function sortTableData(sorting) {
   }
   const obj = {
     sortKey,
-    currentKey
-  }
-  return obj
+    currentKey,
+  };
+  return obj;
+  // setConditions((oldState) => ({
+  //   ...oldState,
+  //   [sortKey]: sorting.length && sorting[0].id ? sorting[0].id : undefined,
+  //   [currentKey]: undefined,
+  // }));
 }
+
+export const stringToSlug = (str) => {
+  const from = 'àáãảạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệđùúủũụưừứửữựòóỏõọôồốổỗộơờớởỡợìíỉĩịäëïîöüûñçýỳỹỵỷ';
+  const to = 'aaaaaaaaaaaaaaaaaeeeeeeeeeeeduuuuuuuuuuuoooooooooooooooooiiiiiaeiiouuncyyyyy';
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0, l = from.length; i < l; i++) {
+    str = str.replace(RegExp(from[i], 'gi'), to[i]);
+  }
+
+  str = str
+    .toLowerCase()
+    .trim()
+    .replace(/[,.*+?^${}()|[\]\\]/g, '')
+    .split(' ').map((el, i) => i ===0 ? el.charAt(0).toLowerCase() + el.slice(1) : el.charAt(0).toUpperCase() + el.slice(1)).join("")
+  return str;
+};

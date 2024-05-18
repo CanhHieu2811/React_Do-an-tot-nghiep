@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { LoadingButton } from '@mui/lab';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -14,14 +14,18 @@ import {
   OutlinedInput,
   InputAdornment,
   AccordionDetails,
-  AccordionSummary
+  AccordionSummary,
+  Tooltip,
 } from '@mui/material';
 
-import { setFetchData } from 'src/redux/common';
+// import { setFetchData } from 'src/redux/common';
+
+import { PAGE_SIZE, PAGE_INDEX } from 'src/utils/constant';
 
 import Iconify from 'src/components/iconify';
-import TableComponent from 'src/components/table';
-import AlertDialog from 'src/components/dialog-confirm';
+// import TableComponent from 'src/components/table';
+
+import BasicTableComponent from 'src/components/table/default';
 
 import LayoutPopup from '../popup';
 import FilterDataTable from './filter';
@@ -31,151 +35,219 @@ export default function TableLayoutAdmin({
   total,
   columns = [],
   minHeight = 420,
-  title,
   titleModal,
   renderButton,
   accordionTitle,
   setRowSelectionModel = () => {},
   checkboxSelection = true,
   renderFilter,
+  isDisplayFilter = true,
   conditions,
   setConditions,
   handleSearch,
   renderModal,
   setValueSearch,
   valueSearch,
-  searchResults,
   handleOpenModal,
-  handleCloseSearchResults,
-  showSearchResults,
-  table,
-  isSearch
+  // setSorting,
+  isPagination,
+  columnArray,
+  renderActionRow,
+  headers,
+  renderButtonTop = false,
+  renderTableNote,
+  tableBorder = true,
+  accordionTable = false,
+  backgroundColorHeader = '#558b2f',
+  backgroundColor = '#fff',
+  createTitle,
+  btnClearTextSearch = false,
+  tooltipSearch = '',
+  isDisableCreate,
 }) {
-
   const { t } = useTranslation();
-  // show popup in store
-  const showPopup = useSelector((state) => state.common.isPopup);
-  const dispatch = useDispatch();
-  // set value change
-  const onChangeValue = (event) => {
-    setValueSearch(event.target.value);
+  const loading = useSelector((state) => state.common.loading);
+  const pressEnterKey = (e) => {
+    if (e.keyCode === 13) {
+      handleSearch();
+    }
   };
 
+  // show popup in store
+  const showPopup = useSelector((state) => state.common.isPopup);
+  // const dispatch = useDispatch();
+  // set value change
+  const onChangeValue = useCallback(
+    (e) => {
+      setValueSearch(e.target.value);
+    },
+    [setValueSearch]
+  );
   // clear value
   const handleClear = useCallback(() => {
     setValueSearch('');
-    searchResults([]);
-    dispatch(setFetchData(true));
-  }, [dispatch, setValueSearch, searchResults]);
+    // dispatch(setFetchData(true));
+    setConditions({
+      pageIndex: PAGE_INDEX,
+      pageSize: PAGE_SIZE,
+    });
+  }, [setConditions, setValueSearch]);
   return (
     <>
       {showPopup ? (
         <LayoutPopup title={titleModal}>{renderModal()}</LayoutPopup>
       ) : (
         <Box>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
-            <Typography variant="h4">{title}</Typography>
+          {isDisplayFilter && (
+            <FilterDataTable>
+              {renderFilter || (
+                <Box sx={{ textAlign: 'right' }}>
+                  <OutlinedInput
+                    value={valueSearch}
+                    onChange={onChangeValue}
+                    placeholder="Tìm kiếm"
+                    sx={{ marginRight: 2 }}
+                    size="small"
+                    onKeyDown={pressEnterKey}
+                    startAdornment={
+                      <InputAdornment position="start">
+                        <Iconify
+                          icon="eva:search-fill"
+                          sx={{ color: 'text.disabled', width: 20, height: 20 }}
+                        />
+                      </InputAdornment>
+                    }
+                    endAdornment={
+                      btnClearTextSearch && (
+                        <InputAdornment position="end">
+                          <Tooltip title="Xoá">
+                            <Iconify
+                              icon="eva:close-outline"
+                              onClick={() => {
+                                setValueSearch('');
+                                handleClear();
+                              }}
+                              sx={{
+                                cursor: 'pointer',
+                                opacity: valueSearch !== '' ? 1 : 0,
+                                pointerEvents: valueSearch !== '' ? 'auto' : 'none',
+                              }}
+                            />
+                          </Tooltip>
+
+                          <Tooltip title={tooltipSearch}>
+                            <Iconify icon="eva:alert-circle-outline" />
+                          </Tooltip>
+                        </InputAdornment>
+                      )
+                    }
+                  />
+                  <LoadingButton
+                    //   fullWidth
+                    size="small"
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSearch}
+                    disabled={valueSearch === ''}
+                    loading={loading}
+                    startIcon={<Iconify icon="eva:search-fill" />}
+                    sx={{ height: 40 }}
+                  >
+                    Tìm kiếm
+                  </LoadingButton>
+                  <LoadingButton onClick={handleClear}>
+                    <Tooltip title="Bỏ tìm kiếm">
+                      <Iconify
+                        icon="eva:refresh-outline"
+                        sx={{ mr: 2, width: 32, marginRight: 0, cursor: 'pointer' }}
+                      />
+                    </Tooltip>
+                  </LoadingButton>
+                </Box>
+              )}
+            </FilterDataTable>
+          )}
+          <Stack direction="row" alignItems="center" justifyContent="flex-end">
             {renderButton && (
               <Button
                 variant="contained"
                 color="success"
                 startIcon={<Iconify icon="eva:plus-fill" />}
                 onClick={() => handleOpenModal({})}
-                size="small"
+                size="large"
               >
-                {t('button.create')}
+                Tạo mới
               </Button>
             )}
           </Stack>
-
-          <FilterDataTable>
-            <Box sx={{ textAlign: 'right' }}>
-              <OutlinedInput
-                value={valueSearch}
-                onChange={onChangeValue}
-                placeholder={t('placeholder.search')}
-                sx={{ marginRight: 2 }}
-                size="small"
-                color="success"
-                startAdornment={
-                  <InputAdornment position="start">
-                    <Iconify
-                      icon="eva:search-fill"
-                      sx={{ color: 'text.disabled', width: 20, height: 20 }}
-                    />
-                  </InputAdornment>
-                }
-              />
-              <LoadingButton
-                size="small"
-                variant="text"
-                color="success"
-                onClick={handleClear}
-                sx={{ marginRight: 1 }}
-              >
-                {t('button.clear')}
-              </LoadingButton>
-              <LoadingButton
-                size="small"
-                type="submit"
-                variant="contained"
-                color="success"
-                onClick={handleSearch}
-                disabled={valueSearch === ''}
-              >
-                {t('button.search')}
-              </LoadingButton>
-            </Box>
-          </FilterDataTable>
-
-          <Accordion defaultExpanded sx={{ marginTop: '0 !important' }}>
-            <AccordionSummary
-              expandIcon={<ArrowDropDownIcon />}
-              aria-controls="panel-table"
-              id="panel-table"
-              style={{ backgroundColor: "#058c42" }}
+          {accordionTable ? (
+            <Accordion
+              defaultExpanded
+              sx={{
+                marginTop: `${tableBorder ? 0 : 10}px !important`,
+                paddingTop: isDisplayFilter ? '0' : 3,
+              }}
             >
-              <Typography variant="subtitle2">
-                {accordionTitle || t('accordion.title_table')}
-              </Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-              <TableComponent
+              <AccordionSummary
+                expandIcon={<ArrowDropDownIcon />}
+                aria-controls="panel-table"
+                id="panel-table"
+                style={{
+                  marginTop: !isDisplayFilter && tableBorder ? '36px' : '0',
+                  height: '48px',
+                }}
+              >
+                <Typography variant="subtitle2" sx={{ fontSize: '16px' }}>
+                  {accordionTitle || t('accordion.title_table')}
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails>
+                <BasicTableComponent
+                  columns={columns}
+                  rows={rows}
+                  isPagination={isPagination}
+                  conditions={conditions}
+                  setConditions={setConditions}
+                  columnArray={columnArray}
+                  total={total}
+                  // setSorting={setSorting}
+                  renderActionRow={renderActionRow}
+                  handleOpenModal={handleOpenModal}
+                  renderButton={renderButton}
+                  renderButtonTop={renderButtonTop}
+                />
+              </AccordionDetails>
+            </Accordion>
+          ) : (
+            <Box
+              sx={{
+                paddingTop: isDisplayFilter ? 1 : 5,
+                paddingX: 1,
+                backgroundColor,
+              }}
+            >
+              <BasicTableComponent
+                columns={columns}
                 rows={rows}
+                isPagination={isPagination}
+                conditions={conditions}
+                setConditions={setConditions}
+                columnArray={columnArray}
                 total={total}
-                columns={columns}
-                minHeight={minHeight}
-                setRowSelectionModel={setRowSelectionModel}
-                checkboxSelection={checkboxSelection}
-                setConditions={setConditions}
-                conditions={conditions}
-                table={table}
-              />
-            </AccordionDetails>
-          </Accordion>
-
-          {/* <Modal
-            open={showSearchResults}
-            onClose={handleCloseSearchResults}
-          >
-            <Box>
-              <Typography variant="h6">Kết quả tìm kiếm</Typography>
-              <TableComponent
-                rows={localSearchResults}
-                total={localSearchResults.length}
-                columns={columns}
-                minHeight={minHeight}
-                setRowSelectionModel={setRowSelectionModel}
-                checkboxSelection={checkboxSelection}
-                setConditions={setConditions}
-                conditions={conditions}
-                table={table}
+                // setSorting={setSorting}
+                renderActionRow={renderActionRow}
+                handleOpenModal={handleOpenModal}
+                renderButton={renderButton}
+                renderButtonTop={renderButtonTop}
+                backgroundColor={backgroundColorHeader}
+                createTitle={createTitle}
+                isDisableCreate={isDisableCreate}
               />
             </Box>
-          </Modal> */}
+          )}
         </Box>
       )}
-      <AlertDialog />
     </>
   );
 }
@@ -184,24 +256,33 @@ TableLayoutAdmin.propTypes = {
   rows: PropTypes.array,
   columns: PropTypes.array,
   minHeight: PropTypes.number,
-  title: PropTypes.string,
   titleModal: PropTypes.string,
   renderButton: PropTypes.bool,
   accordionTitle: PropTypes.string,
   setRowSelectionModel: PropTypes.func,
   checkboxSelection: PropTypes.bool,
   renderFilter: PropTypes.node,
-  showSearchResults: PropTypes.bool,
-  handleCloseSearchResults: PropTypes.func,
   handleOpenModal: PropTypes.func,
   setConditions: PropTypes.func,
   conditions: PropTypes.object,
   handleSearch: PropTypes.func,
   renderModal: PropTypes.any,
   setValueSearch: PropTypes.func,
-  searchResults: PropTypes.array,
   valueSearch: PropTypes.string,
   total: PropTypes.number,
-  table: PropTypes.object,
-  isSearch: PropTypes.bool
+  isPagination: PropTypes.bool,
+  columnArray: PropTypes.array,
+  renderActionRow: PropTypes.any,
+  headers: PropTypes.array,
+  renderButtonTop: PropTypes.bool,
+  isDisplayFilter: PropTypes.bool,
+  renderTableNote: PropTypes.node,
+  tableBorder: PropTypes.bool,
+  accordionTable: PropTypes.bool,
+  backgroundColorHeader: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  createTitle: PropTypes.string,
+  btnClearTextSearch: PropTypes.bool,
+  tooltipSearch: PropTypes.string,
+  isDisableCreate: PropTypes.bool,
 };

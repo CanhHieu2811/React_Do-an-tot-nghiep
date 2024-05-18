@@ -1,15 +1,15 @@
-import {combineReducers} from "redux";
+import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { configureStore } from '@reduxjs/toolkit';
-import autoMergeLevel2 from "redux-persist/es/stateReconciler/autoMergeLevel2";
+import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
 
 import authReducer from 'src/redux/auth';
 import commonReducer from 'src/redux/common';
 
 const reducers = combineReducers({
   auth: authReducer,
-  common: commonReducer
+  common: commonReducer,
 });
 
 const persistConfig = {
@@ -20,14 +20,14 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
-    serializableCheck: false,
-  }),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
   // devTools: process.env.NODE_ENV !== 'production',
   // middleware: [thunk]
 });
 
-export default store
+export default store;

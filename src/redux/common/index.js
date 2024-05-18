@@ -5,23 +5,28 @@ const namespace = 'common';
 
 const initialState = {
   loading: false,
-  defaultLanguage: "vn",
+  loadingPages: false,
+  defaultLanguage: 'vn',
   fetchData: false,
   noti: {
     show: false,
     message: null,
     // success | info | warning | error
-    status: null,
+    status: 'error',
   },
   dialog: {
     show: false,
     url: null,
     title: null,
     content: null,
-    data: null
+    data: null,
+    multiple: null,
+    maxWidthDialog: null,
+    onHandleAgree: null,
   },
   isPopup: false,
   equalForm: true,
+  showNav: true,
 };
 
 const slice = createSlice({
@@ -35,6 +40,10 @@ const slice = createSlice({
       ...state,
       loading: action.payload,
     }),
+    setLoadingPage: (state, action) => ({
+      ...state,
+      loadingPages: action.payload,
+    }),
     setNotification: (state, action) => ({
       ...state,
       noti: action.payload,
@@ -45,12 +54,15 @@ const slice = createSlice({
     }),
     setConfirmDialog: (state, action) => ({
       ...state,
-      confirmDialog: {
+      dialog: {
         show: action.payload.show,
         url: action.payload.url,
         title: action.payload.title,
         content: action.payload.content,
-        data: action.payload.data
+        data: action.payload.data,
+        multiple: action.payload.multiple,
+        maxWidthDialog: action.payload.maxWidthDialog,
+        onHandleAgree: action.payload.onHandleAgree,
       },
     }),
     setFetchData: (state, aciton) => ({
@@ -63,8 +75,32 @@ const slice = createSlice({
     }),
     setLanguage: (state, action) => ({
       ...state,
-      defaultLanguage: action.payload
-    })
+      defaultLanguage: action.payload,
+    }),
+    setResetOnLoad: (state) => ({
+      ...state,
+      loading: false,
+      fetchData: false,
+      noti: {
+        show: false,
+        message: null,
+        // success | info | warning | error
+        status: null,
+      },
+      dialog: {
+        show: false,
+        url: null,
+        title: null,
+        content: null,
+        data: null,
+      },
+      isPopup: false,
+      equalForm: true,
+    }),
+    setShowNav: (state, action) => ({
+      ...state,
+      showNav: action.payload,
+    }),
   },
 });
 // export const { reducer } = slice;
@@ -77,7 +113,10 @@ export const {
   setConfirmDialog,
   setFetchData,
   setEqualForm,
-  setLanguage
+  setLanguage,
+  setResetOnLoad,
+  setShowNav,
+  setLoadingPage,
 } = slice.actions;
 
 export default slice.reducer;

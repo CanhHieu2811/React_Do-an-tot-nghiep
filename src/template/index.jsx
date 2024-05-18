@@ -1,35 +1,46 @@
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
-import { Helmet } from 'react-helmet-async';
+// import { useSelector } from 'react-redux';
+//
 import { useTranslation } from 'react-i18next';
 
-import { Box, CircularProgress } from '@mui/material';
-
-import SnackbarComponent from 'src/components/snack-bar';
+// import { Box, CircularProgress } from '@mui/material';
+import ScrollTopComponent from 'src/components/scroll-top';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { PATH } from 'src/routes/constant';
+import { useNavigate } from 'react-router-dom';
 
 export default function CommonLayout(props) {
   const { title, children } = props;
-  const { t } = useTranslation()
-  const loading = useSelector(state => state.common.loading);
+  const { t } = useTranslation();
+  const unauthorized = useSelector((state) => state.auth.unauthorized);
+  const navigate = useNavigate();
+
+  const usePageTitle = (titleHelmet) => {
+    const defaultTitle = t('helmet.default');
+
+    useEffect(() => {
+      document.title = titleHelmet || defaultTitle;
+    }, [defaultTitle, titleHelmet]);
+  };
+
+  useEffect(() => {
+    if (unauthorized) {
+      navigate(PATH.NOTROLES);
+    }
+  }, [navigate, unauthorized]);
+
   return (
     <>
-      <Helmet>
-        <title> {title ? t(title) : t("helmet.default")} </title>
-      </Helmet>
-
-      <SnackbarComponent />
-      <Box sx={{ display: loading ? "block" : "none" }} className="circular-progress">
-        <Box className="loading">
-          <CircularProgress />
-        </Box>
-        
-      </Box>
+      {usePageTitle(t(title))}
       {children}
+
+      <ScrollTopComponent />
     </>
   );
 }
 
 CommonLayout.propTypes = {
   title: PropTypes.string,
-  children: PropTypes.node,
+  children: PropTypes.any,
 };

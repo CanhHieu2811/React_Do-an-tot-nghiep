@@ -80,19 +80,25 @@ export function overrides(theme) {
     MuiLink: {
       styleOverrides: {
         root: {
-          color: theme.palette.error.main,
+          color: theme.palette.common.black,
           textDecoration: 'unset',
           cursor: 'pointer',
-          '&:hover': {
-            color: theme.palette.primary.main,
-          },
+          // '&:hover': {
+          //   color: theme.palette.primary.main,
+          // },
         },
       },
     },
     MuiInputBase: {
       styleOverrides: {
         root: {
-          minHeight: 36,
+          minHeight: 40,
+          '& input': {
+            fontSize: 14,
+          },
+          '&.Mui-readOnly': {
+            backgroundColor: '#DFE3E8',
+          },
         },
       },
     },
@@ -100,7 +106,10 @@ export function overrides(theme) {
       styleOverrides: {
         root: {
           '& .MuiDataGrid-columnHeaderTitleContainer': {
-            justifyContent: "center"
+            justifyContent: 'center',
+          },
+          '& .MuiDataGrid-columnHeaders, & .MuiDataGrid-columnHeader': {
+            height: '40px !important',
           },
           // '& .MuiDataGrid-container--top [role=row] , & .MuiDataGrid-container--bottom [role=row], & .MuiDataGrid-columnHeader, & .MuiDataGrid-row, & .MuiDataGrid-footerContainer':
           //   {
@@ -111,9 +120,10 @@ export function overrides(theme) {
           //   height: '36px',
           //   lineHeight: '36px',
           // },
-          '& .MuiDataGrid-columnHeader:focus-within, & .MuiDataGrid-colCell:focus-within, & .MuiDataGrid-cell:focus-within': {
-            outline: 'none',
-          },
+          '& .MuiDataGrid-columnHeader:focus-within, & .MuiDataGrid-colCell:focus-within, & .MuiDataGrid-cell:focus-within':
+            {
+              outline: 'none',
+            },
         },
       },
     },
@@ -121,23 +131,33 @@ export function overrides(theme) {
       styleOverrides: {
         root: {
           '&.MuiAccordion-root': {
-            borderRadius: "unset"
+            borderRadius: 'unset',
           },
           '& .MuiAccordionSummary-root': {
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.grey[0],
             minHeight: '36px !important',
             height: 36,
-            borderBottom: `1px solid ${theme.palette.grey[400]}`,
+            // borderBottom: `1px solid ${theme.palette.grey[400]}`,
           },
           '& .MuiAccordionSummary-expandIconWrapper': {
             color: theme.palette.grey[0],
           },
           '& .MuiAccordionDetails-root': {
-            padding: '8px 12px 8px 12px',
+            padding: '8px 16px',
           },
           border: `1px solid ${theme.palette.grey[400]}`,
-          
+        },
+      },
+    },
+    MuiTablePagination: {
+      styleOverrides: {
+        root: {
+          '& .MuiToolbar-root': {
+            minHeight: 40,
+            height: 40,
+            paddingLeft: 0,
+          },
         },
       },
     },
@@ -145,37 +165,63 @@ export function overrides(theme) {
       styleOverrides: {
         root: {
           '& .MuiDialogTitle-root': {
-            padding: "8px 24px",
+            padding: '8px 24px',
             backgroundColor: theme.palette.primary.main,
             color: theme.palette.grey[0],
-            fontSize: 14
+            fontSize: 14,
+            height: 48,
           },
           '& .MuiDialogContent-root': {
             padding: 16,
-            paddingTop: "12px !important"
-          }
-        }
-      }
+            paddingTop: '12px !important',
+          },
+        },
+      },
     },
     MuiSelect: {
       styleOverrides: {
         select: {
-          fontSize: 14
+          fontSize: 14,
         },
-      }
+      },
     },
+    MuiStack: {
+      styleOverrides: {
+        root: {
+          width: 'auto',
+        },
+      },
+    },
+    MuiAutocomplete: {
+      styleOverrides: {
+        root: {
+          '& .MuiAutocomplete-input': {
+            padding: '2.5px 28px 2.5px 8px !important',
+          },
+        },
+      },
+    },
+
     MuiContainer: {
       styleOverrides: {
         root: {
           '@media (min-width: 1200px)': {
-            maxWidth: "1260px",
+            maxWidth: '1260px',
             paddingLeft: 8,
             paddingRight: 8,
-            height: "100%"
+            height: '100%',
           },
-          
-        }
-      }
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          '&.MuiFormLabel-filled, &.Mui-focused': {
+            fontWeight: 'bold',
+          },
+        },
+      },
     },
     // MuiGrid: {
     //   styleOverrides: {
@@ -216,7 +262,7 @@ export function overrides(theme) {
     //     },
     //   },
     // },
-    
+
     MuiCard: {
       styleOverrides: {
         root: {
@@ -249,7 +295,7 @@ export function overrides(theme) {
             // height: 30,
           },
           '& input': {
-            padding: '7.94px 14px',
+            padding: '8px 16px',
           },
         },
       },
@@ -258,17 +304,17 @@ export function overrides(theme) {
       styleOverrides: {
         root: {
           '& .MuiFormLabel-root': {
-            fontSize: 14
-          }
-        }
-      }
+            fontSize: 14,
+          },
+        },
+      },
     },
     MuiTextField: {
       styleOverrides: {
         root: {
-          minWidth: 200
-        }
-      }
+          // minWidth: 200,
+        },
+      },
     },
     MuiPaper: {
       defaultProps: {
@@ -277,10 +323,10 @@ export function overrides(theme) {
       styleOverrides: {
         root: {
           '& .MuiPaper-root': {
-            padding: 0
-          }
-        }
-      }
+            padding: 16,
+          },
+        },
+      },
     },
     MuiTableCell: {
       styleOverrides: {
@@ -307,6 +353,11 @@ export function overrides(theme) {
         },
         gutterBottom: {
           marginBottom: theme.spacing(1),
+        },
+        root: {
+          '&.MuiFormControlLabel-label': {
+            fontSize: 14,
+          },
         },
       },
     },

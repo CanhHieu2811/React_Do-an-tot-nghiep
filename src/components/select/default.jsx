@@ -16,6 +16,7 @@ export default function SelectDefaultComponent(props) {
     fieldName = '',
     setValue,
     value,
+    disabled = false,
   } = props;
   const { t } = useTranslation();
   const handleChange = (event) => {
@@ -23,7 +24,7 @@ export default function SelectDefaultComponent(props) {
   };
   return (
     <Box>
-      <FormControl sx={{ ...sx, minWidth: 120 }} size="small" error={error}>
+      <FormControl sx={{ ...sx, minWidth: 120 }} size="small" error={error} disabled={disabled}>
         <InputLabel id="demo-select-small-label" sx={{ fontSize: 14 }}>
           {title || t('select.placeholder')}
         </InputLabel>
@@ -36,7 +37,7 @@ export default function SelectDefaultComponent(props) {
         >
           {all && (
             <MenuItem value="">
-              <em>{t('select.all')}</em>
+              <em>{t('select.none')}</em>
             </MenuItem>
           )}
           {data &&
@@ -66,4 +67,5 @@ SelectDefaultComponent.propTypes = {
   fieldName: PropTypes.string,
   setValue: PropTypes.func,
   value: PropTypes.string || PropTypes.number,
+  disabled: PropTypes.bool,
 };

@@ -21,3 +21,8 @@ export const COMPLAINALL = "/api/complain/list"
 export const COMPLAINDET = "/api/complain/detail"
 export const COMPLAINDEL = "/api/complain/del"
 export const COMPLAIN = "/api/station"
+
+export const TICKETALL = "/api/ticket/all-list"
+export const TICKETCRT = "/api/ticket/all-list"
+export const TICKETDEL = "/api/ticket/all-list"
+export const TICKETDET = "/api/ticket/all-list"

@@ -15,7 +15,7 @@ export const StyledLabel = styled(Box)(({ theme, ownerState }) => {
       // FILLED
       ...(filledVariant && {
         color: lightMode ? theme.palette.common.white : theme.palette.grey[800],
-        backgroundColor: theme.palette.text.success,
+        backgroundColor: theme.palette.text.primary,
       }),
       // OUTLINED
       ...(outlinedVariant && {

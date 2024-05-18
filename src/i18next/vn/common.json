@@ -1,45 +1,56 @@
 {
-  "hello": "Xin chào",
-  "choose_image": "Chọn ảnh",
-  "choose_language": "Chọn ngôn ngữ",
-  "helmet": {
-    "default": "HUEBIKE Đạp xe tới chớt - 3HN",
-    "home_pages": "Trang chủ - 3HN",
-    "login_pages": "Đăng nhập - 3HN",
-    "register_pages": "Đăng ký - 3HN",
-    "administration_pages": "Quản trị hệ thống - 3HN",
-    "user_pages": "Quản lý người dùng - 3HN",
-    "bicycle_pages": "Quản lý xe đạp - 3HN",
-    "station_pages": "Quản lý trạm - 3HN",
-    "not_found_pages": "404 - 3HN",
-    "unit_pages": "Quản lý đơn vị - 3HN",
-    "setting_pages": "Quản lý cấu hình - 3HN",
-    "company_pages": "Quản lý đơn vị sở hữu website - 3HN",
-    "attributes": "Quản lý thuộc tính - 3HN",
-    "complain_pages": "Quản lí khiếu nại - 3HN"
-  },
+  "hello": "hello",
   "nav": {
     "dashboard": "Trang chủ",
-    "unit": "Đơn vị",
-    "company": "Đơn vị sở hữu website",
-    "setting": "Cấu hình",
-    "user": "Người dùng",
-    "bicycle": "Xe đạp",
-    "station": "Trạm",
-    "complain": "Khiếu nại"
+    "nguoi_dung": "Người dùng",
+    "tram": "Trạm",
+    "xe": "Xe đạp",
+    "thong_tin_thue_xe": "Thông tin thuê xe",
+    "thanh_toan": "Thanh toán",
+    "banner": "Banner",
+    "banner_web": "Website",
+    "banner_mobile": "Mobile",
+    "xe_gia_thue": "Xe - giá thuê xe"
+  },
+  "breadcrumb": {
+    "dashboard": "Trang chủ",
+    "nguoi-dung": "Người dùng",
+    "tram": "Trạm",
+    "xe": "Xe đạp",
+    "thong-tin-thue-xe": "Thông tin thuê xe",
+    "thanh-toan": "Thanh toán",
+    "banner": "Banner",
+    "banner-web": "Banner Website",
+    "banner-mobile": "Banner Mobile",
+    "xe-gia-thue": "Xe - giá thuê xe"
+  },
+  "helmet": {
+    "dashboard_pages": "Trang chủ",
+    "nguoi_dung_pages": "Người dùng",
+    "tram_pages": "Trạm",
+    "xe_pages": "Xe đạp",
+    "thong_tin_thue_xe_pages": "Thông tin thuê xe",
+    "thanh_toan_pages": "Thanh toán",
+    "banner_pages": "Banner",
+    "banner_web_pages": "Website",
+    "banner_mobile_pages": "Mobile",
+    "xe_gia_thue_pages": "Xe - giá thuê xe",
+    "default": "Xe đạp"
   },
   "dialog": {
     "title": "Xác nhận",
     "content": "Bạn chắc rằng muốn xóa dữ liệu này?",
-    "close": "Đóng lại",
-    "argee": "Đồng ý",
-    "change_form": "Dữ liệu đang được thay đổi. Bạn chắc rằng muốn đóng?",
+    "cancel": "Hủy bỏ",
+    "agree": "Đồng ý",
+    "change_form": "Dữ liệu thay đổi chưa được lưu lại. Bạn có chắc chắn muốn tiếp tục?",
     "full_screen": "Phóng to",
     "custom_screen": "Thu nhỏ",
     "update_data": "Cập nhật dữ liệu",
     "create_data": "Tạo mới dữ liệu",
+    "edit_data": "Chỉnh sửa dữ liệu",
     "title_forgot": "Quên mật khẩu",
-    "content_forgot": "Vui lòng vào https://mail.google.com để lấy mật khẩu"
+    "content_forgot": "Vui lòng vào https://mail.google.com để lấy mật khẩu",
+    "close": "Đóng lại"
   },
   "button": {
     "clear": "Làm mới",
@@ -47,8 +58,22 @@
     "filter": "Bộ lọc",
     "create": "Tạo mới",
     "update": "Cập nhật",
+    "edit": "Chỉnh sửa",
     "close": "Đóng lại",
-    "forgot": "Lấy lại mật khẩu"
+    "forgot": "Lấy lại mật khẩu",
+    "filter_data": "Tìm kiếm",
+    "view": "Tìm kiếm",
+    "detail": "Chi tiết",
+    "logout": "Đăng xuất",
+    "save": "Lưu dữ liệu",
+    "export": "Xuất dữ liệu",
+    "chamNhanh": "Chấm nhanh",
+    "chot_du_lieu": "Chốt dữ liệu",
+    "duyet": "Duyệt",
+    "tra_lai": "Trả lại",
+    "luu": "Lưu",
+    "xuat_excel": "Xuất Excel",
+    "dang_nhap": "Đăng nhập"
   },
   "placeholder": {
     "search": "Tìm kiếm..."
@@ -59,19 +84,13 @@
   },
   "select": {
     "all": "Tất cả",
-    "placeholder": "Chọn..."
-  },
-  "profile": {
-    "title": "Thông tin cá nhân"
-  },
-  "components": {
-    "units": "Đơn vị",
-    "settings": "Cấu hình",
-    "company": "Đơn vị sở hữu website",
-    "attributes": "Thuộc tính"
-  },
-  "accordion": {
-    "title_table": "Bảng dữ liệu"
+    "placeholder": "Chọn...",
+    "none": "Không có",
+    "unit": "Đơn vị",
+    "unitType": "Loại hình",
+    "loaiGio": "Loại giờ",
+    "tinhCong": "Tính Công",
+    "maDonVi": "Mã đơn vị"
   },
   "field": {
     "stt": "Số thứ tự",
@@ -79,10 +98,10 @@
     "catebicycle": "Loại xe",
     "codelock": "Mã khóa xe",
     "stationName": "Tên trạm",
-    "quantityAvaiable": "Số lượng xe",
-    "locationName": "Tên vị trí" ,
-    "numOfSeats": "Số chỗ trống",
-    "using" : "Đang sử dụng",
+    "quantityAvaiable": "Số lượng hiện tại",
+    "locationName": "Tên vị trí",
+    "numOfSeats": "Số lượng tối đa",
+    "using": "Đang sử dụng",
     "email": "Email",
     "password": "Mật khẩu",
     "passwordConfirm": "Xác nhận mật khẩu",
@@ -113,17 +132,27 @@
     "locationId": "ID vị trí",
     "statusId": "ID trạng thái",
     "lockId": "ID khóa xe",
-    "stationId": "ID Trạm"
+    "stationId": "ID Trạm",
+    "noOptions": "Không có dữ liệu"
   },
   "validator": {
     "required": "không được bỏ trống",
     "min_8": "ít nhất 8 kí tự",
     "max_255": "tối đa 255 kí tự",
+    "max_20": "tối đa 20 kí tự",
+    "max_length_text": "tối đa {{length}} kí tự",
     "match_password": "không trùng với mật khẩu",
-    "numeric": "chỉ chấp nhận các kí tự Số",
     "email": {
       "format": "không đúng định dạng email"
     },
-    "phone": "không đúng định dạng"
+    "phone": "không đúng định dạng",
+    "invalid": "không đúng định dạng",
+    "min_value_0": "giá trị phải lớn hơn 0",
+    "max_value_99": "giá trọ phải nhỏ hơn 100",
+    "date": {
+      "format": "Không đúng định dạng thời gian",
+      "max_day": "không vượt quá {{number}} ngày"
+    },
+    "integer": "phải là số nguyên"
   }
 }

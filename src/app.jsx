@@ -1,107 +1,47 @@
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import {  useEffect, useCallback } from 'react';
-
-import Router from 'src/routes/sections';
+import { useEffect, useCallback } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
 
 import 'src/global.css';
 import ThemeProvider from 'src/theme';
-
-// import { PATH } from './routes/constant';
-// import { authGetData } from './utils/request';
-import globalRouter from './routes/globalRouter';
-// import { VITE_REACT_APP_API } from './utils/constant';
-import { setPopup,  setEqualForm, setNotification, setConfirmDialog } from './redux/common';
-
-// ----------------------------------------------------------------------
+import AlertDialog from 'src/components/dialog-confirm';
+import { setPopup, setResetOnLoad } from './redux/common';
+import SnackbarComponent from './components/snack-bar';
+import RouterSections from './routes/section';
+import LoadingComponent from './components/loading';
 
 export default function App() {
   useScrollToTop();
-  
-  // const location = useLocation();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const isAuthencated = useSelector((state) => state.common.isAuthencated);
-  // const equalForm = useSelector((state) => state.common.equalForm);
-  // const [formEqual, setFormEqual] = useState(equalForm)
-
-  // useEffect(() => {
-  //   console.log(1232, formEqual)
-  // }, [formEqual])
-  const onLoad = useCallback((e) => {
-    e.preventDefault();
-    dispatch(setEqualForm(true))
-    dispatch(setConfirmDialog({
-      show: false,
-      url: null,
-      title: null,
-      content: null,
-      data: null
-    }))
-    dispatch(setPopup(false))
-    dispatch(setNotification({
-      show: false,
-      url: null,
-      title: null,
-      content: null
-    }))
-  }, [dispatch])
+  const equalForm = useSelector((state) => state.common.equalForm);
+  const onUnload = useCallback(
+    (e) => {
+      if (equalForm) {
+        dispatch(setPopup(false));
+        return;
+      }
+      e.returnValue = true;
+    },
+    [dispatch, equalForm]
+  );
   useEffect(() => {
-    window.addEventListener("load", onLoad);
-    return () => window.removeEventListener("load", onLoad);
+    window.addEventListener('beforeunload', onUnload);
+    return () => window.removeEventListener('beforeunload', onUnload);
+  }, [onUnload]);
 
-  }, [onLoad])
-
-  // useEffect(() => 
-  //   // eslint-disable-next-line consistent-return
-  //   window.addEventListener("beforeunload", (event) => {
-  //     if (!formEqual) return event.preventDefault();
-  //   })
-  // , [formEqual]);
-
-  
-
-
-  // gán navigate router
-  useEffect(() => {
-    globalRouter.navigate = navigate;
-  }, [navigate]);
-
-  // redirect previos link after login
-  useEffect(() => {
-    const previousLink = localStorage.getItem("previousAccessLink")
-
-    if(previousLink) {
-      navigate(previousLink)
-      localStorage.setItem("previousAccessLink", "")
-    }
-  }, [navigate])
-
-  // gọi api detail user khi ở trang chủ hoặc admin và đã đăng nhập
-  // useEffect(() => {
-  //   if (
-  //     (location.pathname !== PATH.LOGIN &&
-  //       location.pathname !== PATH.REGISTER &&
-  //       location.pathname !== PATH.DASHBOARD) ||
-  //     (location.pathname === PATH.DASHBOARD && isAuthencated)
-  //   ) {
-  //     authGetData({
-  //       url: `${VITE_REACT_APP_API}/profile`,
-  //       onSuccess: (res) => {
-  //         // check quyền hoặc có quyền
-  //         // nếu không có quyền
-  //         // redirect login
-  //         // có quyền thì set store ngôn ngữ mặc định, user authen,...
-  //       },
-  //     });
-  //   }
-  // }, [isAuthencated, location.pathname]);
+  window.onload = () => {
+    dispatch(setResetOnLoad());
+    // dispatch(resetBDL());
+    dispatch(setPopup(false));
+  };
 
   return (
     <ThemeProvider>
-      <Router />
+      <SnackbarComponent />
+      <AlertDialog />
+      <RouterSections />
+      <LoadingComponent />
     </ThemeProvider>
   );
 }

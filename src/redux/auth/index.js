@@ -7,7 +7,8 @@ const initialState = {
   token: null,
   isAuthencated: false,
   isLogout: false,
-  user: {}
+  user: {},
+  linkPrev: null,
 };
 
 const slice = createSlice({
@@ -19,6 +20,7 @@ const slice = createSlice({
       token: action.payload.token,
       user: action.payload.user,
       isAuthencated: true,
+      isLogout: false,
     }),
     setLogout: (state) => ({
       ...state,
@@ -27,11 +29,18 @@ const slice = createSlice({
       user: {},
       token: null,
     }),
-    
+    setUserAuth: (state, action) => ({
+      ...state,
+      user: action.payload,
+    }),
+    setLinkPrev: (state, action) => ({
+      ...state,
+      linkPrev: action.payload,
+    }),
   },
 });
 // export const { reducer } = slice;
 
-export const { setAuth, setLogout } = slice.actions;
+export const { setAuth, setLogout, setUserAuth, setLinkPrev } = slice.actions;
 
 export default slice.reducer;

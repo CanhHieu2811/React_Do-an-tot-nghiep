@@ -20,7 +20,7 @@ export const grey = {
 export const primary = {
   lighter: '#D0ECFE',
   light: '#73BAFB',
-  main: '#006dae',
+  main: '#558b2f',
   dark: '#0C44AE',
   darker: '#042174',
   contrastText: '#FFFFFF',
@@ -78,7 +78,7 @@ export const common = {
 
 export const action = {
   hover: alpha(grey[500], 0.08),
-  selected: "#ed3237",
+  selected: '#ed3237',
   disabled: alpha(grey[500], 0.8),
   disabledBackground: alpha(grey[500], 0.24),
   focus: alpha(grey[500], 0.24),
