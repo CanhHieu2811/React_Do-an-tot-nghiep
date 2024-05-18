@@ -46,7 +46,7 @@ const initialValues = {
   locationName: '',
   longitude: '',
   latitude: '',
-  statusId: '',
+  statusId: null,
 };
 
 export default function TramPages() {
@@ -276,7 +276,7 @@ export default function TramPages() {
           dispatch(setFetchData(true));
 
           // close dialog
-          setOpenDialogDelete(false)
+          setOpenDialogDelete(false);
         }
       },
     });
@@ -294,8 +294,8 @@ export default function TramPages() {
   const validationSchema = Yup.object({
     stationName: Yup.string().required(t('validator.required')),
     numOfSeats: Yup.string()
-    .required(t('validator.required'))
-    .matches(/^\d+$/, t('validator.numeric')), // Chỉ chấp nhận các ký tự số
+      .required(t('validator.required'))
+      .matches(/^\d+$/, t('validator.numeric')), // Chỉ chấp nhận các ký tự số
     locationName: Yup.string().required(t('validator.required')),
     longitude: Yup.string().required(t('validator.required')),
     latitude: Yup.string().required(t('validator.required')),
@@ -326,7 +326,7 @@ export default function TramPages() {
         locationName: row.locationName,
         longitude: row.longitude,
         latitude: row.latitude,
-        statusId: row.statusId
+        statusId: statusList.find((el) => el.id === row.statusId),
       };
       create = false;
       setRowId(row.id);
@@ -365,7 +365,7 @@ export default function TramPages() {
         locationName: formik.values.locationName,
         longitude: formik.values.longitude,
         latitude: formik.values.latitude,
-        statusId: formik.values.statusId,
+        statusId: formik.values.statusId.id,
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {

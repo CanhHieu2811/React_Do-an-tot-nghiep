@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { TextField, Grid, MenuItem } from '@mui/material';
+import { TextField, Grid } from '@mui/material';
 
 import FormComponent from 'src/components/form';
 import ErrorTextComponent from 'src/components/error-text';
@@ -12,7 +12,7 @@ export default function FormThaoTacDuLieu({
   textBtn,
   initialValues,
   isCreate,
-  statusList
+  statusList,
 }) {
   const { t } = useTranslation();
 
@@ -105,34 +105,11 @@ export default function FormThaoTacDuLieu({
             <SelectComponent
               formName="statusId"
               label={t('field.statusName')}
-              defaultOption={formik.values.stationName}
+              defaultOption={formik.values.statusId}
               data={statusList}
-              onChange={(e) => formik.setFieldValue('statusId', e.target.value)}
-              error={(formik.touched.statusName && formik.errors.statusName)}
-            >
-            {/* ĐÂY LÀ 1 DROPDOWN SELECT OPTION CÓ SEARCH */}
-            {/* <FormControl fullWidth size="small">
-              <InputLabel>{t('field.statusName')}</InputLabel>
-              <Select
-                name="statusId"
-                value={formik.values.statusId} // Sử dụng formik.values.statusId
-                onChange={(e) => {
-                  formik.setFieldValue('statusId', e.target.value); // Cập nhật giá trị trong formik
-                }}
-                onBlur={formik.handleBlur}
-                error={formik.touched.statusName && Boolean(formik.errors.statusName)}
-              > */}
-                <MenuItem value="">
-                  <em>None</em>
-                </MenuItem>
-                {statusList.map((status) => (
-                  <MenuItem key={status.id} value={status.id}>
-                    {status.statusName}
-                  </MenuItem>
-                ))}
-              {/* </Select>
-            </FormControl> */}
-            </SelectComponent>
+              onChange={(val) => formik.setFieldValue('statusId', val)}
+              error={!!(formik.touched.statusId && formik.errors.statusId)}
+            />
           </ErrorTextComponent>
         </Grid>
       </Grid>
@@ -146,5 +123,5 @@ FormThaoTacDuLieu.propTypes = {
   textBtn: PropTypes.string,
   initialValues: PropTypes.object,
   isCreate: PropTypes.bool,
-  statusList: PropTypes.array
+  statusList: PropTypes.array,
 };
