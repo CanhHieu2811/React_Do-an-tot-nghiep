@@ -88,7 +88,7 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {stationList.map((status) => (
+                {statusList.map((status) => (
                   <MenuItem key={status.id} value={status.id}>
                     {status.statusName}
                   </MenuItem>
@@ -130,7 +130,7 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
-                {statusList.map((station) => (
+                {stationList.map((station) => (
                   <MenuItem key={station} value={station}>
                     {station.stationName}
                   </MenuItem>
