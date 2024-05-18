@@ -46,7 +46,7 @@ const initialValues = {
   locationName: '',
   longitude: '',
   latitude: '',
-  statusName: '',
+  statusId: '',
 };
 
 export default function TramPages() {
@@ -171,6 +171,23 @@ export default function TramPages() {
     },
   ];
 
+  const [statusList, setStatusList] = useState([]);
+  // gọi api lấy danh sách status truyền vào dropdown
+  useEffect(() => {
+    fetchDataStatus();
+  }, []);
+
+  const fetchDataStatus = () => {
+    authGetData({
+      url: 'https://localhost:7103/master-data/api/status/list',
+      onSuccess: (res) => {
+        if (res && res.statusCode === STATUS_200) {
+          setStatusList(res.data);
+        }
+      },
+    });
+  };
+
   // gọi api lấy danh sách dữ liệu của bảng theo điều kiện biến conditions
   const fetchData = useCallback((conditions) => {
     // ĐÂY LÀ CÁCH GỌI 1 API GET
@@ -282,7 +299,7 @@ export default function TramPages() {
     locationName: Yup.string().required(t('validator.required')),
     longitude: Yup.string().required(t('validator.required')),
     latitude: Yup.string().required(t('validator.required')),
-    statusName: Yup.string().required(t('validator.required')),
+    statusId: Yup.string().required(t('validator.required')),
   });
 
   const formik = useFormik({
@@ -348,7 +365,7 @@ export default function TramPages() {
         locationName: formik.values.locationName,
         longitude: formik.values.longitude,
         latitude: formik.values.latitude,
-        statusName: formik.values.statusName,
+        statusId: formik.values.statusId,
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
@@ -375,9 +392,10 @@ export default function TramPages() {
         onSubmitForm={onSubmitForm}
         textBtn={isCreate ? 'Tạo' : 'Sửa'}
         initialValues={initialValues}
+        statusList={statusList}
       />
     ),
-    [formik, isCreate, onSubmitForm]
+    [formik, isCreate, onSubmitForm, statusList]
   );
 
   // KẾT THÚC TẠO/SỬA DỮ LIỆU
@@ -399,7 +417,7 @@ export default function TramPages() {
         // kết thúc props hiển thị bảng
 
         // title popup
-        titleModal={isCreate ? 'Tạo người dùng' : 'Chỉnh sửa người dùng'}
+        titleModal={isCreate ? t('dialog.create_data') : t('dialog.update_data')}
         // render content trong popup
         renderModal={renderModal}
         // truyền func cho nút tạo khi click

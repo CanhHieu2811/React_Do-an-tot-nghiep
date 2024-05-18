@@ -66,7 +66,6 @@ export default function ChangePassword({
             imageUrl={avatar}
             circles
             btnRemove={false}
-            btnUpload={false}
           />
         </Item>
       </Grid>

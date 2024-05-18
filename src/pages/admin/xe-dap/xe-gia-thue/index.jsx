@@ -8,7 +8,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { Box } from '@mui/material';
 
-import { authGetData, authPostPutData, startDelete } from 'src/utils/request';
+import { authGetData, authPostFormData, startDelete } from 'src/utils/request';
 import { buildQueryString, parseParams } from 'src/utils/function';
 import {
   PAGE_SIZE,
@@ -18,12 +18,11 @@ import {
   // METHOD_POST,
   // phoneRegExp,
   VITE_REACT_APP_API_MASTER_DATA,
-  phoneRegExp,
   METHOD_POST,
   METHOD_PUT,
 } from 'src/utils/constant';
 
-import { USERALL, USERCRT, USERDEL } from 'src/api/master-data';
+import { TICKETALL, TICKETCRT, TICKETDEL } from 'src/api/master-data';
 import {
   setEqualForm,
   // setPopup,
@@ -36,25 +35,19 @@ import {
 } from 'src/redux/common';
 
 import Iconify from 'src/components/iconify';
-import NguoiDungTemplates from 'src/template/admin/nguoi-dung';
+import XeGiaThueTemplates from 'src/template/admin/xe-gia-thue';
 import { useTranslation } from 'react-i18next';
 import DialogDelete from 'src/components/confirm-delete';
-import FormThaoTacDuLieu from 'src/template/admin/nguoi-dung/form';
-import dayjs from 'dayjs';
+import FormThaoTacDuLieu from 'src/template/admin/xe-gia-thue/form';
 
 const initialValues = {
-  fullName: '',
-  userName: '',
-  dateOfBirth: null,
-  email: '',
-  phoneNumber: '',
-  address: '',
-  isSuperAdmin: '',
-  password: '',
-  passwordConfirm: '',
+  ticketName: '',
+  pathQr: '',
+  price: '',
+  qrImage: '',
 };
 
-export default function NguoiDungPages() {
+export default function XeGiaThuePages() {
   // khai báo state đóng/mở dialog confirm xóa bảng
   const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
@@ -116,31 +109,19 @@ export default function NguoiDungPages() {
       // sortable: true,
     },
     {
-      id: 'fullName',
-      header: 'Họ và tên',
+      id: 'ticketName',
+      header: 'Tên vé',
       width: 200,
     },
     {
-      id: 'dateOfBirth',
-      header: 'Ngày sinh',
-      width: 100,
-      align: 'right',
-      component: (row) => <>{row.dateOfBirth ? dayjs(row.dateOfBirth).format('DD/MM/YYYY') : ''}</>,
-    },
-    {
-      id: 'phoneNumber',
-      header: 'Số điện thoại',
+      id: 'pathQr',
+      header: 'pathQr',
       width: 100,
     },
     {
-      id: 'email',
-      header: 'Email',
+      id: 'status',
+      header: 'Trạng thái',
       width: 100,
-    },
-    {
-      id: 'address',
-      header: 'Địa chỉ',
-      width: 250,
     },
     {
       id: 'actions',
@@ -174,7 +155,7 @@ export default function NguoiDungPages() {
     // ĐÂY LÀ CÁCH GỌI 1 API GET
     authGetData({
       // buildQueryString => dùng để convert dạng ?xxx=1&bbb=2, parseParams => loại bỏ các biến undefined
-      url: `${VITE_REACT_APP_API_MASTER_DATA + USERALL}?${buildQueryString(parseParams(conditions))}`,
+      url: `${VITE_REACT_APP_API_MASTER_DATA + TICKETALL}?${buildQueryString(parseParams(conditions))}`,
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
           setRows(res.data);
@@ -229,7 +210,7 @@ export default function NguoiDungPages() {
     // dispatch(
     //   setConfirmDialog({
     //     show: true,
-    //     url: `${VITE_REACT_APP_API_MASTER_DATA + USERDEL}?id=${id}`,
+    //     url: `${VITE_REACT_APP_API_MASTER_DATA + TICKETDEL}?id=${id}`,
     //   })
     // );
   };
@@ -238,7 +219,7 @@ export default function NguoiDungPages() {
     // ĐÂY LÀ CÁCH GỌI 1 API XÓA METHOD DELETE
     startDelete({
       // truyền URL
-      url: VITE_REACT_APP_API_MASTER_DATA + USERDEL,
+      url: VITE_REACT_APP_API_MASTER_DATA + TICKETDEL,
       // payload nhận vào là id
       payload: { id: rowId },
       onSuccess: (res) => {
@@ -273,18 +254,13 @@ export default function NguoiDungPages() {
 
   // validate form với các biến cần validate
   const validationSchema = Yup.object({
-    fullName: Yup.string().required(t('validator.required')),
-    userName: Yup.string().required(t('validator.required')),
-    dateOfBirth: Yup.date().required(t('validator.required')),
-    email: Yup.string().email(t('validator.email.format')).required(t('validator.required')),
-    phoneNumber: Yup.string()
-      .matches(phoneRegExp, t('validator.phone'))
-      .required(t('validator.required')),
-    password: Yup.string().min(8, t('validator.min_8')).required(t('validator.required')),
-    passwordConfirm: Yup.string()
-      .required(t('validator.required'))
-      .oneOf([Yup.ref('password'), null], t('validator.match_password')),
-    address: Yup.string().max(255, t('validator.max_255')).required(t('validator.required')),
+    tiketName: Yup.string().required(t('validator.required')),
+    price: Yup.string().required(t('validator.required')),
+    qrImage: Yup.mixed()
+    .required('Image is required')
+    .test('fileType', 'Unsupported File Format', (value) => 
+      value && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type)),
+    pathQr: Yup.string().required(t('validator.required')),
   });
 
   const formik = useFormik({
@@ -305,10 +281,9 @@ export default function NguoiDungPages() {
     // chỉnh sửa vì row truyền vào có dữ liệu
     if (Object.keys(row).length) {
       data = {
-        userId: row.id,
-        fullName: row.fullName,
-        userName: row.userName,
-        dateOfBirth: row.dateOfBirth,
+        ticketId: row.id,
+        ticketName: row.ticketName,
+        pathQr: row.dateOfBirth,
         phoneNumber: row.phoneNumber,
         email: row.email,
         address: row.address,
@@ -341,20 +316,12 @@ export default function NguoiDungPages() {
     let method = METHOD_POST;
     if (isCreate) method = METHOD_POST;
     else method = METHOD_PUT;
-    authPostPutData({
-      url: VITE_REACT_APP_API_MASTER_DATA + USERCRT,
+    authPostFormData({
+      url: VITE_REACT_APP_API_MASTER_DATA + TICKETCRT,
       method,
       payload: {
-        userId: rowId,
+        TicketId: rowId,
         fullName: formik.values.fullName,
-        userName: formik.values.userName,
-        dateOfBirth: formik.values.dateOfBirth,
-        email: formik.values.email,
-        phoneNumber: formik.values.phoneNumber,
-        address: formik.values.address,
-        password: formik.values.password,
-        passwordConfirm: formik.values.passwordConfirm,
-        timezone: 'Hanoi',
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
@@ -381,6 +348,7 @@ export default function NguoiDungPages() {
         onSubmitForm={onSubmitForm}
         textBtn={isCreate ? 'Tạo' : 'Sửa'}
         initialValues={initialValues}
+        
       />
     ),
     [formik, isCreate, onSubmitForm]
@@ -390,7 +358,7 @@ export default function NguoiDungPages() {
 
   return (
     <>
-      <NguoiDungTemplates
+      <XeGiaThueTemplates
         // phần props hiển thị bảng
         rows={rows}
         columns={columns}
@@ -406,7 +374,7 @@ export default function NguoiDungPages() {
         // kết thúc props hiển thị bảng
 
         // title popup
-        titleModal={isCreate ? t('dialog.create_data') : t('dialog.update_data')}
+        titleModal={isCreate ? 'Tạo người dùng' : 'Chỉnh sửa người dùng'}
         // render content trong popup
         renderModal={renderModal}
         // truyền func cho nút tạo khi click
@@ -425,3 +393,4 @@ export default function NguoiDungPages() {
     </>
   );
 }
+

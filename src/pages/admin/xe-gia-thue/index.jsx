@@ -4,7 +4,6 @@ import { useTheme } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
-// import dayjs from 'dayjs';
 
 import { Box } from '@mui/material';
 
@@ -16,7 +15,7 @@ import {
   STATUS_200,
   // METHOD_PUT,
   // METHOD_POST,
-  // phoneRegExp,
+  phoneRegExp,
   VITE_REACT_APP_API_MASTER_DATA,
   METHOD_POST,
   METHOD_PUT,
@@ -38,7 +37,7 @@ import Iconify from 'src/components/iconify';
 import XeGiaThueTemplates from 'src/template/admin/xe-gia-thue';
 import { useTranslation } from 'react-i18next';
 import DialogDelete from 'src/components/confirm-delete';
-import FormThaoTacDuLieu from 'src/template/admin/nguoi-dung/form';
+import FormThaoTacDuLieu from 'src/template/admin/xe-gia-thue/form';
 
 const initialValues = {
   ticketName: '',
@@ -109,14 +108,42 @@ export default function XeGiaThuePages() {
       // sortable: true,
     },
     {
-      id: 'ticketName',
-      header: 'Tên vé',
+      id: 'fullname',
+      header: 'Tên người đặt',
       width: 200,
     },
     {
-      id: 'pathQr',
-      header: 'pathQr',
+      id: 'phoneNumber',
+      header: 'số điện thoại',
       width: 100,
+    },
+    {
+      id: 'pathQr',
+      header: 'mã QR',
+      width: 100,
+    },
+    {
+      id: 'price',
+      header: 'Giá vé',
+      width: 100,
+    },
+    {
+      id: 'Thời gian đặt',
+      header: 'Thời gian hết hạn',
+      width: 100,
+      align: 'right',
+    },
+    {
+      id: 'Thời gian kết thúc',
+      header: 'Thời gian kết thúc',
+      width: 100,
+      align: 'right',
+    },
+    {
+      id: 'Thời gian hết hạn',
+      header: 'Thời gian hết hạn',
+      width: 100,
+      align: 'right',
     },
     {
       id: 'status',
@@ -198,6 +225,9 @@ export default function XeGiaThuePages() {
     });
   }, [setConditions]);
 
+  // const [imageUrl, setImageUrl] = useState(null)
+  // const [file, setFile] = useState(null);
+
   // KẾT THÚC PHẦN TÌM KIẾM VÀ HIỂN THỊ DỮ LIỆU Ở BẢNG
 
   // XÓA DỮ LIỆU BẢNG
@@ -254,13 +284,14 @@ export default function XeGiaThuePages() {
 
   // validate form với các biến cần validate
   const validationSchema = Yup.object({
-    tiketName: Yup.string().required(t('validator.required')),
+    phoneNumber: Yup.string()
+    .matches(phoneRegExp, t('validator.phone'))
+    .required(t('validator.required')),
     price: Yup.string().required(t('validator.required')),
-    qrImage: Yup.mixed()
-    .required('Image is required')
-    .test('fileType', 'Unsupported File Format', (value) => 
-      value && ['image/jpeg', 'image/png', 'image/gif'].includes(value.type)),
-    pathQr: Yup.string().required(t('validator.required')),
+    dayhethan: Yup.date().required(t('validator.required')),
+    daythue: Yup.date().required(t('validator.required')),
+    dayketthuc: Yup.date().required(t('validator.required')),
+    
   });
 
   const formik = useFormik({
@@ -282,12 +313,11 @@ export default function XeGiaThuePages() {
     if (Object.keys(row).length) {
       data = {
         ticketId: row.id,
-        ticketName: row.ticketName,
-        pathQr: row.dateOfBirth,
         phoneNumber: row.phoneNumber,
-        email: row.email,
-        address: row.address,
-        isSuperAdmin: row.isSuperAdmin,
+        price: row.price,
+        dayhethan: row.dayhethan,
+        dayketthuc: row.dayketthuc,
+        daythue: row.daythue,
       };
       create = false;
       setRowId(row.id);
@@ -320,8 +350,11 @@ export default function XeGiaThuePages() {
       url: VITE_REACT_APP_API_MASTER_DATA + TICKETCRT,
       method,
       payload: {
-        TicketId: rowId,
-        fullName: formik.values.fullName,
+        ticketId: rowId,
+        price: formik.values.price,
+        dayhethan: formik.values.dayhethan,
+        dayketthuc: formik.values.dayketthuc,
+        daythue: formik.values.daythue,
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
@@ -347,7 +380,11 @@ export default function XeGiaThuePages() {
         formik={formik}
         onSubmitForm={onSubmitForm}
         textBtn={isCreate ? 'Tạo' : 'Sửa'}
+        // setImageUrl={setImageUrl}
+        // imageUrl={imageUrl}
+        // setFile={setFile}
         initialValues={initialValues}
+        
       />
     ),
     [formik, isCreate, onSubmitForm]
@@ -373,7 +410,7 @@ export default function XeGiaThuePages() {
         // kết thúc props hiển thị bảng
 
         // title popup
-        titleModal={isCreate ? 'Tạo người dùng' : 'Chỉnh sửa người dùng'}
+        titleModal={isCreate ? t('dialog.create_data') : t('dialog.update_data')}
         // render content trong popup
         renderModal={renderModal}
         // truyền func cho nút tạo khi click

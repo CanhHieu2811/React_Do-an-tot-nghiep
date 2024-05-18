@@ -1,10 +1,6 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { TextField, Grid, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-import { useState, useEffect } from 'react';
-
-import { authGetData } from 'src/utils/request';
-import { STATUS_200 } from 'src/utils/constant';
+import { TextField, Grid, MenuItem } from '@mui/material';
 
 import FormComponent from 'src/components/form';
 import ErrorTextComponent from 'src/components/error-text';
@@ -16,24 +12,9 @@ export default function FormThaoTacDuLieu({
   textBtn,
   initialValues,
   isCreate,
+  statusList
 }) {
   const { t } = useTranslation();
-  const [statusList, setStatusList] = useState([]);
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = () => {
-    authGetData({
-      url: 'https://localhost:7103/master-data/api/status/list',
-      onSuccess: (res) => {
-        if (res && res.statusCode === STATUS_200) {
-          setStatusList(res.data);
-        }
-      },
-    });
-  };
 
   return (
     <FormComponent
@@ -103,7 +84,7 @@ export default function FormThaoTacDuLieu({
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="latitude">
             <TextField
               name="latitude"
-              label="latitude"
+              label={t('field.latitude')}
               size="small"
               error={!!(formik.touched.latitude && formik.errors.latitude)}
               value={formik.values.latitude}
@@ -126,11 +107,11 @@ export default function FormThaoTacDuLieu({
               label={t('field.statusName')}
               defaultOption={formik.values.stationName}
               data={statusList}
-              onChange={(val) => formik.setFieldValue('statusId', val)}
-              error={!!(formik.touched.statusName && formik.errors.statusName)}
-            />
+              onChange={(e) => formik.setFieldValue('statusId', e.target.value)}
+              error={(formik.touched.statusName && formik.errors.statusName)}
+            >
             {/* ĐÂY LÀ 1 DROPDOWN SELECT OPTION CÓ SEARCH */}
-            <FormControl fullWidth size="small">
+            {/* <FormControl fullWidth size="small">
               <InputLabel>{t('field.statusName')}</InputLabel>
               <Select
                 name="statusId"
@@ -140,7 +121,7 @@ export default function FormThaoTacDuLieu({
                 }}
                 onBlur={formik.handleBlur}
                 error={formik.touched.statusName && Boolean(formik.errors.statusName)}
-              >
+              > */}
                 <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
@@ -149,8 +130,9 @@ export default function FormThaoTacDuLieu({
                     {status.statusName}
                   </MenuItem>
                 ))}
-              </Select>
-            </FormControl>
+              {/* </Select>
+            </FormControl> */}
+            </SelectComponent>
           </ErrorTextComponent>
         </Grid>
       </Grid>
@@ -164,4 +146,5 @@ FormThaoTacDuLieu.propTypes = {
   textBtn: PropTypes.string,
   initialValues: PropTypes.object,
   isCreate: PropTypes.bool,
+  statusList: PropTypes.array
 };
