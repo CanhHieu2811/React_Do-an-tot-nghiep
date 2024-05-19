@@ -21,7 +21,7 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="bikeName">
             <TextField
               name="bikeName"
-              label={t('field.bikeName')}
+              label='Tên xe'
               size="small"
               error={!!(formik.touched.bikeName && formik.errors.bikeName)}
               value={formik.values.bikeName}
@@ -31,6 +31,19 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
           </ErrorTextComponent>
         </Grid>
         <Grid item xs={12} md={3}>
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="power">
+            <TextField
+              name="power"
+              label='Thời lượng Pin'
+              size="small"
+              error={!!(formik.touched.power && formik.errors.power)}
+              value={formik.values.power}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </ErrorTextComponent>
+        </Grid>
+        {/* <Grid item xs={12} md={3}>
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="pathQr">
             <TextField
               name="pathQr"
@@ -42,7 +55,7 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
               onBlur={formik.handleBlur}
             />
           </ErrorTextComponent>
-        </Grid>
+        </Grid> */}
         <Grid item xs={12} md={3}>
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="statusId">
             {/* ĐÂY LÀ 1 DROPDOWN SELECT OPTION CÓ SEARCH => so sánh với cái e đang làm để điền đúng thông tin
@@ -89,7 +102,7 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
             <SelectComponent
               formName="stationId"
               optionName="stationName"
-              label={t('field.stationId')}
+              label='Tên trạm'
               defaultOption={formik.values.stationId}
               data={stationList}
               onChange={(val) => formik.setFieldValue('stationId', val)}

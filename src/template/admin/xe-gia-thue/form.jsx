@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
+// import { useTranslation } from 'react-i18next';
 import { Grid} from '@mui/material';
 import SelectComponent from 'src/components/select';
 // import Paper from '@mui/material/Paper';
@@ -10,8 +10,8 @@ import DatepickerComponent from 'src/components/datepicker';
 import FormComponent from 'src/components/form';
 import ErrorTextComponent from 'src/components/error-text';
 
-export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initialValues, isCreate, bikeList, categoryTicketList,statusList, userList }) {
-  const { t } = useTranslation();
+export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initialValues, isCreate, bikeList, categoryTicketList, userList }) {
+  // const { t } = useTranslation();
   // const Item = styled(Paper)(({ theme }) => ({
   //   ...theme.typography.body2,
   //   padding: theme.spacing(1),
@@ -89,30 +89,11 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
             <SelectComponent
               formName="bikeId"
               optionName="bikeName"
-              label={t('field.bikeId')}
-              defaultOption={formik.values.stationName}
+              label='Tên xe'
+              defaultOption={formik.values.bikeId}
               data={bikeList}
               onChange={(val) => formik.setFieldValue('bikeId', val)}
               error={(formik.touched.bikeId && formik.errors.bikeId)}
-            />
-            </ErrorTextComponent>
-      </Grid>
-        <Grid item xs={12} md={3}>
-          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="statusId">
-            {/* ĐÂY LÀ 1 DROPDOWN SELECT OPTION CÓ SEARCH => so sánh với cái e đang làm để điền đúng thông tin
-              cái formik.values.statusId là 1 object chứ ko phải là 1 id number, string MÀ LÀ 1 OBJECT
-              khi gửi dữ liệu lên thì phải chỉnh lại request đưa lên theo BE yêu cầu ví dụ
-              formik.values.statusId đang là 1 object có {id:..., statusName:..., ....}
-              thì khi BE yêu cầu gửi lên id thì ngoài submit form thì statusId: formik.values.statusId.id 
-            */}
-            <SelectComponent
-              formName="statusId"
-              optionName="statusName"
-              label={t('field.statusName')}
-              defaultOption={formik.values.stationName}
-              data={statusList}
-              onChange={(val) => formik.setFieldValue('statusId', val)}
-              error={(formik.touched.statusId && formik.errors.statusId)}
             />
             </ErrorTextComponent>
       </Grid>
@@ -140,7 +121,6 @@ FormThaoTacDuLieu.propTypes = {
   initialValues: PropTypes.object,
   isCreate: PropTypes.bool,
   bikeList: PropTypes.array,
-  statusList: PropTypes.array,
   categoryTicketList: PropTypes.array,
   userList: PropTypes.array,
   // setFile: PropTypes.func,

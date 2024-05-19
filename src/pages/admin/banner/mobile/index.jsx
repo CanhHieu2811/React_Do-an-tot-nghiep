@@ -120,6 +120,7 @@ export default function BannerMobilePages() {
     {
       id: 'image',
       header: 'Hình ảnh',
+      align: 'center',
       width: 100,
       // PHANF NÀY SẼ RENDER 1 THẺ IMG CHỨA ĐƯỜNG DẪN ẢNH row.image
       // CHECK LẠI XEM PHẢI LÀI .image không (trong list sẽ trả ra 1 filePath chính là đường dẫn ảnh, xem BE trả ra trường gì để thay thế .image)

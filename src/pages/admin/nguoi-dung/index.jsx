@@ -120,7 +120,7 @@ export default function NguoiDungPages() {
       header: 'STT',
       width: 50,
       align: 'center',
-      component: (_, index) => ( index + 1 )
+      component: (_, index) => ( index + 1 ),
     },
     {
       id: 'fullName',
@@ -130,24 +130,25 @@ export default function NguoiDungPages() {
     {
       id: 'dateOfBirth',
       header: 'Ngày sinh',
-      width: 100,
+      width: 80,
       align: 'right',
       component: (row) => <>{row.dateOfBirth ? dayjs(row.dateOfBirth).format('DD/MM/YYYY') : ''}</>,
     },
     {
       id: 'phoneNumber',
       header: 'Số điện thoại',
+      align: 'center',
       width: 100,
     },
     {
       id: 'email',
       header: 'Email',
-      width: 100,
+      width: 200,
     },
     {
       id: 'address',
       header: 'Địa chỉ',
-      width: 250,
+      width: 100,
     },
     {
       id: 'actions',

@@ -70,7 +70,7 @@ export default function FormThaoTacDuLieu({
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="longitude">
             <TextField
               name="longitude"
-              label={t('field.longitude')}
+              label='Kinh độ'
               size="small"
               // eslint-disable-next-line no-unneeded-ternary
               error={formik.touched.longitude && formik.errors.longitude ? true : false}
@@ -84,7 +84,7 @@ export default function FormThaoTacDuLieu({
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="latitude">
             <TextField
               name="latitude"
-              label={t('field.latitude')}
+              label='Vĩ độ'
               size="small"
               error={!!(formik.touched.latitude && formik.errors.latitude)}
               value={formik.values.latitude}

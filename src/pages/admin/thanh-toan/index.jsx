@@ -108,16 +108,17 @@ export default function NguoiDungPages() {
     {
       id: 'traderName',
       header: 'Tên người giao dịch',
-      width: 100,
+      width: 150,
     },
     {
       id: 'transactionType',
       header: 'Loại giao dịch',
-      width: 200,
+      width: 100,
     },
     {
       id: 'point',
       header: 'Số điểm',
+      align: 'center',
       width: 100,
     },
     {

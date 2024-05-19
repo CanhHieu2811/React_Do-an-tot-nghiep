@@ -6,7 +6,7 @@
     "tram": "Trạm",
     "xe": "Xe đạp",
     "thong_tin_thue_xe": "Thông tin thuê xe",
-    "thanh_toan": "Thanh toán",
+    "thanh_toan": "Lịch sử giao dịch",
     "banner": "Banner",
     "banner_web": "Website",
     "banner_mobile": "Mobile",
@@ -139,11 +139,12 @@
     "noOptions": "Không có dữ liệu",
     "hoTen": "Họ và tên",
     "confirmPassword": "Xác nhận mật khẩu",
-    "longitude": "Vĩ độ",
-    "latitude": "Kinh độ",
+    "longitude": "Kinh độ",
+    "latitude": "Vĩ độ",
     "pathQr": "QR code",
     "title": "Tiêu đề",
-    "type": "Phân loại"
+    "type": "Phân loại",
+    "power": "Thời lượng Pin"
   },
   "validator": {
     "required": "không được bỏ trống",

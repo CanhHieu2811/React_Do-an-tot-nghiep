@@ -44,9 +44,11 @@ import FormThaoTacDuLieu from 'src/template/admin/xe-dap/form';
 const initialValues = {
   bikeName: '',
   stationId: null,
-  pathQr: '',
+  // pathQr: '',
   statusId: null,
-  power: ''
+  power: '',
+
+  image: ''
 };
 
 export default function XePages() {
@@ -119,34 +121,44 @@ export default function XePages() {
     },
     {
       id: 'bikeName',
-      header: 'Vị trí xe',
-      width: 200,
+      header: 'Tên xe',
+      width: 170,
     },
     {
       id: 'location',
       header: 'Vị trí xe',
-      width: 200,
+      width: 150,
     },
     {
       id: 'pathQr',
       header: 'mã QR',
       width: 100,
-      align: 'right',
+    },
+    {
+        id: 'qrCodeImage',
+        header: 'Hình ảnh',
+        align: 'center',
+        width: 100,
+        component: (row) => (
+          <img src={row.qrCodeImage} width={48} height={48} alt=''/>
+        )
     },
     {
       id: 'stationName',
       header: 'Trạm xe',
-      width: 100,
+      width: 150,
     },
     {
       id: 'power',
       header: 'Số lượng pin',
-      width: 200,
+      align: 'center',
+      width: 70,
     },
     {
       id: 'rentalQuantity',
       header: 'số lượng thuê',
-      width: 100,
+      align: 'center',
+      width: 70,
     },
     {
       id: 'statusName',
@@ -320,7 +332,7 @@ export default function XePages() {
     bikeName: Yup.string().required(t('validator.required')),
     // stationId: Yup.string().required(t('validator.required')),
     // statusId: Yup.string().email(t('validator.email.format')).required(t('validator.required')),
-    pathQr: Yup.string().required(t('validator.required')),
+    // pathQr: Yup.string().required(t('validator.required')),
     power: Yup.string().required(t('validator.required')),
     // power: Yup.string().when('pathQr', {
     //   is: require,
@@ -352,7 +364,7 @@ export default function XePages() {
         stationId: stationList.find(el => el.id === row.stationId),
         power: row.power,
         statusId: statusList.find(el => el.id === row.statusId),
-        pathQr: row.pathQr,
+        // pathQr: row.pathQr,
       };
       create = false;
       setRowId(row.id);
@@ -389,7 +401,7 @@ export default function XePages() {
       payload: {
         bikeId: rowId,
         bikeName: formik.values.bikeName,
-        pathQr: formik.values.pathQr,
+        // pathQr: formik.values.pathQr,
         power: formik.values.power,
         statusId: formik.values.statusId.id,
         stationId: formik.values.stationId.id,
