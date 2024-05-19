@@ -438,6 +438,7 @@ export default function NguoiDungPages() {
         onSubmitForm={onSubmitForm}
         textBtn={isCreate ? 'Tạo' : 'Sửa'}
         initialValues={initialValues}
+        isCreate={isCreate}
       />
     ),
     [formik, isCreate, onSubmitForm]

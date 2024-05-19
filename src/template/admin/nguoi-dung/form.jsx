@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import PropTypes from 'prop-types';
 // import { useTranslation } from 'react-i18next';
 import { TextField, Grid, IconButton, InputAdornment } from '@mui/material';
@@ -8,7 +8,13 @@ import FormComponent from 'src/components/form';
 import ErrorTextComponent from 'src/components/error-text';
 import DatepickerComponent from 'src/components/datepicker';
 
-export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initialValues, isCreate }) {
+export default function FormThaoTacDuLieu({
+  formik,
+  onSubmitForm,
+  textBtn,
+  initialValues,
+  isCreate,
+}) {
   // const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -85,6 +91,9 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
             />
           </ErrorTextComponent>
         </Grid>
+        {isCreate ? (
+          // eslint-disable-next-line react/jsx-fragments
+          <Fragment>
             <Grid item xs={12} md={3}>
               <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="password">
                 <TextField
@@ -110,7 +119,11 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
               </ErrorTextComponent>
             </Grid>
             <Grid item xs={12} md={3}>
-              <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="passwordConfirm">
+              <ErrorTextComponent
+                errors={formik.errors}
+                touched={formik.touched}
+                field="passwordConfirm"
+              >
                 <TextField
                   name="passwordConfirm"
                   label="Xác nhận mật khẩu"
@@ -124,8 +137,13 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
-                        <IconButton onClick={() => setShowConfirmPassword(!showConfirmPassword)} edge="end">
-                          <Iconify icon={showConfirmPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                        <IconButton
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          edge="end"
+                        >
+                          <Iconify
+                            icon={showConfirmPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'}
+                          />
                         </IconButton>
                       </InputAdornment>
                     ),
@@ -133,7 +151,9 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
                 />
               </ErrorTextComponent>
             </Grid>
-        
+          </Fragment>
+        ) : null}
+
         <Grid item xs={12} md={3}>
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="email">
             <TextField
@@ -150,7 +170,6 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
           </ErrorTextComponent>
         </Grid>
       </Grid>
-      
     </FormComponent>
   );
 }
@@ -160,5 +179,5 @@ FormThaoTacDuLieu.propTypes = {
   onSubmitForm: PropTypes.func,
   textBtn: PropTypes.string,
   initialValues: PropTypes.object,
-  isCreate: PropTypes.bool
+  isCreate: PropTypes.bool,
 };
