@@ -339,14 +339,25 @@ export default function TinTucSuKienPage() {
 
   const onSubmitForm = useCallback(() => {
     let method = METHOD_POST;
+    const payload = {
+      title: formik.values.tilte,
+      content: formik.values.content,
+
+      // submit gửi lên thì file chính là cái biến state đã comment dòng 227
+      // imageFile là biến mà BE yêu cầu gửi lên
+      ImageFile: file,
+    }
     if (isCreate) method = METHOD_POST;
-    else method = METHOD_PUT;
+    else {
+      method = METHOD_PUT;
+      payload.postId = rowId
+    }
     authPostFileData({
       url: VITE_REACT_APP_API_MASTER_DATA + NEWSCRT,
       method,
       payload: {
         postId: rowId,
-        tilte: formik.values.tilte,
+        title: formik.values.tilte,
         content: formik.values.content,
 
         // submit gửi lên thì file chính là cái biến state đã comment dòng 227

@@ -297,9 +297,9 @@ export default function BannerMobilePages() {
     // chỉnh sửa vì row truyền vào có dữ liệu
     if (Object.keys(row).length) {
       data = {
-        bannerId: row.id ?? '',
-        tilte: row.tilte ?? '',
-        type: row.type ?? ''
+        bannerId: row.id,
+        tilte: row.tilte,
+        type: row.type
       };
 
       // row?.imageFile check xem dữ liệu có phải là biến imageFile nếu biến khác thì gán lại
@@ -335,18 +335,30 @@ export default function BannerMobilePages() {
 
   const onSubmitForm = useCallback(() => {
     let method = METHOD_POST;
+    const payload = {
+      title: formik.values.tilte,
+      type: formik.values.type,
+
+      // submit gửi lên thì file chính là cái biến state đã comment dòng 227
+      // imageFile là biến mà BE yêu cầu gửi lên
+      ImageFile: file,
+    }
     if (isCreate) method = METHOD_POST;
-    else method = METHOD_PUT;
+    else {
+      method = METHOD_PUT;
+      payload.bannerId = rowId
+    }
     authPostFileData({
       url: VITE_REACT_APP_API_MASTER_DATA + BANNERCRT,
       method,
       payload: {
         bannerId: rowId,
-        tilte: formik.values.tilte,
+        title: formik.values.tilte,
         type: formik.values.type,
+
         // submit gửi lên thì file chính là cái biến state đã comment dòng 227
         // imageFile là biến mà BE yêu cầu gửi lên
-        linkonl: file,
+        ImageFile: file,
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {

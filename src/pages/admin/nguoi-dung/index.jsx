@@ -361,7 +361,6 @@ export default function NguoiDungPages() {
         email: formik.values.email,
         phoneNumber: formik.values.phoneNumber,
         address: formik.values.address,
-        isSuperAdmin: true
     };
 
     if (isCreate) {
