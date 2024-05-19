@@ -100,20 +100,27 @@ export default function NguoiDungPages() {
 
   // khai báo cột của bảng
   const columns = [
-    {
-      // biến id để mapping với biến trong data trả về
-      id: 'index',
-      // hiển thị text của header bảng
-      header: 'STT',
-      // set độ dài của cột
-      width: 50,
-      // làm cột này cứng lại khi scroll ngang
-      sticky: true,
-      // căn giữa 'center', phải là 'right' còn nếu căn trái thì khỏi vì default là trái
-      align: 'center',
+    // {
+    //   // biến id để mapping với biến trong data trả về
+    //   id: 'index',
+    //   // hiển thị text của header bảng
+    //   header: 'STT',
+    //   // set độ dài của cột
+    //   width: 50,
+    //   // làm cột này cứng lại khi scroll ngang
+    //   sticky: true,
+    //   // căn giữa 'center', phải là 'right' còn nếu căn trái thì khỏi vì default là trái
+    //   align: 'center',
 
-      // biến này dùng để bật/tắt sort
-      // sortable: true,
+    //   // biến này dùng để bật/tắt sort
+    //   // sortable: true,
+    // },
+    {
+      id: 'index',
+      header: 'STT',
+      width: 50,
+      align: 'center',
+      component: (_, index) => ( index + 1 )
     },
     {
       id: 'fullName',
@@ -354,7 +361,7 @@ export default function NguoiDungPages() {
         email: formik.values.email,
         phoneNumber: formik.values.phoneNumber,
         address: formik.values.address,
-        timezone: 'Hanoi',
+        isSuperAdmin: true
     };
 
     if (isCreate) {
@@ -381,11 +388,11 @@ export default function NguoiDungPages() {
                 dispatch(setPopup(false));
           dispatch(setEqualForm(true));
           formik.setValues({ ...initialValues });
-          fetchData(conditionsData);
+          fetchData();
             }
         },
     });
-}, [dispatch, fetchData, formik, isCreate, rowId, conditionsData]);
+}, [dispatch, fetchData, formik, isCreate, rowId]);
 
   // const onSubmitForm = useCallback(() => {
   //   let method = METHOD_POST;
