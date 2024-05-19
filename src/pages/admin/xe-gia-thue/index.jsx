@@ -19,7 +19,7 @@ import {
   METHOD_PUT,
 } from 'src/utils/constant';
 
-import { TICKETALL, TICKETCRT, TICKETDEL } from 'src/api/master-data';
+import { TICKETALL, TICKETCRT, TICKETDEL, BICYCLEALL, CATEGORYTICKETALL, USERALL } from 'src/api/master-data';
 import {
   setEqualForm,
   // setPopup,
@@ -213,7 +213,7 @@ export default function XeGiaThuePages() {
 
   const fetchDataUser = () => {
     authGetData({
-      url: 'https://localhost:7103/master-data/api/user/all',
+      url: VITE_REACT_APP_API_MASTER_DATA + USERALL,
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
           setuserList(res.data);
@@ -230,7 +230,7 @@ export default function XeGiaThuePages() {
 
   const fetchDataCategoryTicket = () => {
     authGetData({
-      url: 'https://localhost:7103/master-data/api/category-ticket/list',
+      url: VITE_REACT_APP_API_MASTER_DATA + CATEGORYTICKETALL,
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
           setcategoryTicketList(res.data);
@@ -247,7 +247,7 @@ export default function XeGiaThuePages() {
 
   const fetchDataBike = () => {
     authGetData({
-      url: 'https://localhost:7103/master-data/api/bike/list',
+      url: VITE_REACT_APP_API_MASTER_DATA + BICYCLEALL,
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
           setbikeList(res.data);

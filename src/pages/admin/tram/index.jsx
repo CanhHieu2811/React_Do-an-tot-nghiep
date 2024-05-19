@@ -22,7 +22,7 @@ import {
   METHOD_PUT,
 } from 'src/utils/constant';
 
-import { STATIONALL, STATIONCRT, STATIONDEL } from 'src/api/master-data';
+import { STATIONALL, STATIONCRT, STATIONDEL, STATUSALL } from 'src/api/master-data';
 import {
   setEqualForm,
   // setPopup,
@@ -191,7 +191,7 @@ export default function TramPages() {
 
   const fetchDataStatus = () => {
     authGetData({
-      url: 'https://localhost:7103/master-data/api/status/list',
+      url: VITE_REACT_APP_API_MASTER_DATA + STATUSALL,
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
           setStatusList(res.data);
