@@ -19,9 +19,7 @@
     "re:build-npm": "npm run rm:all && npm install && npm run build",
     "dev:host": "vite --host",
     "vite:start": "vite",
-    "vite:build": "vite build",
-    "build:staging": "rimraf dist && NODE_OPTIONS=--max-old-space-size=8192 vite build --mode staging",
-    "build:production": "rimraf dist && NODE_OPTIONS=--max-old-space-size=8192 vite build --mode production"
+    "vite:build": "vite build"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",

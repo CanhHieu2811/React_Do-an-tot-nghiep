@@ -11,7 +11,7 @@
     "banner_web": "Website",
     "banner_mobile": "Mobile",
     "xe_gia_thue": "Xe - giá thuê xe",
-    "tin_tuc_su_kien":"Tin tức, sự kiện"
+    "tin-tuc-su-kien": "Tin tức, sự kiện"
   },
   "breadcrumb": {
     "dashboard": "Trang chủ",
@@ -24,7 +24,7 @@
     "banner-web": "Banner Website",
     "banner-mobile": "Banner Mobile",
     "xe-gia-thue": "Xe - giá thuê xe",
-    "tin_tuc_su_kien":"Tin tức, sự kiện"
+    "tin_tuc_su_kien": "Tin tức, sự kiện"
   },
   "helmet": {
     "dashboard_pages": "Trang chủ",
@@ -36,7 +36,7 @@
     "banner_pages": "Banner",
     "banner_web_pages": "Website",
     "banner_mobile_pages": "Mobile",
-    "xe_gia_thue_pages": "Xe - giá thuê xe",
+    "gia_thue_xe_pages": "Xe - giá thuê xe",
     "default": "Xe đạp",
     "tin_tuc_su_kien_pages": "Tin tức, sự kiện"
   },
@@ -136,7 +136,14 @@
     "statusId": "ID trạng thái",
     "lockId": "ID khóa xe",
     "stationId": "ID Trạm",
-    "noOptions": "Không có dữ liệu"
+    "noOptions": "Không có dữ liệu",
+    "hoTen": "Họ và tên",
+    "confirmPassword": "Xác nhận mật khẩu",
+    "longitude": "Vĩ độ",
+    "latitude": "Kinh độ",
+    "pathQr": "QR code",
+    "title": "Tiêu đề",
+    "type": "Phân loại"
   },
   "validator": {
     "required": "không được bỏ trống",
