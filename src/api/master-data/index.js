@@ -39,6 +39,10 @@ export const BANNERWEB = "/api/banner/list/web"
 export const BANNERCRT = "/api/banner/create"
 export const BANNERDEL = "/api/banner/del"
 
+export const TRIPALL = ""
+export const TRIPCRT = ""
+export const TRIPDEL = ""
+
 export const TRANSACTIONALL = "/api/transaction/all-list"
 
 export const CATEGORYTICKETALL = "/api/category-ticket/list"
