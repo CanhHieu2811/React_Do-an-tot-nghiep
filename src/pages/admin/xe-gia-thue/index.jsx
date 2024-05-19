@@ -4,10 +4,11 @@ import { useTheme } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
+import dayjs from 'dayjs';
 
 import { Box } from '@mui/material';
 
-import { authGetData, authPostFormData, startDelete } from 'src/utils/request';
+import { authGetData, authPostFileData, startDelete } from 'src/utils/request';
 import { buildQueryString, parseParams } from 'src/utils/function';
 import {
   PAGE_SIZE,
@@ -40,10 +41,12 @@ import DialogDelete from 'src/components/confirm-delete';
 import FormThaoTacDuLieu from 'src/template/admin/xe-gia-thue/form';
 
 const initialValues = {
-  ticketName: '',
-  pathQr: '',
-  price: '',
-  qrImage: null,
+  // qrImg: '',
+  bookingDate: null,
+  userId: null,
+  bikeId: null,
+  categoryTicketId: null,
+  statusId: null
 };
 
 export default function XeGiaThuePages() {
@@ -108,12 +111,12 @@ export default function XeGiaThuePages() {
       // sortable: true,
     },
     {
-      id: 'fullname',
+      id: 'userFullName',
       header: 'Tên người đặt',
       width: 200,
     },
     {
-      id: 'phoneNumber',
+      id: 'userPhone',
       header: 'số điện thoại',
       width: 100,
     },
@@ -123,30 +126,44 @@ export default function XeGiaThuePages() {
       width: 100,
     },
     {
-      id: 'price',
-      header: 'Giá vé',
+      id: 'categoryTicketName',
+      header: 'Loại vé',
       width: 100,
     },
     {
-      id: 'Thời gian đặt',
-      header: 'Thời gian hết hạn',
-      width: 100,
-      align: 'right',
-    },
-    {
-      id: 'Thời gian kết thúc',
-      header: 'Thời gian kết thúc',
+      id: 'bookingDate',
+      header: 'Ngày đặt',
       width: 100,
       align: 'right',
+      component: (row) => <>{row.dateOfBirth ? dayjs(row.dateOfBirth).format('DD/MM/YYYY HH:mm') : ''}</>,
     },
     {
-      id: 'Thời gian hết hạn',
-      header: 'Thời gian hết hạn',
+      id: 'expectedEndTime',
+      header: 'Ngày kết thúc',
       width: 100,
       align: 'right',
+      component: (row) => <>{row.dateOfBirth ? dayjs(row.dateOfBirth).format('DD/MM/YYYY HH:mm') : ''}</>,
     },
     {
-      id: 'status',
+      id: 'expiryDate',
+      header: 'Ngày hết hạn',
+      width: 100,
+      align: 'right',
+      component: (row) => <>{row.dateOfBirth ? dayjs(row.dateOfBirth).format('DD/MM/YYYY HH:mm') : ''}</>,
+    },
+    {
+      id: 'qrImg',
+      header: 'Hình ảnh',
+      width: 100,
+      // PHANF NÀY SẼ RENDER 1 THẺ IMG CHỨA ĐƯỜNG DẪN ẢNH row.image
+      // CHECK LẠI XEM PHẢI LÀI .image không (trong list sẽ trả ra 1 filePath chính là đường dẫn ảnh, xem BE trả ra trường gì để thay thế .image)
+      // CHECK XONG RỒI THÌ MỞ COMMENT 3 DÒNG DƯỚI VÀ CHỈNH LẠI .image NẾU SAI
+      component: (row) => (
+        <img src={row.qrImg} width={48} height={48} alt=''/>
+      )
+    },
+    {
+      id: 'statusName',
       header: 'Trạng thái',
       width: 100,
     },
@@ -176,6 +193,73 @@ export default function XeGiaThuePages() {
       ),
     },
   ];
+
+  const [userList, setuserList] = useState([]);
+  // gọi api lấy danh sách status truyền vào dropdown
+  useEffect(() => {
+    fetchDataUser();
+  }, []);
+
+  const fetchDataUser = () => {
+    authGetData({
+      url: 'https://localhost:7103/master-data/api/user/all',
+      onSuccess: (res) => {
+        if (res && res.statusCode === STATUS_200) {
+          setuserList(res.data);
+        }
+      },
+    });
+  };
+
+  const [categoryTicketList, setcategoryTicketList] = useState([]);
+  // gọi api lấy danh sách status truyền vào dropdown
+  useEffect(() => {
+    fetchDataCategoryTicket();
+  }, []);
+
+  const fetchDataCategoryTicket = () => {
+    authGetData({
+      url: 'https://localhost:7103/master-data/api/category-ticket/list',
+      onSuccess: (res) => {
+        if (res && res.statusCode === STATUS_200) {
+          setcategoryTicketList(res.data);
+        }
+      },
+    });
+  };
+
+  const [bikeList, setbikeList] = useState([]);
+  // gọi api lấy danh sách status truyền vào dropdown
+  useEffect(() => {
+    fetchDataBike();
+  }, []);
+
+  const fetchDataBike = () => {
+    authGetData({
+      url: 'https://localhost:7103/master-data/api/bike/list',
+      onSuccess: (res) => {
+        if (res && res.statusCode === STATUS_200) {
+          setbikeList(res.data);
+        }
+      },
+    });
+  };
+  const [statusList, setStatusList] = useState([]);
+  // gọi api lấy danh sách status truyền vào dropdown
+  useEffect(() => {
+    fetchDataStatus();
+  }, []);
+
+  const fetchDataStatus = () => {
+    authGetData({
+      url: 'https://localhost:7103/master-data/api/status/list',
+      onSuccess: (res) => {
+        if (res && res.statusCode === STATUS_200) {
+          setStatusList(res.data);
+        }
+      },
+    });
+  };
 
   // gọi api lấy danh sách dữ liệu của bảng theo điều kiện biến conditions
   const fetchData = useCallback((conditions) => {
@@ -225,9 +309,6 @@ export default function XeGiaThuePages() {
     });
   }, [setConditions]);
 
-  // const [imageUrl, setImageUrl] = useState(null)
-  // const [file, setFile] = useState(null);
-
   // KẾT THÚC PHẦN TÌM KIẾM VÀ HIỂN THỊ DỮ LIỆU Ở BẢNG
 
   // XÓA DỮ LIỆU BẢNG
@@ -244,6 +325,9 @@ export default function XeGiaThuePages() {
     //   })
     // );
   };
+
+  // const [imageUrl, setImageUrl] = useState(null);
+  // const [file, setFile] = useState(null);
 
   const handleClickXoa = () => {
     // ĐÂY LÀ CÁCH GỌI 1 API XÓA METHOD DELETE
@@ -288,10 +372,7 @@ export default function XeGiaThuePages() {
     .matches(phoneRegExp, t('validator.phone'))
     .required(t('validator.required')),
     price: Yup.string().required(t('validator.required')),
-    dayhethan: Yup.date().required(t('validator.required')),
-    daythue: Yup.date().required(t('validator.required')),
-    dayketthuc: Yup.date().required(t('validator.required')),
-    
+    bookingDate: Yup.date().required(t('validator.required')),
   });
 
   const formik = useFormik({
@@ -302,6 +383,9 @@ export default function XeGiaThuePages() {
   const handleOpenModal = (row) => {
     // reset form khi mở popup
     formik.resetForm();
+
+    // setFile(null);
+    // setImageUrl('');
 
     // biến tạo/sửa
     let create = false;
@@ -315,17 +399,28 @@ export default function XeGiaThuePages() {
         ticketId: row.id,
         phoneNumber: row.phoneNumber,
         price: row.price,
-        dayhethan: row.dayhethan,
-        dayketthuc: row.dayketthuc,
-        daythue: row.daythue,
+        bookingDate: row.bookingDate,
+        bikeId: bikeList.find(el => el.id === row.bikeId),
+        categoryTicketId: categoryTicketList.find(el => el.id === row.categoryTicketId),
+        userId: userList.find(el => el.id === row.userId)
       };
+
+      // setImageUrl(row?.image);
+
       create = false;
       setRowId(row.id);
     } else {
       // ngược lại thì tạo gán data = dữ liệu mặc định
       data = {
         ...initialValues,
+        
+        userId: userList[0],
+        bikeId: bikeList[0],
+        categoryTicketId: categoryTicketList[0]
       };
+
+      // setImageUrl('');
+
       create = true;
       setRowId(null);
     }
@@ -346,15 +441,17 @@ export default function XeGiaThuePages() {
     let method = METHOD_POST;
     if (isCreate) method = METHOD_POST;
     else method = METHOD_PUT;
-    authPostFormData({
+    authPostFileData({
       url: VITE_REACT_APP_API_MASTER_DATA + TICKETCRT,
       method,
       payload: {
         ticketId: rowId,
-        price: formik.values.price,
-        dayhethan: formik.values.dayhethan,
-        dayketthuc: formik.values.dayketthuc,
-        daythue: formik.values.daythue,
+        bookingDate: formik.values.bookingDate,
+        userId: formik.values.userId.id,
+        bikeId: formik.values.bikeId.id,
+        categoryTicketId: formik.values.categoryTicketId.id
+
+        // qrImg: file,
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
@@ -372,7 +469,7 @@ export default function XeGiaThuePages() {
         }
       },
     });
-  }, [conditionsData, dispatch, rowId, fetchData, formik, isCreate]);
+  }, [conditionsData, dispatch, rowId, fetchData, formik, isCreate,]);
 
   const renderModal = useCallback(
     () => (
@@ -384,10 +481,13 @@ export default function XeGiaThuePages() {
         // imageUrl={imageUrl}
         // setFile={setFile}
         initialValues={initialValues}
-        
+        userList={userList}
+        categoryTicketList={categoryTicketList}
+        bikeList={bikeList}
+        statusList={statusList}
       />
     ),
-    [formik, isCreate, onSubmitForm]
+    [formik, isCreate, onSubmitForm, bikeList, categoryTicketList,statusList, userList]
   );
 
   // KẾT THÚC TẠO/SỬA DỮ LIỆU

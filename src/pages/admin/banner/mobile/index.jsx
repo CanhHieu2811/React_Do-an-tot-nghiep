@@ -304,7 +304,7 @@ export default function BannerMobilePages() {
 
       // row?.imageFile check xem dữ liệu có phải là biến imageFile nếu biến khác thì gán lại
       // thì sau khi set state này xong thì có nghĩa là mở popup edit thì phần ảnh sẽ có ảnh mặc định nếu row đó có ảnh
-      setImageUrl(row.image);
+      setImageUrl(row?.image);
 
       create = false;
       setRowId(row.id);
@@ -346,7 +346,7 @@ export default function BannerMobilePages() {
         type: formik.values.type,
         // submit gửi lên thì file chính là cái biến state đã comment dòng 227
         // imageFile là biến mà BE yêu cầu gửi lên
-        image: file,
+        linkonl: file,
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {

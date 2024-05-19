@@ -38,3 +38,5 @@ export const BANNERMOBILE = "/api/banner/list/mobile"
 export const BANNERWEB = "/api/banner/list/web"
 export const BANNERCRT = "/api/banner/create"
 export const BANNERDEL = "/api/banner/del"
+
+export const TRANSACTIONALL = "/api/transaction/all-list"

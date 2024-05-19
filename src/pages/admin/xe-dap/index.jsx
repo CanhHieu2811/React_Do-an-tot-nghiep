@@ -44,9 +44,9 @@ import FormThaoTacDuLieu from 'src/template/admin/xe-dap/form';
 const initialValues = {
   bikeName: '',
   stationId: null,
-  power: '',
-  statusId: null,
   pathQr: '',
+  statusId: null,
+  power: ''
 };
 
 export default function XePages() {
@@ -319,9 +319,17 @@ export default function XePages() {
   const validationSchema = Yup.object({
     bikeName: Yup.string().required(t('validator.required')),
     // stationId: Yup.string().required(t('validator.required')),
-    power: Yup.string().required(t('validator.required')),
     // statusId: Yup.string().email(t('validator.email.format')).required(t('validator.required')),
-    pathQr: Yup.string().max(255, t('validator.max_255')).required(t('validator.required')),
+    pathQr: Yup.string().when('pathQr', {
+      is: (value) => value && value.length > 0, 
+      then: Yup.string().required(t('validator.required')),
+      otherwise: Yup.string() 
+    }),
+    power: Yup.string().when('pathQr', {
+      is: (value) => value && value.length > 0, 
+      then: Yup.string().required(t('validator.required')),
+      otherwise: Yup.string() 
+    })
   });
 
   const formik = useFormik({
@@ -384,8 +392,8 @@ export default function XePages() {
       payload: {
         bikeId: rowId,
         bikeName: formik.values.bikeName,
-        power: formik.values.power,
         pathQr: formik.values.pathQr,
+        power: formik.values.power,
         statusId: formik.values.statusId.id,
         stationId: formik.values.stationId.id,
       },

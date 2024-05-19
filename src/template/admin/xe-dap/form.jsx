@@ -34,23 +34,10 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="pathQr">
             <TextField
               name="pathQr"
-              label="Mã Qr"
+              label="Mã QR"
               size="small"
               error={!!(formik.touched.pathQr && formik.errors.pathQr)}
               value={formik.values.pathQr}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-          </ErrorTextComponent>
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="power">
-            <TextField
-              name="power"
-              label="Số lượng pin"
-              size="small"
-              error={!!(formik.touched.power && formik.errors.power)}
-              value={formik.values.power}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -68,11 +55,11 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
               formName="statusId"
               optionName="statusName"
               label={t('field.statusName')}
-              defaultOption={formik.values.stationName}
+              defaultOption={formik.values.statusId}
               data={statusList}
               onChange={(val) => formik.setFieldValue('statusId', val)}
               error={(formik.touched.statusId && formik.errors.statusId)}
-            >
+            />
             {/* ĐÂY LÀ 1 DROPDOWN SELECT OPTION CÓ SEARCH */}
             {/* <FormControl fullWidth size="small">
               <InputLabel>{t('field.statusName')}</InputLabel>
@@ -95,7 +82,6 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
                 ))} */}
               {/* </Select>
             </FormControl> */}
-            </SelectComponent>
           </ErrorTextComponent>
         </Grid>
         <Grid item xs={12} md={3}>
