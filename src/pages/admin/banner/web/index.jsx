@@ -334,18 +334,30 @@ export default function BannerWebPages() {
 
   const onSubmitForm = useCallback(() => {
     let method = METHOD_POST;
+    const payload = {
+      title: formik.values.tilte,
+      type: formik.values.type,
+
+      // submit gửi lên thì file chính là cái biến state đã comment dòng 227
+      // imageFile là biến mà BE yêu cầu gửi lên
+      ImageFile: file,
+    }
     if (isCreate) method = METHOD_POST;
-    else method = METHOD_PUT;
+    else {
+      method = METHOD_PUT;
+      payload.bannerId = rowId
+    }
     authPostFileData({
       url: VITE_REACT_APP_API_MASTER_DATA + BANNERCRT,
       method,
       payload: {
-        postId: rowId,
-        tilte: formik.values.tilte,
+        bannerId: rowId,
+        title: formik.values.tilte,
         type: formik.values.type,
+
         // submit gửi lên thì file chính là cái biến state đã comment dòng 227
         // imageFile là biến mà BE yêu cầu gửi lên
-        image: file,
+        ImageFile: file,
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {

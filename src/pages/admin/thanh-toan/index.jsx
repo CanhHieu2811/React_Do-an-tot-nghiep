@@ -1,7 +1,9 @@
+import * as Yup from 'yup';
+import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 
 
 import { authGetData } from 'src/utils/request';
@@ -16,27 +18,38 @@ import {
   VITE_REACT_APP_API_MASTER_DATA,
 } from 'src/utils/constant';
 
-import { STATIONALL } from 'src/api/master-data';
+import { TRANSACTIONALL} from 'src/api/master-data';
 import {
   // setPopup,
   setFetchData,
+  setPopup,
   // setEqualForm,
   // setNotification,
   // setConfirmDialog,
 } from 'src/redux/common';
 
 import ThanhToanTemplates from 'src/template/admin/thanh-toan';
-// import { useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import DialogDelete from 'src/components/confirm-delete';
+import dayjs from 'dayjs';
 
-export default function TramPages() {
+const initialValues = {
+  key: '',
+  values: '',
+};
+
+export default function NguoiDungPages() {
+  // khai báo state đóng/mở dialog confirm xóa bảng
+  const [openDialogDelete, setOpenDialogDelete] = useState(false);
 
   // set row id đang click
+  // const [rowId, setRowId] = useState(null);
   // khai báo state đóng/mở dialog confirm xóa bảng
 
   // PHẦN TÌM KIẾM VÀ HIỂN THỊ DỮ LIỆU Ở BẢNG
 
   // biến để dịch
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
   // lấy ra giá trị trong base theme
 
@@ -72,15 +85,15 @@ export default function TramPages() {
   const columns = [
     // {
     //   // biến id để mapping với biến trong data trả về
-    //   // id: 'index',
-    //   // // hiển thị text của header bảng
-    //   // header: t('STT'),
-    //   // // set độ dài của cột
-    //   // width: 50,
-    //   // // làm cột này cứng lại khi scroll ngang
-    //   // sticky: true,
-    //   // // căn giữa 'center', phải là 'right' còn nếu căn trái thì khỏi vì default là trái
-    //   // align: 'center',
+    //   id: 'index',
+    //   // hiển thị text của header bảng
+    //   header: 'STT',
+    //   // set độ dài của cột
+    //   width: 50,
+    //   // làm cột này cứng lại khi scroll ngang
+    //   sticky: true,
+    //   // căn giữa 'center', phải là 'right' còn nếu căn trái thì khỏi vì default là trái
+    //   align: 'center',
 
     //   // biến này dùng để bật/tắt sort
     //   // sortable: true,
@@ -93,8 +106,13 @@ export default function TramPages() {
       component: (_, index) => ( index + 1 )
     },
     {
+      id: 'traderName',
+      header: 'Tên người giao dịch',
+      width: 100,
+    },
+    {
       id: 'transactionType',
-      header: 'loại giao dịch',
+      header: 'Loại giao dịch',
       width: 200,
     },
     {
@@ -103,16 +121,11 @@ export default function TramPages() {
       width: 100,
     },
     {
-      id: 'traderName',
-      header: 'Tên người giao dịch',
-      width: 100,
-    },
-    {
       id: 'createdDate',
       header: 'Ngày tạo',
       width: 100,
       align: 'right',
-      component: (row) => <>{row.dateOfBirth ? dayjs(row.dateOfBirth).format('DD/MM/YYYY HH:mm') : ''}</>,
+      component: (row) => <>{row.createdDate ? dayjs(row.createdDate).format('DD/MM/YYYY HH:mm') : ''}</>,
     },
   ];
 
@@ -121,7 +134,7 @@ export default function TramPages() {
     // ĐÂY LÀ CÁCH GỌI 1 API GET
     authGetData({
       // buildQueryString => dùng để convert dạng ?xxx=1&bbb=2, parseParams => loại bỏ các biến undefined
-      url: `${VITE_REACT_APP_API_MASTER_DATA + STATIONALL}?${buildQueryString(parseParams(conditions))}`,
+      url: `${VITE_REACT_APP_API_MASTER_DATA + TRANSACTIONALL}?${buildQueryString(parseParams(conditions))}`,
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
           setRows(res.data);
@@ -168,6 +181,34 @@ export default function TramPages() {
 
   // XÓA DỮ LIỆU BẢNG
 
+  // const handleClickXoa = () => {
+  //   // ĐÂY LÀ CÁCH GỌI 1 API XÓA METHOD DELETE
+  //   startDelete({
+  //     // truyền URL
+  //     url: VITE_REACT_APP_API_MASTER_DATA + USERDEL,
+  //     // payload nhận vào là id
+  //     payload: { id: rowId },
+  //     onSuccess: (res) => {
+  //       // api trả về statusCode 200 là thành công
+  //       if (res && res.statusCode === 200) {
+  //         // show thông báo mà BE trả về ở biến message
+  //         dispatch(
+  //           setNotification({
+  //             isShow: true,
+  //             message: res?.message,
+  //             status: 'success',
+  //           })
+  //         );
+
+  //         // set fetch = true trong redux => gọi lại api fetchData dong 173
+  //         dispatch(setFetchData(true));
+
+  //         // close dialog
+  //         setOpenDialogDelete(false)
+  //       }
+  //     },
+  //   });
+  // };
   // KẾT THÚC XÓA DỮ LIỆU BẢNG
 
   // TẠO/SỬA DỮ LIỆU
@@ -175,8 +216,147 @@ export default function TramPages() {
   // khai báo dữ liệu mặc định dòng 42
 
   // khai báo biến để nhận biết đang là tạo hay sửa form
+  const [isCreate, setIsCreate] = useState(false);
+
+  // validate form với các biến cần validate
+  const validationSchema = Yup.object({
+    key: Yup.string().required(),
+    values: Yup.string().required()
+  });
+
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+  });
+
+  const handleOpenModal = (row) => {
+    // reset form khi mở popup
+    formik.resetForm();
+
+    // biến tạo/sửa
+    let create = false;
+
+    // biến dữ liệu để
+    let data = {};
+
+    // chỉnh sửa vì row truyền vào có dữ liệu
+    if (Object.keys(row).length) {
+      data = {
+        
+      };
+      create = false;
+      // setRowId(row.id);
+    } else {
+      // ngược lại thì tạo gán data = dữ liệu mặc định
+      data = {
+        ...initialValues,
+      };
+      create = true;
+      // setRowId(null);
+    }
+
+    // set data vào formik
+    formik.setValues({
+      ...data,
+    });
+
+    // set biến create
+    setIsCreate(create);
+
+    // mở popup
+    dispatch(setPopup(true));
+  };
+
+//   const onSubmitForm = useCallback(() => {
+//     let method = METHOD_POST;
+//     const payload = {
+//         key: rows.key,
+//     };
+
+//     if (isCreate) {
+//         method = METHOD_POST;
+//         payload.password = formik.values.password;
+//         payload.passwordConfirm = formik.values.passwordConfirm;
+//     } else {
+//         method = METHOD_PUT;
+//         payload.userId = rowId;
+//     }
+//     authPostPutData({
+//         url: VITE_REACT_APP_API_MASTER_DATA + USERCRT,
+//         method,
+//         payload,
+//         onSuccess: (res) => {
+//             if (res && res.statusCode === STATUS_200) {
+//                 dispatch(
+//                     setNotification({
+//                         show: true,
+//                         message: res.message,
+//                         status: 'success',
+//                     })
+//                 );
+//                 dispatch(setPopup(false));
+//           dispatch(setEqualForm(true));
+//           formik.setValues({ ...initialValues });
+//           fetchData();
+//             }
+//         },
+//     });
+// }, [dispatch, fetchData, formik, isCreate, rowId, rows]);
+
+  // const onSubmitForm = useCallback(() => {
+  //   let method = METHOD_POST;
+  //   if (isCreate) method = METHOD_POST;
+  //   else method = METHOD_PUT;
+  //   authPostPutData({
+  //     url: VITE_REACT_APP_API_MASTER_DATA + USERCRT,
+  //     method,
+  //     payload: {
+  //       userId: rowId,
+  //       fullName: formik.values.fullName,
+  //       userName: formik.values.userName,
+  //       dateOfBirth: formik.values.dateOfBirth,
+  //       email: formik.values.email,
+  //       phoneNumber: formik.values.phoneNumber,
+  //       address: formik.values.address,
+  //       password: formik.values.password,
+  //       passwordConfirm: formik.values.passwordConfirm,
+  //       timezone: 'Hanoi',
+  //     },
+  //     onSuccess: (res) => {
+  //       if (res && res.statusCode === STATUS_200) {
+  //         dispatch(
+  //           setNotification({
+  //             show: true,
+  //             message: res.message,
+  //             status: 'success',
+  //           })
+  //         );
+  //         dispatch(setPopup(false));
+  //         dispatch(setEqualForm(true));
+  //         formik.setValues({ ...initialValues });
+  //         fetchData(conditionsData);
+  //       }
+  //     },
+  //   });
+  // }, [conditionsData, dispatch, rowId, fetchData, formik, isCreate]);
+
+  // const renderModal = useCallback(
+  //   () => (
+  //     <FormThaoTacDuLieu
+  //       formik={formik}
+  //       onSubmitForm={onSubmitForm}
+  //       textBtn={isCreate ? 'Tạo' : 'Sửa'}
+  //       initialValues={initialValues}
+  //       isCreate={isCreate}
+  //     />
+  //   ),
+  //   [formik, isCreate, onSubmitForm]
+  // );
+
   // KẾT THÚC TẠO/SỬA DỮ LIỆU
+
   return (
+    <>
       <ThanhToanTemplates
         // phần props hiển thị bảng
         rows={rows}
@@ -188,13 +368,26 @@ export default function TramPages() {
         valueSearch={valueSearch}
         total={total}
         handleClear={handleClear}
-        renderButton
         btnClearTextSearch
         // kết thúc props hiển thị bảng
 
         // title popup
+        titleModal={isCreate ? t('dialog.create_data') : t('dialog.update_data')}
         // render content trong popup
+        // renderModal={renderModal}
         // truyền func cho nút tạo khi click
+        handleOpenModal={handleOpenModal}
       />
+
+      {/* dialog xóa */}
+      <DialogDelete
+        openDialog={openDialogDelete}
+        handleClose={() => setOpenDialogDelete(false)}
+        // handleAgree={handleClickXoa}
+      >
+        <p>Bạn chắc chắn muốn xóa dữ liệu này?</p>
+      </DialogDelete>
+      {/* end dialog xóa */}
+    </>
   );
 }
