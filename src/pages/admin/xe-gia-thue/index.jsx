@@ -14,9 +14,6 @@ import {
   PAGE_SIZE,
   PAGE_INDEX,
   STATUS_200,
-  // METHOD_PUT,
-  // METHOD_POST,
-  phoneRegExp,
   VITE_REACT_APP_API_MASTER_DATA,
   METHOD_POST,
   METHOD_PUT,
@@ -368,10 +365,6 @@ export default function XeGiaThuePages() {
 
   // validate form với các biến cần validate
   const validationSchema = Yup.object({
-    phoneNumber: Yup.string()
-    .matches(phoneRegExp, t('validator.phone'))
-    .required(t('validator.required')),
-    price: Yup.string().required(t('validator.required')),
     bookingDate: Yup.date().required(t('validator.required')),
   });
 

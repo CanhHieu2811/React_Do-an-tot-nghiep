@@ -88,7 +88,7 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
             */}
             <SelectComponent
               formName="bikeId"
-              optionName="statusName"
+              optionName="bikeName"
               label={t('field.bikeId')}
               defaultOption={formik.values.stationName}
               data={bikeList}

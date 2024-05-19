@@ -320,16 +320,13 @@ export default function XePages() {
     bikeName: Yup.string().required(t('validator.required')),
     // stationId: Yup.string().required(t('validator.required')),
     // statusId: Yup.string().email(t('validator.email.format')).required(t('validator.required')),
-    pathQr: Yup.string().when('pathQr', {
-      is: (value) => value && value.length > 0, 
-      then: Yup.string().required(t('validator.required')),
-      otherwise: Yup.string() 
-    }),
-    power: Yup.string().when('pathQr', {
-      is: (value) => value && value.length > 0, 
-      then: Yup.string().required(t('validator.required')),
-      otherwise: Yup.string() 
-    })
+    pathQr: Yup.string().required(t('validator.required')),
+    power: Yup.string().required(t('validator.required')),
+    // power: Yup.string().when('pathQr', {
+    //   is: require,
+    //   then: Yup.string().required(t('validator.required')),
+    //   otherwise: Yup.string().notRequired(),
+    // })
   });
 
   const formik = useFormik({

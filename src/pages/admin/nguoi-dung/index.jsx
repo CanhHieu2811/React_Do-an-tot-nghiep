@@ -280,11 +280,18 @@ export default function NguoiDungPages() {
     phoneNumber: Yup.string()
       .matches(phoneRegExp, t('validator.phone'))
       .required(t('validator.required')),
-    password: Yup.string().min(8, t('validator.min_8')).required(t('validator.required')),
-    passwordConfirm: Yup.string()
-      .required(t('validator.required'))
-      .oneOf([Yup.ref('password'), null], t('validator.match_password')),
-    address: Yup.string().max(255, t('validator.max_255')).required(t('validator.required')),
+    
+      password: Yup.string().when('isCreate', {
+        is: true,
+        then: Yup.string().min(8, t('validator.min_8')).required(t('validator.required')),
+        otherwise: Yup.string(),
+      }),
+      passwordConfirm: Yup.string().when(['isCreate', 'password'], {
+        is: (create, password) => create && !!password, 
+        then: Yup.string().required(t('validator.required')).oneOf([Yup.ref('password'), null], t('validator.match_password')),
+        otherwise: Yup.string(),
+      }),
+      
   });
 
   const formik = useFormik({
@@ -339,12 +346,7 @@ export default function NguoiDungPages() {
 
   const onSubmitForm = useCallback(() => {
     let method = METHOD_POST;
-    if (isCreate) method = METHOD_POST;
-    else method = METHOD_PUT;
-    authPostPutData({
-      url: VITE_REACT_APP_API_MASTER_DATA + USERCRT,
-      method,
-      payload: {
+    const payload = {
         userId: rowId,
         fullName: formik.values.fullName,
         userName: formik.values.userName,
@@ -352,27 +354,75 @@ export default function NguoiDungPages() {
         email: formik.values.email,
         phoneNumber: formik.values.phoneNumber,
         address: formik.values.address,
-        password: formik.values.password,
-        passwordConfirm: formik.values.passwordConfirm,
         timezone: 'Hanoi',
-      },
-      onSuccess: (res) => {
-        if (res && res.statusCode === STATUS_200) {
-          dispatch(
-            setNotification({
-              show: true,
-              message: res.message,
-              status: 'success',
-            })
-          );
-          dispatch(setPopup(false));
+    };
+
+    if (isCreate) {
+        method = METHOD_POST;
+        payload.password = formik.values.password;
+        payload.passwordConfirm = formik.values.passwordConfirm;
+    } else {
+        method = METHOD_PUT;
+        payload.userId = rowId;
+    }
+    authPostPutData({
+        url: VITE_REACT_APP_API_MASTER_DATA + USERCRT,
+        method,
+        payload,
+        onSuccess: (res) => {
+            if (res && res.statusCode === STATUS_200) {
+                dispatch(
+                    setNotification({
+                        show: true,
+                        message: res.message,
+                        status: 'success',
+                    })
+                );
+                dispatch(setPopup(false));
           dispatch(setEqualForm(true));
           formik.setValues({ ...initialValues });
           fetchData(conditionsData);
-        }
-      },
+            }
+        },
     });
-  }, [conditionsData, dispatch, rowId, fetchData, formik, isCreate]);
+}, [dispatch, fetchData, formik, isCreate, rowId, conditionsData]);
+
+  // const onSubmitForm = useCallback(() => {
+  //   let method = METHOD_POST;
+  //   if (isCreate) method = METHOD_POST;
+  //   else method = METHOD_PUT;
+  //   authPostPutData({
+  //     url: VITE_REACT_APP_API_MASTER_DATA + USERCRT,
+  //     method,
+  //     payload: {
+  //       userId: rowId,
+  //       fullName: formik.values.fullName,
+  //       userName: formik.values.userName,
+  //       dateOfBirth: formik.values.dateOfBirth,
+  //       email: formik.values.email,
+  //       phoneNumber: formik.values.phoneNumber,
+  //       address: formik.values.address,
+  //       password: formik.values.password,
+  //       passwordConfirm: formik.values.passwordConfirm,
+  //       timezone: 'Hanoi',
+  //     },
+  //     onSuccess: (res) => {
+  //       if (res && res.statusCode === STATUS_200) {
+  //         dispatch(
+  //           setNotification({
+  //             show: true,
+  //             message: res.message,
+  //             status: 'success',
+  //           })
+  //         );
+  //         dispatch(setPopup(false));
+  //         dispatch(setEqualForm(true));
+  //         formik.setValues({ ...initialValues });
+  //         fetchData(conditionsData);
+  //       }
+  //     },
+  //   });
+  // }, [conditionsData, dispatch, rowId, fetchData, formik, isCreate]);
 
   const renderModal = useCallback(
     () => (

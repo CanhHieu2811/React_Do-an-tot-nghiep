@@ -351,7 +351,7 @@ export default function TinTucSuKienPage() {
 
         // submit gửi lên thì file chính là cái biến state đã comment dòng 227
         // imageFile là biến mà BE yêu cầu gửi lên
-        image: file,
+        ImageFile: file,
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {

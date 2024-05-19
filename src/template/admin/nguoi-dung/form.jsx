@@ -85,62 +85,62 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
             />
           </ErrorTextComponent>
         </Grid>
-      
+        {isCreate &&
+        <>
         <Grid item xs={12} md={3}>
-          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="password">
-            <TextField
-              name="password"
-              label="Mật khẩu"
-              size="small"
-              type={showPassword ? 'text' : 'password'}
-              error={!!(formik.touched.password && formik.errors.password)}
-              value={formik.values.password}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              sx={{ width: 340 }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
-                      <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </ErrorTextComponent>
-        </Grid>
-        <Grid item xs={12} md={3}>
-          <ErrorTextComponent
-            errors={formik.errors}
-            touched={formik.touched}
-            field="passwordConfirm"
-          >
-            <TextField
-              name="passwordConfirm"
-              label="Xác nhận mật khẩu"
-              size="small"
-              type={showConfirmPassword ? 'text' : 'password'}
-              error={!!(formik.touched.passwordConfirm && formik.errors.passwordConfirm)}
-              value={formik.values.passwordConfirm}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              sx={{ width: 340 }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      edge="end"
-                    >
-                      <Iconify icon={showConfirmPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </ErrorTextComponent>
-        </Grid>
+            <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="password">
+              <TextField
+                name="password"
+                label="Mật khẩu"
+                size="small"
+                type={showPassword ? 'text' : 'password'}
+                error={!!(formik.touched.password && formik.errors.password)}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                sx={{ width: 340 }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                        <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }} />
+            </ErrorTextComponent>
+          </Grid><Grid item xs={12} md={3}>
+              <ErrorTextComponent
+                errors={formik.errors}
+                touched={formik.touched}
+                field="passwordConfirm"
+              >
+                <TextField
+                  name="passwordConfirm"
+                  label="Xác nhận mật khẩu"
+                  size="small"
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  error={!!(formik.touched.passwordConfirm && formik.errors.passwordConfirm)}
+                  value={formik.values.passwordConfirm}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  sx={{ width: 340 }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          edge="end"
+                        >
+                          <Iconify icon={showConfirmPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }} />
+              </ErrorTextComponent>
+            </Grid>
+            </>
+        };
         <Grid item xs={12} md={3}>
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="email">
             <TextField
