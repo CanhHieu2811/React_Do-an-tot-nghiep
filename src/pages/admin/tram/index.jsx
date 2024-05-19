@@ -170,6 +170,7 @@ export default function TramPages() {
       ),
     },
   ];
+  
 
   const [statusList, setStatusList] = useState([]);
   // gọi api lấy danh sách status truyền vào dropdown
@@ -276,7 +277,7 @@ export default function TramPages() {
           dispatch(setFetchData(true));
 
           // close dialog
-          setOpenDialogDelete(false);
+          setOpenDialogDelete(false)
         }
       },
     });
@@ -294,12 +295,12 @@ export default function TramPages() {
   const validationSchema = Yup.object({
     stationName: Yup.string().required(t('validator.required')),
     numOfSeats: Yup.string()
-      .required(t('validator.required'))
-      .matches(/^\d+$/, t('validator.numeric')), // Chỉ chấp nhận các ký tự số
+    .required(t('validator.required'))
+    .matches(/^\d+$/, t('validator.numeric')), // Chỉ chấp nhận các ký tự số
     locationName: Yup.string().required(t('validator.required')),
     longitude: Yup.string().required(t('validator.required')),
     latitude: Yup.string().required(t('validator.required')),
-    statusId: Yup.string().required(t('validator.required')),
+    // statusId: Yup.required(t('validator.required')),
   });
 
   const formik = useFormik({
@@ -316,17 +317,22 @@ export default function TramPages() {
 
     // biến dữ liệu để
     let data = {};
-
+   
     // chỉnh sửa vì row truyền vào có dữ liệu
     if (Object.keys(row).length) {
       data = {
-        stationId: row.id,
-        stationName: row.stationName,
+        stationId: row.id ?? '',
+        stationName: row.stationName ?? '',
         numOfSeats: row.numOfSeats,
-        locationName: row.locationName,
-        longitude: row.longitude,
-        latitude: row.latitude,
-        statusId: statusList.find((el) => el.id === row.statusId),
+        locationName: row.locationName ?? '',
+        longitude: row.longitude ?? '',
+        latitude: row.latitude ?? '',
+        statusId: statusList.find(el => el.id === row.statusId)
+
+        // KHI BE TRẢ RA THÊM STATUSID thì comment lại dòng trên tìm theo statusName mà mở comment dòng dưới tìm kiếm theo statusId
+        // statusId: statusList.find(el => el.id === row.statusId)
+        // statusList là 1 array gồm nhiều objet trong đó có id,.... 
+        // find là hàm tìm kiếm, el là biến, KO BIẾT LÊN MẠNG SEARCH HÀM FIND NÀY, CHỨ GIẢI THÍCH THÌ CHỊU ANH KO RÃNH
       };
       create = false;
       setRowId(row.id);
@@ -334,6 +340,9 @@ export default function TramPages() {
       // ngược lại thì tạo gán data = dữ liệu mặc định
       data = {
         ...initialValues,
+
+        // gán giá trị mặc định là thằng đầu tiên cho status khi open màn tạo
+        statusId: statusList[0]
       };
       create = true;
       setRowId(null);
@@ -355,6 +364,12 @@ export default function TramPages() {
     let method = METHOD_POST;
     if (isCreate) method = METHOD_POST;
     else method = METHOD_PUT;
+
+    // Ở CÁI HÀM SUBMIT NÀY THÌ REQUEST GỬI LÊN THẰNG STATUSID PHẢI LÀ 1 Id CHỨ KO PHẢI LÀ OBJECT
+    // THÌ LOG XEM THỬ THẰNG formik.values.statusId NÓ ĐANG CÓ GÌ RỒI ĐƯA LÊN CHO ĐÚNG YÊU CẦU
+    // console.log('formik-values', formik.values)
+    // console.log('statusId', formik.values.statusId)
+
     authPostPutData({
       url: VITE_REACT_APP_API_MASTER_DATA + STATIONCRT,
       method,
@@ -365,6 +380,7 @@ export default function TramPages() {
         locationName: formik.values.locationName,
         longitude: formik.values.longitude,
         latitude: formik.values.latitude,
+        // kiểm tra
         statusId: formik.values.statusId.id,
       },
       onSuccess: (res) => {

@@ -103,11 +103,32 @@ export default function FormThaoTacDuLieu({
 
             */}
             <SelectComponent
+            // formName chính là biến mà sử dụng ở formik: formik.values là 1 object chứa hết tất cả các field mà e set init bên page
+            // thêm formName=statusId thì khi thay đổi dữ liệu thì nó sẽ thêm vào formik.values.statusId
               formName="statusId"
+
+              // cái biến optionName này chính là biến hiển thị text khi click xổ dropdown
+              // làm răng để xác định được thì trong data nó trả về biến nào dùng để hiển thị thì lấy biến đó
+              // ví dụ thắng statusList này có object gồm id, statusName, createDate,....thì muốn hiển thị thằng nào lấy tên biến thằng đó
+              optionName="statusName"
+
+              // label ni dùng để hiển thị ngoài view như placeholder, ko truyền thì ko có hiển thị
               label={t('field.statusName')}
+
+              // defaultOption chính là cái formik mà e find được ở hàm openModal, nếu ko tìm ra thì phải set mặc định là null
               defaultOption={formik.values.statusId}
+
+              // 1 array được gọi từ api, hay set cứng, (bắt buộc phải là 1 array và chứa object có biến của optionName)
               data={statusList}
+
+              // onChange: val chính là 1 object khi được chọn và được set lại trong fomrik với hàm setFieldValue
+              // CÚ PHÁP formik.setFieldValue(NAME, VALUE): NAME chính là key, VALUE chính là giá trị nhận được của key
+              // ở đây formik.setFieldValue('statusId', val) => có nghĩa là set giá trị cho formik.values.statusId = val
+              // còn ko hiểu THÌ VUI LÒNG LÊN MẠNG SEARCH DOC CỦA FORMIK
               onChange={(val) => formik.setFieldValue('statusId', val)}
+
+              // error thì nó nhận boolean => ở đây có nghĩa là statusId ko có giá trị thì sẽ lỗi, cái này phụ thuộc validate form có bắt ở page ko?
+              // dòng 302 ở page đang bắt ko được bỏ trống thì có nghĩa ý 1 là phải bắt buộc  statusId: Yup.string().required(t('validator.required')),
               error={!!(formik.touched.statusId && formik.errors.statusId)}
             />
           </ErrorTextComponent>

@@ -43,9 +43,9 @@ import FormThaoTacDuLieu from 'src/template/admin/xe-dap/form';
 
 const initialValues = {
   bikeName: '',
-  stationId: '',
+  stationId: null,
   power: '',
-  statusId: '',
+  statusId: null,
   pathQr: '',
 };
 
@@ -95,20 +95,27 @@ export default function XePages() {
 
   // khai báo cột của bảng
   const columns = [
-    {
-      // biến id để mapping với biến trong data trả về
-      id: 'index',
-      // hiển thị text của header bảng
-      header: 'STT',
-      // set độ dài của cột
-      width: 50,
-      // làm cột này cứng lại khi scroll ngang
-      sticky: true,
-      // căn giữa 'center', phải là 'right' còn nếu căn trái thì khỏi vì default là trái
-      align: 'center',
+    // {
+    //   // biến id để mapping với biến trong data trả về
+    //   id: 'index',
+    //   // hiển thị text của header bảng
+    //   header: 'STT',
+    //   // set độ dài của cột
+    //   width: 50,
+    //   // làm cột này cứng lại khi scroll ngang
+    //   sticky: true,
+    //   // căn giữa 'center', phải là 'right' còn nếu căn trái thì khỏi vì default là trái
+    //   align: 'center',
 
-      // biến này dùng để bật/tắt sort
-      // sortable: true,
+    //   // biến này dùng để bật/tắt sort
+    //   // sortable: true,
+    // },
+    {
+      id: 'index',
+      header: 'STT',
+      width: 50,
+      align: 'center',
+      component: (_, index) => ( index + 1 )
     },
     {
       id: 'bikeName',
@@ -116,7 +123,7 @@ export default function XePages() {
       width: 200,
     },
     {
-      id: 'locationName',
+      id: 'location',
       header: 'Vị trí xe',
       width: 200,
     },
@@ -142,7 +149,7 @@ export default function XePages() {
       width: 100,
     },
     {
-      id: 'status',
+      id: 'statusName',
       header: 'Trạng thái ',
       width: 100,
     },
@@ -172,6 +179,39 @@ export default function XePages() {
       ),
     },
   ];
+  const [statusList, setStatusList] = useState([]);
+  // gọi api lấy danh sách status truyền vào dropdown
+  useEffect(() => {
+    fetchDataStatus();
+  }, []);
+
+  const fetchDataStatus = () => {
+    authGetData({
+      url: 'https://localhost:7103/master-data/api/status/list',
+      onSuccess: (res) => {
+        if (res && res.statusCode === STATUS_200) {
+          setStatusList(res.data);
+        }
+      },
+    });
+  };
+
+  const [stationList, setStationList] = useState([]);
+  // gọi api lấy danh sách status truyền vào dropdown
+  useEffect(() => {
+    fetchDataStation();
+  }, []);
+
+  const fetchDataStation = () => {
+    authGetData({
+      url: 'https://localhost:7103/master-data/api/station/list',
+      onSuccess: (res) => {
+        if (res && res.statusCode === STATUS_200) {
+          setStationList(res.data);
+        }
+      },
+    });
+  };
 
   // gọi api lấy danh sách dữ liệu của bảng theo điều kiện biến conditions
   const fetchData = useCallback((conditions) => {
@@ -278,9 +318,9 @@ export default function XePages() {
   // validate form với các biến cần validate
   const validationSchema = Yup.object({
     bikeName: Yup.string().required(t('validator.required')),
-    stationId: Yup.string().required(t('validator.required')),
+    // stationId: Yup.string().required(t('validator.required')),
     power: Yup.string().required(t('validator.required')),
-    statusId: Yup.string().email(t('validator.email.format')).required(t('validator.required')),
+    // statusId: Yup.string().email(t('validator.email.format')).required(t('validator.required')),
     pathQr: Yup.string().max(255, t('validator.max_255')).required(t('validator.required')),
   });
 
@@ -304,9 +344,9 @@ export default function XePages() {
       data = {
         bikeId: row.id,
         bikeName: row.bikeName,
-        stationId: row.stationId,
+        stationId: stationList.find(el => el.id === row.stationId),
         power: row.power,
-        statusId: row.statusId,
+        statusId: statusList.find(el => el.id === row.statusId),
         pathQr: row.pathQr,
       };
       create = false;
@@ -315,6 +355,8 @@ export default function XePages() {
       // ngược lại thì tạo gán data = dữ liệu mặc định
       data = {
         ...initialValues,
+        stationId: stationList[0],
+        statusId: statusList[0]
       };
       create = true;
       setRowId(null);
@@ -331,39 +373,6 @@ export default function XePages() {
     // mở popup
     dispatch(setPopup(true));
   };
-  const [statusList, setStatusList] = useState([]);
-  // gọi api lấy danh sách status truyền vào dropdown
-  useEffect(() => {
-    fetchDataStatus();
-  }, []);
-
-  const fetchDataStatus = () => {
-    authGetData({
-      url: 'https://localhost:7103/master-data/api/status/list',
-      onSuccess: (res) => {
-        if (res && res.statusCode === STATUS_200) {
-          setStatusList(res.data);
-        }
-      },
-    });
-  };
-
-  const [stationList, setStationList] = useState([]);
-  // gọi api lấy danh sách status truyền vào dropdown
-  useEffect(() => {
-    fetchDataStation();
-  }, []);
-
-  const fetchDataStation = () => {
-    authGetData({
-      url: 'https://localhost:7103/master-data/api/status/list',
-      onSuccess: (res) => {
-        if (res && res.statusCode === STATUS_200) {
-          setStationList(res.data);
-        }
-      },
-    });
-  };
 
   const onSubmitForm = useCallback(() => {
     let method = METHOD_POST;
@@ -375,10 +384,10 @@ export default function XePages() {
       payload: {
         bikeId: rowId,
         bikeName: formik.values.bikeName,
-        stationId: formik.values.stationId.stationName,
         power: formik.values.power,
-        statusId: formik.values.statusId.id,
         pathQr: formik.values.pathQr,
+        statusId: formik.values.statusId.id,
+        stationId: formik.values.stationId.id,
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {

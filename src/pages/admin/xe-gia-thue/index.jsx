@@ -43,7 +43,7 @@ const initialValues = {
   ticketName: '',
   pathQr: '',
   price: '',
-  qrImage: '',
+  qrImage: null,
 };
 
 export default function XeGiaThuePages() {

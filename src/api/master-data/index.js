@@ -33,3 +33,8 @@ export const NEWSCRT = "/api/post/create"
 export const NEWSDEL = "/api/post/del"
 export const NEWSDET = "/api/title/all-list"
 export const NEWS = "/api/post"
+
+export const BANNERMOBILE = "/api/banner/list/mobile"
+export const BANNERWEB = "/api/banner/list/web"
+export const BANNERCRT = "/api/banner/create"
+export const BANNERDEL = "/api/banner/del"

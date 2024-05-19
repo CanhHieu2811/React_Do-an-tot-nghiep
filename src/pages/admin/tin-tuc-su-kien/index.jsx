@@ -7,7 +7,7 @@ import { useState, useEffect, useCallback } from 'react';
 
 import { Box } from '@mui/material';
 
-import { authGetData, authPostFormData, startDelete } from 'src/utils/request';
+import { authGetData, authPostFileData, startDelete } from 'src/utils/request';
 import { buildQueryString, parseParams } from 'src/utils/function';
 import {
   PAGE_SIZE,
@@ -39,7 +39,7 @@ import DialogDelete from 'src/components/confirm-delete';
 import FormThaoTacDuLieu from 'src/template/admin/tin-tuc-su-kien/form';
 
 const initialValues = {
-  title: '',
+  tilte: '',
   content: '',
   image: '',
 };
@@ -90,23 +90,30 @@ export default function TinTucSuKienPage() {
 
   // khai báo cột của bảng
   const columns = [
-    {
-      // biến id để mapping với biến trong data trả về
-      id: 'index',
-      // hiển thị text của header bảng
-      header: 'STT',
-      // set độ dài của cột
-      width: 50,
-      // làm cột này cứng lại khi scroll ngang
-      sticky: true,
-      // căn giữa 'center', phải là 'right' còn nếu căn trái thì khỏi vì default là trái
-      align: 'center',
+    // {
+    //   // biến id để mapping với biến trong data trả về
+    //   id: 'index',
+    //   // hiển thị text của header bảng
+    //   header: 'STT',
+    //   // set độ dài của cột
+    //   width: 50,
+    //   // làm cột này cứng lại khi scroll ngang
+    //   sticky: true,
+    //   // căn giữa 'center', phải là 'right' còn nếu căn trái thì khỏi vì default là trái
+    //   align: 'center',
 
-      // biến này dùng để bật/tắt sort
-      // sortable: true,
+    //   // biến này dùng để bật/tắt sort
+    //   // sortable: true,
+    // },
+    {
+      id: 'index',
+      header: 'STT',
+      width: 50,
+      align: 'center',
+      component: (_, index) => ( index + 1 )
     },
     {
-      id: 'title',
+      id: 'tilte',
       header: 'Tiêu đề',
       width: 200,
     },
@@ -119,6 +126,12 @@ export default function TinTucSuKienPage() {
       id: 'image',
       header: 'Hình ảnh',
       width: 100,
+      // PHANF NÀY SẼ RENDER 1 THẺ IMG CHỨA ĐƯỜNG DẪN ẢNH row.image
+      // CHECK LẠI XEM PHẢI LÀI .image không (trong list sẽ trả ra 1 filePath chính là đường dẫn ảnh, xem BE trả ra trường gì để thay thế .image)
+      // CHECK XONG RỒI THÌ MỞ COMMENT 3 DÒNG DƯỚI VÀ CHỈNH LẠI .image NẾU SAI
+      component: (row) => (
+        <img src={row.image} width={48} height={48} alt=''/>
+      )
     },
     {
       id: 'actions',
@@ -210,12 +223,14 @@ export default function TinTucSuKienPage() {
     // dispatch(
     //   setConfirmDialog({
     //     show: true,
-    //     url: `${VITE_REACT_APP_API_MASTER_DATA + TITLEDEL}?id=${id}`,
+    //     url: `${VITE_REACT_APP_API_MASTER_DATA + tilteDEL}?id=${id}`,
     //   })
     // );
   };
 
-  const [imageUrl, setImageUrl] = useState(null)
+  // đường dẫn hiển thị ảnh, khi vào màn edit sẽ gán giá trị vào cho imageUrl
+  const [imageUrl, setImageUrl] = useState(null);
+  // chứa file sau khi upload => phục vụ cho việc submit form, submit sẽ lấy biến file gán vô cho field mà BE quy định
   const [file, setFile] = useState(null);
 
   const handleClickXoa = () => {
@@ -241,7 +256,7 @@ export default function TinTucSuKienPage() {
           dispatch(setFetchData(true));
 
           // close dialog
-          setOpenDialogDelete(false)
+          setOpenDialogDelete(false);
         }
       },
     });
@@ -257,9 +272,9 @@ export default function TinTucSuKienPage() {
 
   // validate form với các biến cần validate
   const validationSchema = Yup.object({
-    title: Yup.string().required(t('validator.required')),
+    tilte: Yup.string().required(t('validator.required')),
     content: Yup.string().required(t('validator.required')),
-    image: Yup.string().required(t('validator.required')),
+    // image: Yup.string().required(t('validator.required')),
   });
 
   const formik = useFormik({
@@ -271,6 +286,12 @@ export default function TinTucSuKienPage() {
     // reset form khi mở popup
     formik.resetForm();
 
+    // do là quản lý state cho nên khi đóng popup vẫn chưa reset state dẫn tới khi thay đổi ảnh thì đóng và mở lại vẫn còn lưu ảnh sau khi thay đổi
+    // cho nên khi mở popup thì reset state file, với imageUrl về giá trị mặc định
+    setFile(null);
+    setImageUrl('');
+
+
     // biến tạo/sửa
     let create = false;
 
@@ -280,11 +301,15 @@ export default function TinTucSuKienPage() {
     // chỉnh sửa vì row truyền vào có dữ liệu
     if (Object.keys(row).length) {
       data = {
-        titleId: row.id,
-        title: row.title,
+        postId: row.id,
+        tilte: row.tilte,
         content: row.content,
-        image: row.image
       };
+
+      // row?.imageFile check xem dữ liệu có phải là biến imageFile nếu biến khác thì gán lại
+      // thì sau khi set state này xong thì có nghĩa là mở popup edit thì phần ảnh sẽ có ảnh mặc định nếu row đó có ảnh
+      setImageUrl(row?.image);
+
       create = false;
       setRowId(row.id);
     } else {
@@ -292,6 +317,10 @@ export default function TinTucSuKienPage() {
       data = {
         ...initialValues,
       };
+
+      // ngược lại thì màn tạo sẽ ko có ảnh
+      setImageUrl('');
+
       create = true;
       setRowId(null);
     }
@@ -312,14 +341,17 @@ export default function TinTucSuKienPage() {
     let method = METHOD_POST;
     if (isCreate) method = METHOD_POST;
     else method = METHOD_PUT;
-    authPostFormData({
+    authPostFileData({
       url: VITE_REACT_APP_API_MASTER_DATA + NEWSCRT,
       method,
       payload: {
-        titletId: rowId,
-        title: formik.values.title,
+        postId: rowId,
+        tilte: formik.values.tilte,
         content: formik.values.content,
-        image: file
+
+        // submit gửi lên thì file chính là cái biến state đã comment dòng 227
+        // imageFile là biến mà BE yêu cầu gửi lên
+        image: file,
       },
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
@@ -373,7 +405,7 @@ export default function TinTucSuKienPage() {
         btnClearTextSearch
         // kết thúc props hiển thị bảng
 
-        // title popup
+        // tilte popup
         titleModal={isCreate ? t('dialog.create_data') : t('dialog.update_data')}
         // render content trong popup
         renderModal={renderModal}

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { TextField, Grid, MenuItem } from '@mui/material';
+import { TextField, Grid } from '@mui/material';
 
 import FormComponent from 'src/components/form';
 import ErrorTextComponent from 'src/components/error-text';
@@ -57,21 +57,21 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
           </ErrorTextComponent>
         </Grid>
         <Grid item xs={12} md={3}>
-          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="statusName">
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="statusId">
             {/* ĐÂY LÀ 1 DROPDOWN SELECT OPTION CÓ SEARCH => so sánh với cái e đang làm để điền đúng thông tin
               cái formik.values.statusId là 1 object chứ ko phải là 1 id number, string MÀ LÀ 1 OBJECT
               khi gửi dữ liệu lên thì phải chỉnh lại request đưa lên theo BE yêu cầu ví dụ
               formik.values.statusId đang là 1 object có {id:..., statusName:..., ....}
               thì khi BE yêu cầu gửi lên id thì ngoài submit form thì statusId: formik.values.statusId.id 
-
             */}
             <SelectComponent
               formName="statusId"
+              optionName="statusName"
               label={t('field.statusName')}
               defaultOption={formik.values.stationName}
               data={statusList}
-              onChange={(e) => formik.setFieldValue('statusId', e.target.value)}
-              error={(formik.touched.statusName && formik.errors.statusName)}
+              onChange={(val) => formik.setFieldValue('statusId', val)}
+              error={(formik.touched.statusId && formik.errors.statusId)}
             >
             {/* ĐÂY LÀ 1 DROPDOWN SELECT OPTION CÓ SEARCH */}
             {/* <FormControl fullWidth size="small">
@@ -85,34 +85,28 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
                 onBlur={formik.handleBlur}
                 error={formik.touched.statusName && Boolean(formik.errors.statusName)}
               > */}
-                <MenuItem value="">
+                {/* <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
                 {statusList.map((status) => (
                   <MenuItem key={status.id} value={status.id}>
                     {status.statusName}
                   </MenuItem>
-                ))}
+                ))} */}
               {/* </Select>
             </FormControl> */}
             </SelectComponent>
           </ErrorTextComponent>
         </Grid>
         <Grid item xs={12} md={3}>
-          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="stationName">
-            {/* ĐÂY LÀ 1 DROPDOWN SELECT OPTION CÓ SEARCH => so sánh với cái e đang làm để điền đúng thông tin
-              cái formik.values.statusId là 1 object chứ ko phải là 1 id number, string MÀ LÀ 1 OBJECT
-              khi gửi dữ liệu lên thì phải chỉnh lại request đưa lên theo BE yêu cầu ví dụ
-              formik.values.statusId đang là 1 object có {id:..., statusName:..., ....}
-              thì khi BE yêu cầu gửi lên id thì ngoài submit form thì statusId: formik.values.statusId.id 
-
-            */}
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="stationId">
             <SelectComponent
               formName="stationId"
+              optionName="stationName"
               label={t('field.stationId')}
-              defaultOption={formik.values.stationName}
+              defaultOption={formik.values.stationId}
               data={stationList}
-              onChange={(e) => formik.setFieldValue('stationId', e.target.value)}
+              onChange={(val) => formik.setFieldValue('stationId', val)}
               error={(formik.touched.stationId && formik.errors.stationId)}
             >
             {/* ĐÂY LÀ 1 DROPDOWN SELECT OPTION CÓ SEARCH */}
@@ -127,14 +121,14 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
                 onBlur={formik.handleBlur}
                 error={formik.touched.statusName && Boolean(formik.errors.statusName)}
               > */}
-                <MenuItem value="">
+                {/* <MenuItem value="">
                   <em>None</em>
                 </MenuItem>
                 {stationList.map((station) => (
                   <MenuItem key={station} value={station}>
                     {station.stationName}
                   </MenuItem>
-                ))}
+                ))} */}
               {/* </Select>
             </FormControl> */}
             </SelectComponent>

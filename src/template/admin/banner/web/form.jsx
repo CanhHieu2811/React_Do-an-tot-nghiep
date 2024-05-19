@@ -48,30 +48,30 @@ export default function FormThaoTacDuLieu({
           </Item>
         </Grid>
         <Grid item xs={12} md={6}>
-          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="tilte">
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="title">
             <TextField
-              name="tilte"
+              name="title"
               label="Tiêu đề"
               size="small"
               multiline
-              rows={5}
-              error={!!(formik.touched.tilte && formik.errors.tilte)}
-              value={formik.values.tilte}
+              rows={3}
+              error={!!(formik.touched.title && formik.errors.title)}
+              value={formik.values.title}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
           </ErrorTextComponent>
         </Grid>
         <Grid item xs={12} md={6}>
-          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="content">
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="type">
             <TextField
-              name="content"
-              label="Nội dung"
+              name="type"
+              label="Phân loại"
               size="small"
               multiline
-              rows={5}
-              error={!!(formik.touched.content && formik.errors.content)}
-              value={formik.values.content}
+              rows={3}
+              error={!!(formik.touched.type && formik.errors.type)}
+              value={formik.values.type}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
