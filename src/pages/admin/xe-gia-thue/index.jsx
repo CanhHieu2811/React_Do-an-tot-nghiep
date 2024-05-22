@@ -145,21 +145,21 @@ export default function XeGiaThuePages() {
       header: 'Ngày đặt',
       width: 100,
       align: 'right',
-      component: (row) => <>{row.dateOfBirth ? dayjs(row.dateOfBirth).format('DD/MM/YYYY HH:mm') : ''}</>,
+      component: (row) => <>{row.bookingDate ? dayjs(row.bookingDate).format('DD/MM/YYYY HH:mm') : ''}</>,
     },
     {
       id: 'expectedEndTime',
       header: 'Ngày kết thúc',
       width: 100,
       align: 'right',
-      component: (row) => <>{row.dateOfBirth ? dayjs(row.dateOfBirth).format('DD/MM/YYYY HH:mm') : ''}</>,
+      component: (row) => <>{row.expectedEndTime ? dayjs(row.expectedEndTime).format('DD/MM/YYYY HH:mm') : ''}</>,
     },
     {
       id: 'expiryDate',
       header: 'Ngày hết hạn',
       width: 100,
       align: 'right',
-      component: (row) => <>{row.dateOfBirth ? dayjs(row.dateOfBirth).format('DD/MM/YYYY HH:mm') : ''}</>,
+      component: (row) => <>{row.expiryDate ? dayjs(row.expiryDate).format('DD/MM/YYYY HH:mm') : ''}</>,
     },
     {
       id: 'qrImage',
@@ -174,7 +174,7 @@ export default function XeGiaThuePages() {
       )
     },
     {
-      id: 'statusName',
+      id: 'status',
       header: 'Trạng thái',
       width: 100,
     },

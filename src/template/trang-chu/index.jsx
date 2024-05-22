@@ -7,7 +7,8 @@ import KhieuNai from './khieu-nai';
 import CauHoi from './cau-hoi';
 import AppFooter from './app-footer';
 
-export default function TrangChuTemplates() {
+export default function TrangChuTemplates(bannerData={bannerData}) {
+  console.log('Props in TrangChuTemplates:', bannerData);
   return (
     <Container>
       <Toolbar id="back-to-top-anchor" sx={{ position: 'absolute' }} />
@@ -16,7 +17,7 @@ export default function TrangChuTemplates() {
       {/* MENU */}
 
       {/* BANNER */}
-      <Banner />
+      <Banner bannerData={bannerData}/>
       {/* BANNER */}
 
       {/* ĐIỂM NỔI BẬT TỐI ƯU CỦA DỰ ÁN NÀY */}

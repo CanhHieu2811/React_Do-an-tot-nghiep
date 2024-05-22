@@ -35,18 +35,19 @@ export default function FormThaoTacDuLieu({
       initialValues={initialValues}
     >
       <Grid container spacing={2}>
-      <Grid item xs={12}>
+        <Grid item xs={12}>
           <Item>
             <UploadImages
               width="auto"
               setFile={setFile}
               imageUrl={imageUrl}
               setImageUrl={setImageUrl}
-              circles
+              circles={false} // Set circles to false to use rectangular images
               btnRemove={false}
             />
           </Item>
         </Grid>
+
         <Grid item xs={12} md={6}>
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="tilte">
             <TextField
@@ -77,7 +78,6 @@ export default function FormThaoTacDuLieu({
             />
           </ErrorTextComponent>
         </Grid>
-        
       </Grid>
     </FormComponent>
   );

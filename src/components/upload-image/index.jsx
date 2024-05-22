@@ -1,7 +1,5 @@
-// import { useState } from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import PropTypes from 'prop-types';
-// import { useTranslation } from 'react-i18next';
-
 import { Grid, Button, Tooltip, Box, Avatar } from '@mui/material';
 import 'react-medium-image-zoom/dist/styles.css';
 import Zoom from 'react-medium-image-zoom';
@@ -12,18 +10,17 @@ export default function UploadImages({
   imageUrl,
   setImageUrl,
   setFile,
-  minHeight = 150,
+  minHeight = 200, // Tăng chiều cao tối thiểu
   width = '100%',
-  maxHeight = 150,
-  maxWidth = 150,
+  maxHeight = 200, // Tăng chiều cao tối đa
+  maxWidth = 300,  // Tăng chiều rộng tối đa
   setIsUpload,
   circles = false,
   btnRemove = false,
   btnUpload = true,
 }) {
   const theme = useTheme();
-  // const { t } = useTranslation();
-  // const [imageUrl, setImageUrl] = useState('/assets/images/avatars/avatar_1.jpg')
+
   const handleUploadClick = (event) => {
     setImageUrl(URL.createObjectURL(event.target.files[0]));
 
@@ -45,48 +42,27 @@ export default function UploadImages({
 
     setIsUpload(true);
   };
+
   return (
     <Grid container direction="column" alignItems="center">
       <Grid item sx={{ position: 'relative' }}>
         <Zoom>
-          {
-            <Avatar
-              src={imageUrl}
-              srcSet={imageUrl ?? '/assets/default.png'}
-              sx={{
-                width,
-                height: '100%',
-                margin: 'auto',
-                maxWidth,
-                maxHeight,
-                minWidth: 150,
-                minHeight,
-                border: `1px solid ${theme.palette.grey[400]}`,
-              }}
-              variant={circles ? 'circular' : 'rounded'}
-            />
-            //   imageUrl ? <img
-            //   style={{
-            //     height: '100%',
-            //     margin: 'auto',
-            //     display: 'block',
-            //     maxWidth,
-            //     maxHeight,
-            //     width,
-            //     minHeight,
-            //     minWidth: 150,
-            //     borderRadius: circles ? '50%' : '0',
-            //     objectFit: 'scale-down',
-            //     objectPosition: '80% 80%'
-            //   }}
-            //   src={imageUrl}
-            //   alt=""
-            //   onError={({ currentTarget }) => {
-            //     currentTarget.onerror = null; // prevents looping
-            //     currentTarget.src = '/assets/default.png';
-            //   }}
-            // /> : <Avatar src='/assets/default.png'/>
-          }
+          <Avatar
+            src={imageUrl}
+            srcSet={imageUrl ?? '/assets/default.png'}
+            sx={{
+              width,
+              height: '100%',
+              margin: 'auto',
+              maxWidth,
+              maxHeight,
+              minWidth: 200, // Tăng chiều rộng tối thiểu
+              minHeight,
+              border: `1px solid ${theme.palette.grey[400]}`,
+              borderRadius: circles ? '50%' : '8px',
+            }}
+            variant={circles ? 'circular' : 'rounded'}
+          />
         </Zoom>
         <Box
           sx={{
@@ -105,29 +81,25 @@ export default function UploadImages({
           </Tooltip>
         </Box>
       </Grid>
-      {
-        // eslint-disable-next-line jsx-a11y/label-has-associated-control
-        <label style={{ display: btnUpload ? 'block' : 'none' }}>
-          <Tooltip title="Tải ảnh">
-            <Button variant="text" component="span" size="small">
-              <Iconify icon="eva:camera-outline" />
-              <input
-                accept="image/*"
-                style={{
-                  display: 'none',
-                }}
-                id="contained-button-file"
-                multiple
-                type="file"
-                onChange={handleUploadClick}
-              />
-            </Button>
-          </Tooltip>
-        </label>
-      }
+      <label style={{ display: btnUpload ? 'block' : 'none' }}>
+        <Tooltip title="Tải ảnh">
+          <Button variant="text" component="span" size="small">
+            <Iconify icon="eva:camera-outline" />
+            <input
+              accept="image/*"
+              style={{ display: 'none' }}
+              id="contained-button-file"
+              multiple
+              type="file"
+              onChange={handleUploadClick}
+            />
+          </Button>
+        </Tooltip>
+      </label>
     </Grid>
   );
 }
+
 UploadImages.propTypes = {
   imageUrl: PropTypes.string,
   setImageUrl: PropTypes.func,

@@ -1,10 +1,18 @@
+/* eslint-disable no-shadow */
 import * as React from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import ButtonBase from '@mui/material/ButtonBase';
 import Container from '@mui/material/Container';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogActions from '@mui/material/DialogActions';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Typography from './typography';
 
 const ImageBackdrop = styled('div')(({ theme }) => ({
@@ -58,51 +66,23 @@ const ImageIconButton = styled(ButtonBase)(({ theme }) => ({
 const images = [
   {
     url: 'https://images.unsplash.com/photo-1534081333815-ae5019106622?auto=format&fit=crop&w=400',
-    title: 'Snorkeling',
-    width: '40%',
+    title: 'Mở khóa',
+    width: '35%',
+    description: 'Hướng dẫn mở khóa',
   },
   {
     url: 'https://images.unsplash.com/photo-1531299204812-e6d44d9a185c?auto=format&fit=crop&w=400',
-    title: 'Massage',
-    width: '20%',
+    title: 'Trải nghiệm',
+    width: '30%',
+    description: 'Hãy trải nghiệm nó',
   },
   {
     url: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=400',
-    title: 'Hiking',
-    width: '40%',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1453747063559-36695c8771bd?auto=format&fit=crop&w=400',
-    title: 'Tour',
-    width: '38%',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1523309996740-d5315f9cc28b?auto=format&fit=crop&w=400',
-    title: 'Gastronomy',
-    width: '38%',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1534452203293-494d7ddbf7e0?auto=format&fit=crop&w=400',
-    title: 'Shopping',
-    width: '24%',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1506941433945-99a2aa4bd50a?auto=format&fit=crop&w=400',
-    title: 'Walking',
-    width: '40%',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1533727937480-da3a97967e95?auto=format&fit=crop&w=400',
-    title: 'Fitness',
-    width: '20%',
-  },
-  {
-    url: 'https://images.unsplash.com/photo-1518136247453-74e7b5265980?auto=format&fit=crop&w=400',
-    title: 'Reading',
-    width: '40%',
+    title: 'Trả xe',
+    width: '35%',
+    description: 'Hướng dẫn trả xe',
   },
 ];
-
 const item = {
   display: 'flex',
   flexDirection: 'column',
@@ -113,7 +93,7 @@ const item = {
 const number = {
   fontSize: 24,
   fontFamily: 'default',
-  color: 'secondary.main',
+  color: 'black',
   fontWeight: 'medium',
 };
 
@@ -123,11 +103,24 @@ const image = {
 };
 
 export default function CacBuocTienHanh() {
+  const [open, setOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleClickOpen = (item) => {
+    setSelectedItem(item);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setSelectedItem(null);
+  };
+
   return (
     <>
       <Container component="section" sx={{ mt: 8, mb: 4 }}>
         <Typography variant="h4" marked="center" align="center" component="h2">
-          For all tastes and all desires
+          Hướng dẫn về trải nghiệm ứng dụng
         </Typography>
         <Box sx={{ mt: 8, display: 'flex', flexWrap: 'wrap' }}>
           {images.map((img) => (
@@ -136,6 +129,7 @@ export default function CacBuocTienHanh() {
               style={{
                 width: img.width,
               }}
+              onClick={() => handleClickOpen(img)}
             >
               <Box
                 sx={{
@@ -172,10 +166,29 @@ export default function CacBuocTienHanh() {
           ))}
         </Box>
       </Container>
-      <Box
-        component="section"
-        sx={{ display: 'flex', bgcolor: 'secondary.light', overflow: 'hidden' }}
-      >
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>{selectedItem?.title}</DialogTitle>
+        <DialogContent>
+          <img src={selectedItem?.url} alt={selectedItem?.title} style={{ width: '100%' }} />
+          <DialogContentText>
+  <TextareaAutosize
+    value={selectedItem?.description}
+    aria-label="empty textarea"
+    placeholder="Empty"
+    style={{ width: '100%', minHeight: '100px', resize: 'vertical' }}
+    readOnly
+  />
+</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      <Box component="section" sx={{ display: 'flex', bgcolor: '#74992e', overflow: 'hidden' }}>
         <Container
           sx={{
             mt: 10,
@@ -198,7 +211,7 @@ export default function CacBuocTienHanh() {
             }}
           />
           <Typography variant="h4" marked="center" component="h2" sx={{ mb: 14 }}>
-            How it works
+            Các thông tin cụ thể về chúng tôi
           </Typography>
           <div>
             <Grid container spacing={5}>
@@ -212,7 +225,8 @@ export default function CacBuocTienHanh() {
                     sx={image}
                   />
                   <Typography variant="h5" align="center">
-                    Appointment every Wednesday 9am.
+                    Chúng tôi mở cừa từ 5:00 - 22:00. 
+                    -Tuy đóng cửa nhưng các bạn có thể trả xe bất cứ thời điểm nào các bạn muốn-
                   </Typography>
                 </Box>
               </Grid>
@@ -226,7 +240,7 @@ export default function CacBuocTienHanh() {
                     sx={image}
                   />
                   <Typography variant="h5" align="center">
-                    First come, first served. Our offers are in limited quantities, so be quick.
+                    Bạn sẽ được rất nhiều ưu đãi từ phía chúng tôi khi bản trải nghiệm xe, khuyến mãi hay bất cứ thứ gì kiến các bạn thoải mái nhất
                   </Typography>
                 </Box>
               </Grid>
@@ -240,8 +254,7 @@ export default function CacBuocTienHanh() {
                     sx={image}
                   />
                   <Typography variant="h5" align="center">
-                    {'New offers every week. New experiences, new surprises. '}
-                    Your Sundays will no longer be alike.
+                    Hãy để chúng tôi giúp bạn biến ngày hôm nay trở nên trọn vẹn ♥.
                   </Typography>
                 </Box>
               </Grid>
@@ -252,11 +265,14 @@ export default function CacBuocTienHanh() {
             size="large"
             variant="contained"
             component="a"
-            href="/premium-themes/onepirate/sign-up/"
+            href="http://localhost:3030/dang-ky"
             sx={{ mt: 8 }}
           >
             Get started
           </Button>
+          <Typography variant="h5" align="center">
+            Vào ứng dụng của chúng tôi và trải nghiệm thôi nào
+          </Typography>
         </Container>
       </Box>
     </>
