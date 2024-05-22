@@ -38,6 +38,8 @@ const InfoWindow = ({ station, onClose }) => (
     <p>Kinh độ: {station.longitude}</p>
     <p>Vĩ độ {station.latitude}</p>
     <p>Trạng thái: {station.statusName}</p>
+    <p>Xe đang sử dụng: {station.numoffactivebikes}</p>
+    <p>Số xe còn trống: {station.numOfOtherBikes}</p>
     <button type="button" onClick={onClose}>Close</button>
   </div>
 );
