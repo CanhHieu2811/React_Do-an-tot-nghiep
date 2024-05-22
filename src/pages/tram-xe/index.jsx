@@ -5,10 +5,11 @@ import { VITE_REACT_APP_API_MASTER_DATA, STATUS_200 } from 'src/utils/constant';
 import { authGetData } from 'src/utils/request';
 import DanhSachTramXeTemplates from 'src/template/tram-xe';
 
+
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 AnyReactComponent.propTypes = {
-  text: PropTypes.string
-}
+  text: PropTypes.string,
+};
 
 // Define your handleApiLoaded function
 const handleApiLoaded = (map, maps) => {
@@ -42,20 +43,30 @@ export default function DanhSachTramXePages() {
     setSelectedStation(station);
   };
 
+  const handleListItemClick = (station) => {
+    setSelectedStation(station);
+  };
+
+  const handleStationClick = (station) => {
+    setSelectedStation(station);
+  }
   const handleCloseInfo = () => {
     setSelectedStation(null);
   };
 
-  console.log('API Response:' , rows)
+  console.log('API Response:', rows);
   return (
     <DanhSachTramXeTemplates
-      handleApiLoaded={handleApiLoaded}
-      AnyReactComponent={AnyReactComponent}
-      rows={rows} // Pass the data to the template
-      stations={rows} 
-      selectedStation={selectedStation} 
-      onMarkerClick={handleMarkerClick} 
-      onCloseInfo={handleCloseInfo}
-    />
+    handleApiLoaded={handleApiLoaded}
+    AnyReactComponent={AnyReactComponent}
+    rows={rows}
+    stations={rows}
+    selectedStation={selectedStation}
+    onMarkerClick={handleMarkerClick}
+    onCloseInfo={handleCloseInfo}
+    onListItemClick={handleListItemClick}
+    handleStationClick={handleStationClick}
+  />
   );
+  
 }

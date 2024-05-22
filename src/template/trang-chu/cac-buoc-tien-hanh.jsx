@@ -12,7 +12,6 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogActions from '@mui/material/DialogActions';
-import TextareaAutosize from '@mui/material/TextareaAutosize';
 import Typography from './typography';
 
 const ImageBackdrop = styled('div')(({ theme }) => ({
@@ -31,10 +30,10 @@ const ImageIconButton = styled(ButtonBase)(({ theme }) => ({
   display: 'block',
   padding: 0,
   borderRadius: 0,
-  height: '40vh',
+  height: '70vh',
   [theme.breakpoints.down('md')]: {
     width: '100% !important',
-    height: 100,
+    height: 150,
   },
   '&:hover': {
     zIndex: 1,
@@ -65,24 +64,25 @@ const ImageIconButton = styled(ButtonBase)(({ theme }) => ({
 
 const images = [
   {
-    url: 'https://images.unsplash.com/photo-1534081333815-ae5019106622?auto=format&fit=crop&w=400',
+    url: 'public/assets/images/products/Mo_khoa.png',
     title: 'Mở khóa',
     width: '35%',
-    description: 'Hướng dẫn mở khóa',
+    description: 'Nếu bạn muốn mở khóa, hãy theo các bước sau:\nB1: Đăng nhập vào ứng dụng (Đăng kí nếu bạn chưa có tài khoản)\nB2: Nạp tiền nếu như bạn không đủ để thuê xe, xác nhận số tiền muốn nạp thông qua MoMo hoặc ngân hàng\nB3: Chọn xe hoặc vé bạn đã đặt từ trước để quét QR(hoặc nhập path QR)\nB4: Từ lúc này trên ứng dụng đã hiển thị thông tin chi tiết về xe bạn muốn thuê cũng như giá tiền yêu cầu, hãy nhấn "Mở khóa" để trải nghiệm nhé!!',
   },
   {
-    url: 'https://images.unsplash.com/photo-1531299204812-e6d44d9a185c?auto=format&fit=crop&w=400',
+    url: 'public/assets/images/products/Trai-nghiem.png',
     title: 'Trải nghiệm',
     width: '30%',
-    description: 'Hãy trải nghiệm nó',
+    description: 'Bạn hãy trải nghiệm nó, tận hưởng chuyến đi bạn sẽ thích điều này đấy. Nên đội mũ bảo hiểm và tuân thủ luật giao thông, trong quá trình sử dụng bạn có thể "Khóa xe tạm thời" và mở lại bất cứ lúc nào trong ứng dụng.',
   },
   {
-    url: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=400',
+    url: 'public/assets/images/products/Tra-xe.png',
     title: 'Trả xe',
     width: '35%',
-    description: 'Hướng dẫn trả xe',
+    description: '\nKhi bạn đã trả nghiệm xong dịch vụ của chúng tôi, bạn có thể nhấn trả xe ở ngay tại màn hình thuê xe của bạn tại ứng dụng và nhấn vào nút "Trả xe" khi bạn đã đổ xe tại trạm. Bạn đã thành công trả được xe sau khi trải nghiệm dịch vụ của chúng tôi, khi bạn trả xe xong hãy gửi cho chúng tôi về cảm nhận của bạn khi sử dụng dịch vụ nhé, đó là điều vinh dự của chúng tôi khi được phục vụ bạn ♥',
   },
 ];
+
 const item = {
   display: 'flex',
   flexDirection: 'column',
@@ -171,15 +171,9 @@ export default function CacBuocTienHanh() {
         <DialogTitle>{selectedItem?.title}</DialogTitle>
         <DialogContent>
           <img src={selectedItem?.url} alt={selectedItem?.title} style={{ width: '100%' }} />
-          <DialogContentText>
-  <TextareaAutosize
-    value={selectedItem?.description}
-    aria-label="empty textarea"
-    placeholder="Empty"
-    style={{ width: '100%', minHeight: '100px', resize: 'vertical' }}
-    readOnly
-  />
-</DialogContentText>
+          <DialogContentText sx={{ whiteSpace: 'pre-wrap' }}>
+            {selectedItem?.description}
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -225,7 +219,8 @@ export default function CacBuocTienHanh() {
                     sx={image}
                   />
                   <Typography variant="h5" align="center">
-                    Chúng tôi mở cừa từ 5:00 - 22:00. 
+                    Chúng tôi mở cừa từ 5:00 - 22:00.
+                    {'\n'}
                     -Tuy đóng cửa nhưng các bạn có thể trả xe bất cứ thời điểm nào các bạn muốn-
                   </Typography>
                 </Box>
@@ -261,7 +256,7 @@ export default function CacBuocTienHanh() {
             </Grid>
           </div>
           <Button
-            color="secondary"
+            color="success"
             size="large"
             variant="contained"
             component="a"

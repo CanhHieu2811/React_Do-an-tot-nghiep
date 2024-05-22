@@ -27,7 +27,7 @@
           Ở đây sẽ giúp bạn biến hôm nay thành một ngày hoàn hảo!!!
         </Typography>
         <Button
-          color="secondary"
+          color="success"
           variant="contained"
           size="large"
           component="a"

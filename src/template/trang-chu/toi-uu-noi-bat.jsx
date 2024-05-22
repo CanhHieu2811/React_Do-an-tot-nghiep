@@ -16,7 +16,7 @@ function ToiUuNoiBat() {
   return (
     <Box
       component="section"
-      sx={{ display: 'flex', overflow: 'hidden', bgcolor: 'secondary.light' }}
+      sx={{ display: 'flex', overflow: 'hidden', bgcolor: '#74992e' }}
     >
       <Container sx={{ mt: 15, mb: 30, display: 'flex', position: 'relative' }}>
         <Box
@@ -25,7 +25,14 @@ function ToiUuNoiBat() {
           alt="curvy lines"
           sx={{ pointerEvents: 'none', position: 'absolute', top: -180 }}
         />
+        
+
         <Grid container spacing={5}>
+          <Grid xs={12}>
+          <Typography variant="h2" marked="center" align="center" component="h2">
+          Giới thiệu về HUE Bike
+        </Typography>
+          </Grid>
           <Grid item xs={12} md={4}>
             <Box sx={item}>
               <Box
