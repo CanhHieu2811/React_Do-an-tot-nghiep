@@ -1,14 +1,10 @@
-import * as Yup from 'yup';
-import { useFormik } from 'formik';
-import { useTheme } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
 // import dayjs from 'dayjs';
 
-import { Box } from '@mui/material';
 
-import { authGetData, authPostPutData, startDelete } from 'src/utils/request';
+import { authGetData } from 'src/utils/request';
 import { buildQueryString, parseParams } from 'src/utils/function';
 import {
   PAGE_SIZE,
@@ -18,51 +14,25 @@ import {
   // METHOD_POST,
   // phoneRegExp,
   VITE_REACT_APP_API_MASTER_DATA,
-  phoneRegExp,
-  METHOD_POST,
-  METHOD_PUT,
 } from 'src/utils/constant';
 
-import { TRIPALL, TRIPCRT, TRIPDEL } from 'src/api/master-data';
+import { TRIPALL } from 'src/api/master-data';
 import {
-  setEqualForm,
   // setPopup,
   setFetchData,
-  setNotification,
-  setPopup,
   // setEqualForm,
   // setNotification,
   // setConfirmDialog,
 } from 'src/redux/common';
 
-import Iconify from 'src/components/iconify';
-import { useTranslation } from 'react-i18next';
-import DialogDelete from 'src/components/confirm-delete';
-import FormThaoTacDuLieu from 'src/template/admin/nguoi-dung/form';
 import dayjs from 'dayjs';
 import ThongTinThueXeTemplates from 'src/template/admin/thong-tin-thue-xe';
 // import { values } from 'lodash';
 
-const initialValues = {
-  key: '',
-  values: ''
-};
 
 export default function ThongTinThueXePages() {
-  // khai báo state đóng/mở dialog confirm xóa bảng
-  const [openDialogDelete, setOpenDialogDelete] = useState(false);
-
-  // set row id đang click
-  const [rowId, setRowId] = useState(null);
-  // khai báo state đóng/mở dialog confirm xóa bảng
 
   // PHẦN TÌM KIẾM VÀ HIỂN THỊ DỮ LIỆU Ở BẢNG
-
-  // biến để dịch
-  const { t } = useTranslation();
-
-  // lấy ra giá trị trong base theme
-  const theme = useTheme();
 
   // các biến dùng trong url
   const location = useLocation();
@@ -117,52 +87,33 @@ export default function ThongTinThueXePages() {
       component: (_, index) => ( index + 1 ),
     },
     {
-      id: 'bikeName',
-      header: 'Tên Xe',
-      width: 150,
+      id: 'bikeCode',
+      header: 'Mã xe',
+      width: 100,
     },
     {
-      id: 'stationName',
-      header: 'Trạm Xe',
-      width: 150,
+      id: 'statTime',
+      header: 'Bắt đầu thuê',
+      width: 100,
+      align: 'right',
+      component: (row) => <>{row.statTime ? dayjs(row.statTime).format('DD/MM/YYYY HH:mm') : ''}</>,
     },
     {
-      id: 'price',
-      header: 'Giá thuê',
-      width: 80,
-      align: 'center',
+      id: 'startStation',
+      header: 'Trạm bắt đầu',
+      width: 100,
     },
     {
-      id: 'timeUsing',
-      header: 'Thời gian Thuê',
+      id: 'minutesTraveled',
+      header: 'Thời gian thuê',
       align: 'center',
       width: 100,
-      component: (row) => <>{row.dateOfBirth ? dayjs(row.dateOfBirth).format('DD/MM/YYYY') : ''}</>,
     },
     {
-      id: 'actions',
-      type: 'actions',
-      header: '',
-      width: 100,
+      id: 'tripPrice',
+      header: 'Giá tiền',
       align: 'center',
-      sticky: true,
-      // biến này là 1 function dùng để custom lại phần hiển thị body của bảng
-      component: (row) => (
-        <Box sx={{ textAlign: 'center' }}>
-          <Iconify
-            icon="eva:edit-fill"
-            sx={{ mr: 2, height: 20, color: theme.palette.primary.main, cursor: 'pointer' }}
-            // mở popup form sửa dữ liệu
-            onClick={() => handleOpenModal(row)}
-          />
-          <Iconify
-            icon="eva:trash-2-outline"
-            sx={{ height: 20, color: theme.palette.error.main, cursor: 'pointer' }}
-            // xóa dữ liệu với hàng đang chọn
-            onClick={() => handleDelete(row.id)}
-          />
-        </Box>
-      ),
+      width: 100,
     },
   ];
 
@@ -216,227 +167,7 @@ export default function ThongTinThueXePages() {
 
   // KẾT THÚC PHẦN TÌM KIẾM VÀ HIỂN THỊ DỮ LIỆU Ở BẢNG
 
-  // XÓA DỮ LIỆU BẢNG
-  const handleDelete = (id) => {
-    // set id của row đang click
-    setRowId(id);
-
-    // mở dialog confirm xóa
-    setOpenDialogDelete(true);
-    // dispatch(
-    //   setConfirmDialog({
-    //     show: true,
-    //     url: `${VITE_REACT_APP_API_MASTER_DATA + USERDEL}?id=${id}`,
-    //   })
-    // );
-  };
-
-  const handleClickXoa = () => {
-    // ĐÂY LÀ CÁCH GỌI 1 API XÓA METHOD DELETE
-    startDelete({
-      // truyền URL
-      url: VITE_REACT_APP_API_MASTER_DATA + TRIPDEL,
-      // payload nhận vào là id
-      payload: { id: rowId },
-      onSuccess: (res) => {
-        // api trả về statusCode 200 là thành công
-        if (res && res.statusCode === 200) {
-          // show thông báo mà BE trả về ở biến message
-          dispatch(
-            setNotification({
-              isShow: true,
-              message: res?.message,
-              status: 'success',
-            })
-          );
-
-          // set fetch = true trong redux => gọi lại api fetchData dong 173
-          dispatch(setFetchData(true));
-
-          // close dialog
-          setOpenDialogDelete(false)
-        }
-      },
-    });
-  };
-  // KẾT THÚC XÓA DỮ LIỆU BẢNG
-
-  // TẠO/SỬA DỮ LIỆU
-
-  // khai báo dữ liệu mặc định dòng 42
-
-  // khai báo biến để nhận biết đang là tạo hay sửa form
-  const [isCreate, setIsCreate] = useState(false);
-
-  // validate form với các biến cần validate
-  const validationSchema = Yup.object({
-    fullName: Yup.string().required(t('validator.required')),
-    userName: Yup.string().required(t('validator.required')),
-    dateOfBirth: Yup.date().required(t('validator.required')),
-    email: Yup.string().email(t('validator.email.format')).required(t('validator.required')),
-    phoneNumber: Yup.string()
-      .matches(phoneRegExp, t('validator.phone'))
-      .required(t('validator.required')),
-    
-      password: Yup.string().when('isCreate', {
-        is: true,
-        then: Yup.string().min(8, t('validator.min_8')).required(t('validator.required')),
-        otherwise: Yup.string(),
-      }),
-      passwordConfirm: Yup.string().when(['isCreate', 'password'], {
-        is: (create, password) => create && !!password, 
-        then: Yup.string().required(t('validator.required')).oneOf([Yup.ref('password'), null], t('validator.match_password')),
-        otherwise: Yup.string(),
-      }),
-      
-  });
-
-  const formik = useFormik({
-    initialValues,
-    validationSchema,
-  });
-
-  const handleOpenModal = (row) => {
-    // reset form khi mở popup
-    formik.resetForm();
-
-    // biến tạo/sửa
-    let create = false;
-
-    // biến dữ liệu để
-    let data = {};
-
-    // chỉnh sửa vì row truyền vào có dữ liệu
-    if (Object.keys(row).length) {
-      data = {
-        userId: row.id,
-        fullName: row.fullName,
-        userName: row.userName,
-        dateOfBirth: row.dateOfBirth,
-        phoneNumber: row.phoneNumber,
-        email: row.email,
-        address: row.address,
-        isSuperAdmin: row.isSuperAdmin,
-      };
-      create = false;
-      setRowId(row.id);
-    } else {
-      // ngược lại thì tạo gán data = dữ liệu mặc định
-      data = {
-        ...initialValues,
-      };
-      create = true;
-      setRowId(null);
-    }
-
-    // set data vào formik
-    formik.setValues({
-      ...data,
-    });
-
-    // set biến create
-    setIsCreate(create);
-
-    // mở popup
-    dispatch(setPopup(true));
-  };
-
-  const onSubmitForm = useCallback(() => {
-    let method = METHOD_POST;
-    const payload = {
-        userId: rowId,
-        fullName: formik.values.fullName,
-        userName: formik.values.userName,
-        dateOfBirth: formik.values.dateOfBirth,
-        email: formik.values.email,
-        phoneNumber: formik.values.phoneNumber,
-        address: formik.values.address,
-    };
-
-    if (isCreate) {
-        method = METHOD_POST;
-        payload.password = formik.values.password;
-        payload.passwordConfirm = formik.values.passwordConfirm;
-    } else {
-        method = METHOD_PUT;
-        payload.userId = rowId;
-    }
-    authPostPutData({
-        url: VITE_REACT_APP_API_MASTER_DATA + TRIPCRT,
-        method,
-        payload,
-        onSuccess: (res) => {
-            if (res && res.statusCode === STATUS_200) {
-                dispatch(
-                    setNotification({
-                        show: true,
-                        message: res.message,
-                        status: 'success',
-                    })
-                );
-                dispatch(setPopup(false));
-          dispatch(setEqualForm(true));
-          formik.setValues({ ...initialValues });
-          fetchData();
-            }
-        },
-    });
-}, [dispatch, fetchData, formik, isCreate, rowId]);
-
-  // const onSubmitForm = useCallback(() => {
-  //   let method = METHOD_POST;
-  //   if (isCreate) method = METHOD_POST;
-  //   else method = METHOD_PUT;
-  //   authPostPutData({
-  //     url: VITE_REACT_APP_API_MASTER_DATA + USERCRT,
-  //     method,
-  //     payload: {
-  //       userId: rowId,
-  //       fullName: formik.values.fullName,
-  //       userName: formik.values.userName,
-  //       dateOfBirth: formik.values.dateOfBirth,
-  //       email: formik.values.email,
-  //       phoneNumber: formik.values.phoneNumber,
-  //       address: formik.values.address,
-  //       password: formik.values.password,
-  //       passwordConfirm: formik.values.passwordConfirm,
-  //       timezone: 'Hanoi',
-  //     },
-  //     onSuccess: (res) => {
-  //       if (res && res.statusCode === STATUS_200) {
-  //         dispatch(
-  //           setNotification({
-  //             show: true,
-  //             message: res.message,
-  //             status: 'success',
-  //           })
-  //         );
-  //         dispatch(setPopup(false));
-  //         dispatch(setEqualForm(true));
-  //         formik.setValues({ ...initialValues });
-  //         fetchData(conditionsData);
-  //       }
-  //     },
-  //   });
-  // }, [conditionsData, dispatch, rowId, fetchData, formik, isCreate]);
-
-  const renderModal = useCallback(
-    () => (
-      <FormThaoTacDuLieu
-        formik={formik}
-        onSubmitForm={onSubmitForm}
-        textBtn={isCreate ? 'Tạo' : 'Sửa'}
-        initialValues={initialValues}
-        isCreate={isCreate}
-      />
-    ),
-    [formik, isCreate, onSubmitForm]
-  );
-
-  // KẾT THÚC TẠO/SỬA DỮ LIỆU
-
   return (
-    <>
       <ThongTinThueXeTemplates
         // phần props hiển thị bảng
         rows={rows}
@@ -451,25 +182,7 @@ export default function ThongTinThueXePages() {
         renderButton
         btnClearTextSearch
         // kết thúc props hiển thị bảng
-
-        // title popup
-        titleModal={isCreate ? t('dialog.create_data') : t('dialog.update_data')}
-        // render content trong popup
-        renderModal={renderModal}
-        // truyền func cho nút tạo khi click
-        handleOpenModal={handleOpenModal}
-      />
-
-      {/* dialog xóa */}
-      <DialogDelete
-        openDialog={openDialogDelete}
-        handleClose={() => setOpenDialogDelete(false)}
-        handleAgree={handleClickXoa}
-      >
-        <p>Bạn chắc chắn muốn xóa dữ liệu này?</p>
-      </DialogDelete>
-      {/* end dialog xóa */}
-    </>
+        />
   );
 }
 

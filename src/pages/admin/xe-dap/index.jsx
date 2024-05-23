@@ -120,8 +120,8 @@ export default function XePages() {
       component: (_, index) => ( index + 1 )
     },
     {
-      id: 'bikeName',
-      header: 'Tên xe',
+      id: 'bikeCode',
+      header: 'Mã xe',
       width: 170,
     },
     {

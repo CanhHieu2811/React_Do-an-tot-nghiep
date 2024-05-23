@@ -125,13 +125,25 @@ export default function TramPages() {
       id: 'quantityAvaiable',
       header: t('field.quantityAvaiable'),
       align: 'center',
-      width: 100,
+      width: 80,
     },
     {
       id: 'numOfSeats',
       header: t('field.numOfSeats'),
       align: 'center',
-      width: 100,
+      width: 80,
+    },
+    {
+      id: 'activeBikeCount',
+      header: 'Số xe đang sử dụng',
+      align: 'center',
+      width: 80,
+    },
+    {
+      id: 'inactiveBikeCount',
+      header: 'Số xe chưa sử dụng',
+      align: 'center',
+      width: 80,
     },
     {
       id: 'locationName',

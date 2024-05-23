@@ -18,19 +18,6 @@ export default function FormThaoTacDuLieu({ formik, onSubmitForm, textBtn, initi
     >
       <Grid container spacing={2}>
         <Grid item xs={12} md={3}>
-          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="bikeName">
-            <TextField
-              name="bikeName"
-              label='Tên xe'
-              size="small"
-              error={!!(formik.touched.bikeName && formik.errors.bikeName)}
-              value={formik.values.bikeName}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-            />
-          </ErrorTextComponent>
-        </Grid>
-        <Grid item xs={12} md={3}>
           <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="power">
             <TextField
               name="power"
