@@ -40,9 +40,13 @@ export const BANNERCRT = "/api/banner/create"
 export const BANNERDEL = "/api/banner/del"
 export const BANNERDET = "/api/banner/detail"
 
-export const TRIPALL = ""
+export const TRIPALL = "/api/trip/list"
 export const TRIPCRT = ""
 export const TRIPDEL = ""
+
+export const EVENTALL = "/api/event/list"
+export const EVENTCRT = "/api/event/create"
+export const EVENTDEL = "/api/event/del"
 
 export const TRANSACTIONALL = "/api/transaction/all-list"
 

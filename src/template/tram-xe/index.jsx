@@ -35,7 +35,7 @@ const InfoWindow = ({ station, onClose }) => (
     maxWidth: 300, 
     }}>
     <h4>{station.stationName}</h4>
-    <p>Tên Trạm: {station.locationName}</p>
+    <p>Vị trí: {station.locationName}</p>
     <p>Kinh độ: {station.longitude}</p>
     <p>Vĩ độ {station.latitude}</p>
     <p>Trạng thái: {station.statusName}</p>
@@ -83,7 +83,7 @@ export default function DanhSachTramXeTemplates({ stations, selectedStation, onM
                 key={station.id}
                 lat={station.latitude}
                 lng={station.longitude}
-                text={<img src="public/assets/images/location_4676457.png" alt="Location Icon" />} // Icon marker
+                text={<img src="public/assets/images/icons8-bicycle-50.png" alt="Location Icon" />} // Icon marker
                 onClick={() => onMarkerClick(station)}
               />
             ))}

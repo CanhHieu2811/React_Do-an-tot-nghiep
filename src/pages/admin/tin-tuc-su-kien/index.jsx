@@ -20,7 +20,7 @@ import {
   METHOD_PUT,
 } from 'src/utils/constant';
 
-import { NEWSALL, NEWSCRT, NEWSDEL } from 'src/api/master-data';
+import { EVENTALL, EVENTCRT, EVENTDEL } from 'src/api/master-data';
 import {
   setEqualForm,
   // setPopup,
@@ -40,8 +40,12 @@ import FormThaoTacDuLieu from 'src/template/admin/tin-tuc-su-kien/form';
 
 const initialValues = {
   tilte: '',
-  content: '',
-  image: '',
+  description: '',
+  dateStart: null,
+  dateEnd: null,
+  location: '',
+  organizer: '',
+  imageFile: '',
 };
 
 export default function TinTucSuKienPage() {
@@ -110,7 +114,7 @@ export default function TinTucSuKienPage() {
       header: 'STT',
       width: 50,
       align: 'center',
-      component: (_, index) => ( index + 1 )
+      component: (_, index) => index + 1,
     },
     {
       id: 'tilte',
@@ -118,9 +122,31 @@ export default function TinTucSuKienPage() {
       width: 200,
     },
     {
-      id: 'content',
+      id: 'description',
       header: 'Nội dung',
       width: 200,
+    },
+    {
+      id: 'dateStart',
+      header: 'Ngày bắt đầu',
+      align: 'right',
+      width: 100,
+    },
+    {
+      id: 'dateEnd',
+      header: 'Ngày kết thúc',
+      align: 'right',
+      width: 100,
+    },
+    {
+      id: 'location',
+      header: 'Địa điểm tổ chức',
+      width: 100,
+    },
+    {
+      id: 'organizer',
+      header: 'Người đăng',
+      width: 100,
     },
     {
       id: 'image',
@@ -130,9 +156,7 @@ export default function TinTucSuKienPage() {
       // PHANF NÀY SẼ RENDER 1 THẺ IMG CHỨA ĐƯỜNG DẪN ẢNH row.image
       // CHECK LẠI XEM PHẢI LÀI .image không (trong list sẽ trả ra 1 filePath chính là đường dẫn ảnh, xem BE trả ra trường gì để thay thế .image)
       // CHECK XONG RỒI THÌ MỞ COMMENT 3 DÒNG DƯỚI VÀ CHỈNH LẠI .image NẾU SAI
-      component: (row) => (
-        <img src={row.image} width={48} height={48} alt=''/>
-      )
+      component: (row) => <img src={row.image} width={48} height={48} alt="" />,
     },
     {
       id: 'actions',
@@ -166,7 +190,7 @@ export default function TinTucSuKienPage() {
     // ĐÂY LÀ CÁCH GỌI 1 API GET
     authGetData({
       // buildQueryString => dùng để convert dạng ?xxx=1&bbb=2, parseParams => loại bỏ các biến undefined
-      url: `${VITE_REACT_APP_API_MASTER_DATA + NEWSALL}?${buildQueryString(parseParams(conditions))}`,
+      url: `${VITE_REACT_APP_API_MASTER_DATA + EVENTALL}?${buildQueryString(parseParams(conditions))}`,
       onSuccess: (res) => {
         if (res && res.statusCode === STATUS_200) {
           setRows(res.data);
@@ -238,7 +262,7 @@ export default function TinTucSuKienPage() {
     // ĐÂY LÀ CÁCH GỌI 1 API XÓA METHOD DELETE
     startDelete({
       // truyền URL
-      url: VITE_REACT_APP_API_MASTER_DATA + NEWSDEL,
+      url: VITE_REACT_APP_API_MASTER_DATA + EVENTDEL,
       // payload nhận vào là id
       payload: { id: rowId },
       onSuccess: (res) => {
@@ -274,8 +298,11 @@ export default function TinTucSuKienPage() {
   // validate form với các biến cần validate
   const validationSchema = Yup.object({
     tilte: Yup.string().required(t('validator.required')),
-    content: Yup.string().required(t('validator.required')),
-    // image: Yup.string().required(t('validator.required')),
+    description: Yup.string().required(t('validator.required')),
+    dateStart: Yup.date().required(t('validator.required')),
+    dateEnd: Yup.date().required(t('validator.required')),
+    location: Yup.string().required(t('validator.required')),
+    organizer: Yup.string().required(t('validator.required')),
   });
 
   const formik = useFormik({
@@ -292,7 +319,6 @@ export default function TinTucSuKienPage() {
     setFile(null);
     setImageUrl('');
 
-
     // biến tạo/sửa
     let create = false;
 
@@ -302,14 +328,18 @@ export default function TinTucSuKienPage() {
     // chỉnh sửa vì row truyền vào có dữ liệu
     if (Object.keys(row).length) {
       data = {
-        postId: row.id,
+        eventId: row.id,
         tilte: row.tilte,
-        content: row.content,
+        description: row.description,
+        dateStart: row.dateStart,
+        dateEnd: row.dateEnd,
+        location: row.location,
+        organizer: row.organizer,
       };
 
       // row?.imageFile check xem dữ liệu có phải là biến imageFile nếu biến khác thì gán lại
       // thì sau khi set state này xong thì có nghĩa là mở popup edit thì phần ảnh sẽ có ảnh mặc định nếu row đó có ảnh
-      setImageUrl(row?.image);
+      setImageUrl(row?.imageFile);
 
       create = false;
       setRowId(row.id);
@@ -342,24 +372,32 @@ export default function TinTucSuKienPage() {
     let method = METHOD_POST;
     const payload = {
       title: formik.values.tilte,
-      content: formik.values.content,
+      description: formik.values.description,
+      dateStart: formik.values.dateStart,
+      dateEnd: formik.values.dateEnd,
+      location: formik.values.location,
+      organizer: formik.values.organizer,
 
       // submit gửi lên thì file chính là cái biến state đã comment dòng 227
       // imageFile là biến mà BE yêu cầu gửi lên
       ImageFile: file,
-    }
+    };
     if (isCreate) method = METHOD_POST;
     else {
       method = METHOD_PUT;
-      payload.postId = rowId
+      payload.eventId = rowId;
     }
     authPostFileData({
-      url: VITE_REACT_APP_API_MASTER_DATA + NEWSCRT,
+      url: VITE_REACT_APP_API_MASTER_DATA + EVENTCRT,
       method,
       payload: {
-        postId: rowId,
+        eventId: rowId,
         title: formik.values.tilte,
-        content: formik.values.content,
+        description: formik.values.description,
+        dateStart: formik.values.dateStart,
+        dateEnd: formik.values.dateEnd,
+        location: formik.values.location,
+        organizer: formik.values.organizer,
 
         // submit gửi lên thì file chính là cái biến state đã comment dòng 227
         // imageFile là biến mà BE yêu cầu gửi lên

@@ -42,7 +42,7 @@ export default function FormThaoTacDuLieu({
               setFile={setFile}
               imageUrl={imageUrl}
               setImageUrl={setImageUrl}
-              circles
+              circles={false}
               btnRemove={false}
             />
           </Item>

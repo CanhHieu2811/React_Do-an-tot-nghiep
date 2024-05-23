@@ -4,7 +4,7 @@ import { TextField, Grid } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import { styled } from '@mui/material/styles';
 import UploadImages from 'src/components/upload-image';
-// import DatepickerComponent from 'src/components/datepicker';
+import DatepickerComponent from 'src/components/datepicker';
 
 import FormComponent from 'src/components/form';
 import ErrorTextComponent from 'src/components/error-text';
@@ -42,7 +42,7 @@ export default function FormThaoTacDuLieu({
               setFile={setFile}
               imageUrl={imageUrl}
               setImageUrl={setImageUrl}
-              circles
+              circles={false}
               btnRemove={false}
             />
           </Item>
@@ -63,21 +63,70 @@ export default function FormThaoTacDuLieu({
           </ErrorTextComponent>
         </Grid>
         <Grid item xs={12} md={6}>
-          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="content">
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="description">
             <TextField
-              name="content"
+              name="description"
               label="Nội dung"
               size="small"
               multiline
               rows={5}
-              error={!!(formik.touched.content && formik.errors.content)}
-              value={formik.values.content}
+              error={!!(formik.touched.description && formik.errors.description)}
+              value={formik.values.description}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
           </ErrorTextComponent>
         </Grid>
-        
+        <Grid item xs={12} md={3}>
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="dateStart">
+            <DatepickerComponent
+              value={formik.values.dateStart}
+              name="dateStart"
+              setValue={(value) => formik.setFieldValue('dateStart', value)}
+              format="DD/MM/YYYY"
+              label="Ngày bắt đầu"
+              marginTop={0}
+            />
+          </ErrorTextComponent>
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="dateEnd">
+            <DatepickerComponent
+              value={formik.values.dateEnd}
+              name="dateEnd"
+              setValue={(value) => formik.setFieldValue('dateEnd', value)}
+              format="DD/MM/YYYY"
+              label="Ngày kết thúc"
+              marginTop={0}
+            />
+          </ErrorTextComponent>
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="location">
+            <TextField
+              name="location"
+              label="Địa điểm tổ chức"
+              size="small"
+              error={!!(formik.touched.location && formik.errors.location)}
+              value={formik.values.location}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </ErrorTextComponent>
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="organizer">
+            <TextField
+              name="organizer"
+              label="Người đăng"
+              size="small"
+              error={!!(formik.touched.organizer && formik.errors.organizer)}
+              value={formik.values.organizer}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+          </ErrorTextComponent>
+        </Grid>
       </Grid>
     </FormComponent>
   );
