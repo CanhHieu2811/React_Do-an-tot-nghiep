@@ -47,6 +47,7 @@ export const TRIPDEL = ""
 export const EVENTALL = "/api/event/list"
 export const EVENTCRT = "/api/event/create"
 export const EVENTDEL = "/api/event/del"
+export const EVENTDET = "/api/event/detail"
 
 export const TRANSACTIONALL = "/api/transaction/all-list"
 

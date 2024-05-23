@@ -48,15 +48,15 @@ export default function FormThaoTacDuLieu({
           </Item>
         </Grid>
         <Grid item xs={12} md={6}>
-          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="tilte">
+          <ErrorTextComponent errors={formik.errors} touched={formik.touched} field="title">
             <TextField
-              name="tilte"
+              name="title"
               label="Tiêu đề"
               size="small"
               multiline
               rows={5}
-              error={!!(formik.touched.tilte && formik.errors.tilte)}
-              value={formik.values.tilte}
+              error={!!(formik.touched.title && formik.errors.title)}
+              value={formik.values.title}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
@@ -83,7 +83,7 @@ export default function FormThaoTacDuLieu({
               value={formik.values.dateStart}
               name="dateStart"
               setValue={(value) => formik.setFieldValue('dateStart', value)}
-              format="DD/MM/YYYY"
+              format="DD/MM/YYYY HH:mm"
               label="Ngày bắt đầu"
               marginTop={0}
             />
@@ -95,7 +95,7 @@ export default function FormThaoTacDuLieu({
               value={formik.values.dateEnd}
               name="dateEnd"
               setValue={(value) => formik.setFieldValue('dateEnd', value)}
-              format="DD/MM/YYYY"
+              format="DD/MM/YYYY HH:mm"
               label="Ngày kết thúc"
               marginTop={0}
             />

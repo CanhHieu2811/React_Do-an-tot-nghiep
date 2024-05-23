@@ -4,6 +4,7 @@ import { useTheme } from '@emotion/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { useState, useEffect, useCallback } from 'react';
+import dayjs from 'dayjs';
 
 import { Box } from '@mui/material';
 
@@ -39,7 +40,7 @@ import DialogDelete from 'src/components/confirm-delete';
 import FormThaoTacDuLieu from 'src/template/admin/tin-tuc-su-kien/form';
 
 const initialValues = {
-  tilte: '',
+  title: '',
   description: '',
   dateStart: null,
   dateEnd: null,
@@ -117,7 +118,7 @@ export default function TinTucSuKienPage() {
       component: (_, index) => index + 1,
     },
     {
-      id: 'tilte',
+      id: 'title',
       header: 'Tiêu đề',
       width: 200,
     },
@@ -130,29 +131,31 @@ export default function TinTucSuKienPage() {
       id: 'dateStart',
       header: 'Ngày bắt đầu',
       align: 'right',
+      component: (row) => <>{row.dateStart ? dayjs(row.dateStart).format('DD/MM/YYYY HH:mm') : ''}</>,
       width: 100,
     },
     {
       id: 'dateEnd',
       header: 'Ngày kết thúc',
       align: 'right',
-      width: 100,
+      component: (row) => <>{row.dateEnd ? dayjs(row.dateEnd).format('DD/MM/YYYY HH:mm') : ''}</>,
+      width: 150,
     },
     {
       id: 'location',
       header: 'Địa điểm tổ chức',
-      width: 100,
+      width: 150,
     },
     {
       id: 'organizer',
       header: 'Người đăng',
-      width: 100,
+      width: 150,
     },
     {
       id: 'image',
       header: 'Hình ảnh',
       align: 'center',
-      width: 100,
+      width: 150,
       // PHANF NÀY SẼ RENDER 1 THẺ IMG CHỨA ĐƯỜNG DẪN ẢNH row.image
       // CHECK LẠI XEM PHẢI LÀI .image không (trong list sẽ trả ra 1 filePath chính là đường dẫn ảnh, xem BE trả ra trường gì để thay thế .image)
       // CHECK XONG RỒI THÌ MỞ COMMENT 3 DÒNG DƯỚI VÀ CHỈNH LẠI .image NẾU SAI
@@ -297,7 +300,7 @@ export default function TinTucSuKienPage() {
 
   // validate form với các biến cần validate
   const validationSchema = Yup.object({
-    tilte: Yup.string().required(t('validator.required')),
+    title: Yup.string().required(t('validator.required')),
     description: Yup.string().required(t('validator.required')),
     dateStart: Yup.date().required(t('validator.required')),
     dateEnd: Yup.date().required(t('validator.required')),
@@ -329,7 +332,7 @@ export default function TinTucSuKienPage() {
     if (Object.keys(row).length) {
       data = {
         eventId: row.id,
-        tilte: row.tilte,
+        title: row.title,
         description: row.description,
         dateStart: row.dateStart,
         dateEnd: row.dateEnd,
@@ -339,7 +342,7 @@ export default function TinTucSuKienPage() {
 
       // row?.imageFile check xem dữ liệu có phải là biến imageFile nếu biến khác thì gán lại
       // thì sau khi set state này xong thì có nghĩa là mở popup edit thì phần ảnh sẽ có ảnh mặc định nếu row đó có ảnh
-      setImageUrl(row?.imageFile);
+      setImageUrl(row?.image);
 
       create = false;
       setRowId(row.id);
@@ -371,7 +374,7 @@ export default function TinTucSuKienPage() {
   const onSubmitForm = useCallback(() => {
     let method = METHOD_POST;
     const payload = {
-      title: formik.values.tilte,
+      title: formik.values.title,
       description: formik.values.description,
       dateStart: formik.values.dateStart,
       dateEnd: formik.values.dateEnd,
@@ -392,7 +395,7 @@ export default function TinTucSuKienPage() {
       method,
       payload: {
         eventId: rowId,
-        title: formik.values.tilte,
+        title: formik.values.title,
         description: formik.values.description,
         dateStart: formik.values.dateStart,
         dateEnd: formik.values.dateEnd,
