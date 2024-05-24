@@ -42,7 +42,7 @@ import FormThaoTacDuLieu from 'src/template/admin/xe-dap/form';
 // import dayjs from 'dayjs';
 
 const initialValues = {
-  bikeName: '',
+  // bikeName: '',
   stationId: null,
   // pathQr: '',
   statusId: null,
@@ -329,7 +329,7 @@ export default function XePages() {
 
   // validate form với các biến cần validate
   const validationSchema = Yup.object({
-    bikeName: Yup.string().required(t('validator.required')),
+    // bikeName: Yup.string().required(t('validator.required')),
     // stationId: Yup.string().required(t('validator.required')),
     // statusId: Yup.string().email(t('validator.email.format')).required(t('validator.required')),
     // pathQr: Yup.string().required(t('validator.required')),

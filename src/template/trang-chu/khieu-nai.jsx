@@ -29,10 +29,10 @@ function CauHoi() {
           >
             <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 400 }}>
               <Typography variant="h2" component="h2" gutterBottom>
-                Receive offers
+                Contact Us
               </Typography>
               <Typography variant="h5">
-                Taste the holidays of the everyday close to home.
+                Gửi cho chúng tôi về cảm nhận của bạn
               </Typography>
               <TextField
                 placeholder="Your email"
@@ -64,7 +64,7 @@ function CauHoi() {
           />
           <Box
             component="img"
-            src="https://images.unsplash.com/photo-1527853787696-f7be74f2e39a?auto=format&fit=crop&w=750"
+            src="public/assets/images/products/pexels-cristiana-raluca-213635-686230.jpg"
             alt="call to action"
             sx={{
               position: 'absolute',

@@ -55,19 +55,25 @@ export default function TinTucSuKienTrangChuTemplates({
         </Grid>
       </div>
 
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+        maxWidth="md" 
+        fullWidth 
+      >
         <DialogTitle id="form-dialog-title">Chi tiết Tin tức</DialogTitle>
         <DialogContent>
           {selectedEvent && (
             <DialogContentText>
-                <Typography variant="h6">{selectedEvent.title}</Typography>
-                <img src={selectedEvent.image} alt={selectedEvent.title} style={{ width: '100%', height: 'auto', marginTop: 10, marginBottom: 10 }} />
-                <Typography variant="body2">{selectedEvent.description}</Typography>
-                <Typography variant="body2">Địa điểm: {selectedEvent.location}</Typography>
-                <Typography variant="body2">Ngày bắt đầu: {new Date(selectedEvent.dateStart).toLocaleDateString()}</Typography>
-                <Typography variant="body2">Ngày kết thúc: {new Date(selectedEvent.dateEnd).toLocaleDateString()}</Typography>
-                <Typography variant="body2">Tổ chức: {selectedEvent.organizer}</Typography>
-              </DialogContentText>
+              <Typography variant="h6">{selectedEvent.title}</Typography>
+              <img src={selectedEvent.image} alt={selectedEvent.title} style={{ width: '100%', height: 'auto', marginTop: 10, marginBottom: 10 }} />
+              <Typography variant="body2">{selectedEvent.description}</Typography>
+              <Typography variant="body2">Địa điểm: {selectedEvent.location}</Typography>
+              <Typography variant="body2">Ngày bắt đầu: {new Date(selectedEvent.dateStart).toLocaleDateString()}</Typography>
+              <Typography variant="body2">Ngày kết thúc: {new Date(selectedEvent.dateEnd).toLocaleDateString()}</Typography>
+              <Typography variant="body2">Tổ chức: {selectedEvent.organizer}</Typography>
+            </DialogContentText>
           )}
         </DialogContent>
         <DialogActions>

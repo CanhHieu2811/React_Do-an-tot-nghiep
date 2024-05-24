@@ -8,7 +8,7 @@ import { useFormik } from 'formik';
 import { setNotification } from 'src/redux/common';
 
 const initialValues = {
-  id: 5, // Đảm bảo id ban đầu không null
+  id: 1, // Đảm bảo id ban đầu không null
   type: 'Web', // Đảm bảo type ban đầu không null
 };
 

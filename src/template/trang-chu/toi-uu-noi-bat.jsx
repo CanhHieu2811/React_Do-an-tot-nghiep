@@ -37,16 +37,16 @@ function ToiUuNoiBat() {
             <Box sx={item}>
               <Box
                 component="img"
-                src="/static/themes/onepirate/productValues1.svg"
+                src="/static/themes/onepirate/productValues2.svg"
                 alt="suitcase"
                 sx={{ height: 55 }}
               />
               <Typography variant="h6" sx={{ my: 5 }}>
-                The best luxury hotels
+                Mục tiêu
               </Typography>
               <Typography variant="h5">
-                From the latest trendy boutique hotel to the iconic palace with XXL pool , go for a
-                mini-vacation just a few subway stops away from your home.
+                Dịch vụ xe đạp công cộng HUE Bike đem đến một hình thức giao thông đô
+                thị mới văn minh, tiện lợi tốt cho sức khỏe và thân thiện với môi trường
               </Typography>
             </Box>
           </Grid>
@@ -54,16 +54,17 @@ function ToiUuNoiBat() {
             <Box sx={item}>
               <Box
                 component="img"
-                src="/static/themes/onepirate/productValues2.svg"
+                src="/static/themes/onepirate/productValues1.svg"
                 alt="graph"
                 sx={{ height: 55 }}
               />
               <Typography variant="h6" sx={{ my: 5 }}>
-                New experiences
+                Thuận tiện
               </Typography>
               <Typography variant="h5">
-                {'Privatize a pool, take a Japanese bath or wake up in 900m2 of garden… '}
-                your Sundays will not be alike.
+                Chỉ 1 vài thao tác đơn giản trên ứng dụng di động, người tham gia giao
+                thông có thể dễ dàng thuê xe, di chuyển và trả xe tại các trạm xe đạp 
+                HUE Bike bất kì trên địa bàn thành phố.
               </Typography>
             </Box>
           </Grid>
@@ -76,11 +77,12 @@ function ToiUuNoiBat() {
                 sx={{ height: 55 }}
               />
               <Typography variant="h6" sx={{ my: 5 }}>
-                Exclusive rates
+                Xuất xứ
               </Typography>
               <Typography variant="h5">
-                {'By registering, you will access specially negotiated rates '}
-                that you will not find anywhere else.
+                Đội ngũ chúng tôi xuất thân từ những người con của Huế yêu môi trường, muốn
+                giữ gìn được sự trong lành của cố đô, cũng như muốn đem đến cho khách hàng
+                1 chất lượng dịch vụ tốt nhất. 
               </Typography>
             </Box>
           </Grid>
