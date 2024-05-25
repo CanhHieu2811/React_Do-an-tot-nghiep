@@ -22,12 +22,12 @@ function CauHoi() {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              bgcolor: 'warning.main',
+              bgcolor: '#74992e',
               py: 8,
               px: 3,
             }}
           >
-            <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 400 }}>
+            <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 500 }}>
               <Typography variant="h2" component="h2" gutterBottom>
                 Contact Us
               </Typography>

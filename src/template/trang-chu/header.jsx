@@ -57,7 +57,7 @@ export default function HeaderTrangChu() {
               variant="body2"
               underline="none"
               href={PATH.REGISTER}
-              sx={{ ...rightLink, color: 'secondary.main' }}
+              sx={{ ...rightLink}}
             >
               Đăng ký
             </Link>

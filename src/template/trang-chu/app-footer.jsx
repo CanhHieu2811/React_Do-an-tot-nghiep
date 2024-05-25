@@ -24,10 +24,10 @@ const iconStyle = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
-  backgroundColor: 'warning.main',
+  backgroundColor: '#74992e',
   mr: 1,
   '&:hover': {
-    bgcolor: 'warning.dark',
+    bgcolor: '#74992e',
   },
 };
 
@@ -44,7 +44,7 @@ const LANGUAGES = [
 
 export default function AppFooter() {
   return (
-    <Typography component="footer" sx={{ display: 'flex', bgcolor: 'secondary.light' }}>
+    <Typography component="footer" sx={{ display: 'flex', bgcolor: '#74992e', marginTop: -50, position: 'relative' }}>
       <Container sx={{ my: 8, display: 'flex' }}>
         <Grid container spacing={5}>
           <Grid item xs={6} sm={4} md={3}>
@@ -56,11 +56,11 @@ export default function AppFooter() {
               sx={{ height: 120 }}
             >
               <Grid item sx={{ display: 'flex' }}>
-                <Box component="a" href="https://mui.com/" sx={iconStyle}>
-                  <img src="/static/themes/onepirate/appFooterFacebook.png" alt="Facebook" />
+                <Box component="a" href="https://www.facebook.com/emperor0409" sx={iconStyle}>
+                  <img src="public/assets/images/products/2023_Facebook_icon.svg.webp" alt="Facebook" />
                 </Box>
-                <Box component="a" href="https://twitter.com/MUI_hq" sx={iconStyle}>
-                  <img src="/static/themes/onepirate/appFooterTwitter.png" alt="X" />
+                <Box component="a" href="https://www.instagram.com/cristiano/" sx={iconStyle}>
+                  <img src="public/assets/images/Instagram_icon.png.webp" alt="Instagram" />
                 </Box>
               </Grid>
               <Grid item>
@@ -68,16 +68,19 @@ export default function AppFooter() {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={6} sm={4} md={2}>
+          <Grid item xs={6} sm={4} md={3}>
             <Typography variant="h6" marked="left" gutterBottom>
-              Legal
+              Liên hệ
             </Typography>
             <Box component="ul" sx={{ m: 0, listStyle: 'none', p: 0 }}>
               <Box component="li" sx={{ py: 0.5 }}>
-                <Link href="/premium-themes/onepirate/terms/">Terms</Link>
+                <Link href="https://www.facebook.com/emperor0409">Fb: Nguyễn Văn Hùng</Link>
               </Box>
               <Box component="li" sx={{ py: 0.5 }}>
-                <Link href="/premium-themes/onepirate/privacy/">Privacy</Link>
+                <Link href="">SDT: 0835462017</Link>
+              </Box>
+              <Box component="li" sx={{ py: 0.5 }}>
+                <Link href="">Email:npchieu281102@gmail.com</Link>
               </Box>
             </Box>
           </Grid>
@@ -101,7 +104,7 @@ export default function AppFooter() {
               ))}
             </TextField>
           </Grid>
-          <Grid item>
+          <Grid item xs={6} sm={8} md={6}>
             <Typography variant="caption">
               {'Icons made by '}
               <Link href="https://www.freepik.com" rel="sponsored" title="Freepik">
@@ -121,6 +124,21 @@ export default function AppFooter() {
                 CC 3.0 BY
               </Link>
             </Typography>
+          </Grid>
+          <Grid xs={6} sm={8} md={6}>
+          <Typography variant="h6" marked="left" gutterBottom>
+              Liên kết nhanh
+            </Typography>
+            <Grid xs={6} sm={8} md={6}>
+            <Link href="http://localhost:3030/tin-tuc-su-kien" rel="sponsored">
+                Tin tức sự kiện
+            </Link>
+            </Grid>
+            <Grid xs={6} sm={8} md={6}>
+            <Link href="http://localhost:3030/danh-sach-tram-xe" rel="sponsored">
+                Trạm xe
+              </Link>
+            </Grid>
           </Grid>
         </Grid>
       </Container>
